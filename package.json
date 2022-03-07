@@ -1,9 +1,12 @@
 {
-  "name": "TicTacTie Dapp",
+  "name": "tictactie-dapp",
   "version": "0.1.0",
   "private": true,
   "homepage": "https://tictactie.github.io/dapp/",
   "dependencies": {
+    "@chakra-ui/react": "^1.8.6",
+    "@emotion/react": "^11",
+    "@emotion/styled": "^11",
     "@ethersproject/providers": "^5.5.3",
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.3",
@@ -15,6 +18,7 @@
     "@walletconnect/web3-provider": "^1.7.1",
     "ethers": "^5.5.4",
     "ethers-utils": "^2.1.11",
+    "framer-motion": "^4.1.7",
     "os-browserify": "^0.3.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",

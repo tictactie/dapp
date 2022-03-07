@@ -5,6 +5,17 @@ import useEthereum from "../hooks/useEthereum";
 import UserInfo from "../UserInfo/UserInfo";
 import NetworkStatus from "../NetworkStatus/NetworkStatus";
 import Mint from "../Mint/Mint";
+import Header from "../Header/Header";
+import Body from "../Body/Body";
+import {
+  SimpleGrid,
+  Box,
+  AspectRatio,
+  Container,
+  Flex,
+  Spacer,
+  Stack,
+} from "@chakra-ui/react";
 
 function App() {
   const cachedConnection = useCachedConnection();
@@ -29,13 +40,15 @@ function App() {
   return (
     <div className="App">
       <NetworkStatus network={network} />
-      <header className="App-header">
-        {provider === undefined && (
-          <button onClick={() => setDidConnect(true)}>Connect</button>
-        )}
-        <Mint provider={provider} signer={signer} />
-        <UserInfo address={address} />
-      </header>
+      <Container maxWidth="100ch">
+        <Header />
+        <Body />
+      </Container>
+      {provider === undefined && (
+        <button onClick={() => setDidConnect(true)}>Connect</button>
+      )}
+      <Mint provider={provider} signer={signer} />
+      <UserInfo address={address} />
     </div>
   );
 }
