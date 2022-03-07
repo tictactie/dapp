@@ -40,7 +40,7 @@ function App() {
   return (
     <div className="App">
       <NetworkStatus network={network} />
-      <Container maxWidth="100ch">
+      <Container maxWidth="130ch">
         <Header />
         <Body />
       </Container>

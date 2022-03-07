@@ -3,22 +3,22 @@ import {
   SimpleGrid,
   Box,
   AspectRatio,
-  Container,
   Flex,
   Spacer,
   Button,
 } from "@chakra-ui/react";
+import { Title } from "./Title";
 
 function Body() {
   return (
     <Box>
       <Flex pb={5} pt={5}>
-        <Box>Mint your board and get on board.</Box>
+        <Title>Mint your board and get on board.</Title>
         <Spacer />
-        <Box>There are 18 boards left</Box>
-        <Box ml={5} bgColor="red">
+        <Title>There are 18 boards left</Title>
+        <Title variant="negative" ml={5}>
           Mint yours!
-        </Box>
+        </Title>
       </Flex>
 
       <SimpleGrid columns={8} gap={2}>
