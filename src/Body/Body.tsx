@@ -12,6 +12,9 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { Title } from "./Title";
+import NewBoard from "../NewBoard/NewBoard";
+import Play from "../Play/Play";
+import Challenge from "../Challenge/Challenge";
 
 function Body() {
   function renderRow(col: number, row: number, i: number) {
@@ -40,47 +43,19 @@ function Body() {
           Mint yours!
         </Title>
       </Flex>
+      {/*<NewBoard />*/}
+      {/*<Challenge />*/}
+      <Play />
 
       <SimpleGrid columns={10} gap={2}>
-        <GridItem colStart={4} rowStart={0} colSpan={3} rowSpan={3}>
-          <AspectRatio ratio={1}>
-            <Box>
-              <Image src={"/dapp/boards/board_4.svg"}></Image>
-            </Box>
-          </AspectRatio>
-        </GridItem>
-        <GridItem colStart={7} rowStart={0} colSpan={1} rowSpan={1}>
-          <AspectRatio ratio={1}>
-            <Image src={"/dapp/sample.svg"}></Image>
-          </AspectRatio>
-        </GridItem>
-        <GridItem colStart={7} rowStart={2} colSpan={1} rowSpan={1}>
-          <AspectRatio ratio={1}>
-            <VStack>
-              <Input display="flex" placeholder="A3" />
-              <Box width="100%">30m 40s</Box>
-            </VStack>
-          </AspectRatio>
-        </GridItem>
-        <GridItem colStart={7} rowStart={3} colSpan={1} rowSpan={1}>
-          <AspectRatio ratio={1}>
-            <Button display="flex" width="100%">
-              PLAY
-            </Button>
-          </AspectRatio>
-        </GridItem>
-
         {[...Array(70).keys()].map((i) => {
           return (
             <GridItem colStart={i % 10} rowStart={Math.floor(i / 10 + 4)}>
               <AspectRatio ratio={1}>
-                <Box>
+                <Box borderColor="black" borderWidth={2}>
                   <Image src={"/dapp/boards/board_" + i + ".svg"}></Image>
                 </Box>
               </AspectRatio>
-              <Button width="100%" height="2ch" display="flex">
-                MINT!
-              </Button>
             </GridItem>
           );
         })}
