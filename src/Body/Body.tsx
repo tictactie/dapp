@@ -8,30 +8,31 @@ import {
   Button,
   Image,
   GridItem,
-  Input,
-  VStack,
 } from "@chakra-ui/react";
 import { Title } from "./Title";
+import { useEffect, useState } from "react";
 import NewBoard from "../NewBoard/NewBoard";
 import Play from "../Play/Play";
 import Challenge from "../Challenge/Challenge";
+import Mint from "../Mint/Mint";
+import { JsonRpcProvider, JsonRpcSigner } from "@ethersproject/providers";
 
-function Body() {
-  function renderRow(col: number, row: number, i: number) {
-    console.log(col, row, i);
-    return (
-      <GridItem colStart={col} rowStart={row}>
-        <AspectRatio ratio={1}>
-          <Box>
-            <Image src={"/dapp/boards/board_" + i + ".svg"}></Image>
-          </Box>
-        </AspectRatio>
-        <Button width="100%" height="2ch" display="flex">
-          MINT!
-        </Button>
-      </GridItem>
-    );
-  }
+type BodyProps = {
+  provider: JsonRpcProvider | undefined;
+  signer: JsonRpcSigner | undefined;
+};
+
+function Body(props: BodyProps) {
+  const [provider, setProvider] = useState<JsonRpcProvider>();
+  const [signer, setSigner] = useState<JsonRpcSigner>();
+
+  useEffect(() => {
+    setProvider(props.provider);
+  }, [props.provider]);
+
+  useEffect(() => {
+    setSigner(props.signer);
+  }, [props.signer]);
 
   return (
     <Box>
@@ -51,11 +52,16 @@ function Body() {
         {[...Array(70).keys()].map((i) => {
           return (
             <GridItem colStart={i % 10} rowStart={Math.floor(i / 10 + 4)}>
-              <AspectRatio ratio={1}>
-                <Box borderColor="black" borderWidth={2}>
-                  <Image src={"/dapp/boards/board_" + i + ".svg"}></Image>
-                </Box>
-              </AspectRatio>
+              <Box>
+                <Image src={"/dapp/boards/board_" + i + ".svg"}></Image>
+              </Box>
+
+              <Mint
+                tokenId={i}
+                minted={false}
+                provider={provider}
+                signer={signer}
+              />
             </GridItem>
           );
         })}

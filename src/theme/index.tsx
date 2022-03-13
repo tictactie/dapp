@@ -1,5 +1,5 @@
 // theme/index.js
-import { extendTheme, keyframes } from "@chakra-ui/react";
+import { extendTheme } from "@chakra-ui/react";
 
 const PunchlineComponent = {
   // The styles all Cards have in common
@@ -55,6 +55,18 @@ const theme = extendTheme({
   components: {
     PunchlineComponent,
     TitleComponent,
+    Button: {
+      baseStyle: {
+        borderColor: "black",
+        transition: "none",
+        _focus: {
+          boxShadow: "0 0 1px 1px black, 0 1px 1px black",
+        },
+      },
+      defaultProps: {
+        variant: "outline",
+      },
+    },
   },
 });
 

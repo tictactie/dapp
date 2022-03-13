@@ -42,12 +42,11 @@ function App() {
       <NetworkStatus network={network} />
       <Container maxWidth="130ch">
         <Header />
-        <Body />
+        <Body provider={provider} signer={signer} />
       </Container>
       {provider === undefined && (
         <button onClick={() => setDidConnect(true)}>Connect</button>
       )}
-      <Mint provider={provider} signer={signer} />
       <UserInfo address={address} />
     </div>
   );

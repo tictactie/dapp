@@ -1,9 +1,12 @@
 import { useState, useEffect } from "react";
 import { JsonRpcProvider, JsonRpcSigner } from "@ethersproject/providers";
 import "./Mint.css";
+import { Button, useProps } from "@chakra-ui/react";
 import { Contract, ContractReceipt, ethers, BigNumber } from "ethers";
 
 type MintProps = {
+  tokenId: number;
+  minted: boolean;
   provider: JsonRpcProvider | undefined;
   signer: JsonRpcSigner | undefined;
 };
@@ -11,7 +14,7 @@ type MintProps = {
 const CONTRACT_ADDRESS = process.env.REACT_APP_CONTRACT_ADDRESS!;
 
 const ABI = [
-  "function mint() public payable",
+  "function mint(uint256) public payable",
   "function tokenURI(uint256) public view returns (string memory)",
   "event Transfer(address indexed, address indexed, uint)",
 ];
@@ -21,13 +24,21 @@ function Mint(props: MintProps) {
   const [provider, setProvider] = useState<JsonRpcProvider>();
   const [address, setAddress] = useState<string>();
   const [minting, setMinting] = useState(false);
-  const [tokenId, setTokenId] = useState<string>();
-  const [imageUri, setImageUri] = useState<string>();
+  const [tokenId, setTokenId] = useState<number>(0);
+  const [minted, setMinted] = useState<boolean>();
   const [error, setError] = useState<string>();
 
   useEffect(() => {
-    setProvider(provider);
+    setProvider(props.provider);
   }, [props.provider]);
+
+  useEffect(() => {
+    setMinted(props.minted);
+  }, [props.minted]);
+
+  useEffect(() => {
+    setTokenId(props.tokenId);
+  }, [props.tokenId]);
 
   useEffect(() => {
     (async () => {
@@ -37,7 +48,6 @@ function Mint(props: MintProps) {
         ? new Contract(CONTRACT_ADDRESS, ABI, signer)
         : undefined;
       setContract(contract);
-      setTokenId(undefined);
     })();
   }, [props.signer, CONTRACT_ADDRESS, ABI]);
 
@@ -46,42 +56,22 @@ function Mint(props: MintProps) {
       if (contract && tokenId) {
         const metadataResponse = await fetch(await contract?.tokenURI(tokenId));
         const metadata = await metadataResponse.json();
-        setImageUri(metadata["image"]);
       }
     })();
   }, [tokenId]);
 
-  async function mint() {
+  async function mint(tokenId: number) {
     if (contract) {
       try {
         setError(undefined);
-        const tx = await contract.mint({
-          value: ethers.utils.parseEther("0.01"),
+        const tx = await contract.mint(tokenId, {
+          value: ethers.utils.parseEther("0.1"),
           from: address,
         });
 
         setMinting(true);
         const receipt = await tx.wait(1);
         setMinting(false);
-
-        function getTokenId(receipt: ContractReceipt) {
-          console.log(receipt);
-          const filter = contract?.filters.Transfer()!;
-          for (const e of receipt.events || []) {
-            if (
-              e.address === filter.address &&
-              e.topics[0] === filter.topics![0]
-            ) {
-              return e.topics[3];
-            }
-          }
-          throw new Error("transfer not found");
-        }
-
-        const newTokenId = getTokenId(receipt);
-        console.log(tokenId);
-        console.log(newTokenId);
-        setTokenId(BigNumber.from(newTokenId).toString());
       } catch (e) {
         if (typeof e === "string") {
           setError(e);
@@ -94,26 +84,15 @@ function Mint(props: MintProps) {
 
   return (
     <div className="Mint">
-      {address && (
-        <button onClick={() => mint()} disabled={minting}>
-          Mint
-        </button>
-      )}
-      {minting && <div>Minting in progress...</div>}
-      <br />
-      {!minting && tokenId && (
-        <span>
-          Check your last token on{" "}
-          <a
-            target="_blank"
-            href={`https://testnets.opensea.io/assets/${CONTRACT_ADDRESS}/${tokenId}`}
-          >
-            Opensea
-          </a>
-          <br />
-          <img width="300" src={imageUri} />
-        </span>
-      )}
+      <Button
+        onClick={() => mint(tokenId)}
+        height="20px"
+        width="100%"
+        isDisabled={minted || !address}
+        isLoading={minting}
+      >
+        MINT!
+      </Button>
       <br />
       {!minting && error && <span>ERROR: {error}</span>}
     </div>
