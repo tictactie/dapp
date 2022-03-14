@@ -9,12 +9,14 @@ import {
 } from "@chakra-ui/react";
 import { Title } from "./Title";
 import { useEffect, useState } from "react";
-import NewBoard from "../NewBoard/NewBoard";
 import Play from "../Play/Play";
 import Challenge from "../Challenge/Challenge";
 import Mint from "../Mint/Mint";
 import { Contract } from "ethers";
 import useSupply from "../hooks/useSupply";
+import useOpponent from "../hooks/useOpponent";
+import useUserMinted from "../hooks/useUserBoard";
+import UserBoardInput from "../UserBoardInput/UserBoardInput";
 
 type BodyProps = {
   contract: Contract | undefined;
@@ -23,15 +25,37 @@ type BodyProps = {
 function Body(props: BodyProps) {
   const [contract, setContract] = useState<Contract>();
   const [supply] = useSupply(contract);
+  const [tokenId, setTokenId] = useState<number>();
+  const [justMinted, setJustMinted] = useState(false);
+  const minted = useUserMinted(contract, justMinted);
+  const opponent = useOpponent(contract, tokenId);
 
   useEffect(() => {
     (async () => {
       setContract(props.contract);
+      setJustMinted(false);
+      setTokenId(undefined);
     })();
   }, [props.contract]);
 
+  useEffect(() => {
+    setJustMinted(false);
+  }, [tokenId]);
+
   function isMinted(i: number) {
-    return (BigInt(supply) & (BigInt(1) << BigInt(i))) != BigInt(0);
+    return (BigInt(supply) & (BigInt(1) << BigInt(i))) !== BigInt(0);
+  }
+
+  function renderInteractiveComponent() {
+    if (minted && opponent && tokenId) {
+      return <Play contract={contract} tokenId={tokenId} />;
+    } else if (minted && tokenId) {
+      return <Challenge contract={contract} tokenId={tokenId} />;
+    } else if (minted) {
+      return <UserBoardInput contract={contract} setTokenId={setTokenId} />;
+    } else {
+      return null;
+    }
   }
 
   return (
@@ -44,19 +68,28 @@ function Body(props: BodyProps) {
           Mint yours!
         </Title>
       </Flex>
-      {/*<NewBoard />*/}
-      {/*<Challenge />*/}
-      <Play contract={contract} tokenId={1} />
+
+      {renderInteractiveComponent()}
 
       <SimpleGrid columns={10} gap={2}>
         {[...Array(70).keys()].map((i) => {
           return (
-            <GridItem colStart={i % 10} rowStart={Math.floor(i / 10 + 4)}>
+            <GridItem
+              colStart={i % 10}
+              key={i}
+              rowStart={Math.floor(i / 10 + 4)}
+            >
               <Box>
                 <Image src={"/dapp/boards/board_" + i + ".svg"}></Image>
               </Box>
 
-              <Mint tokenId={i} minted={isMinted(i)} contract={contract} />
+              <Mint
+                tokenId={i}
+                minted={isMinted(i)}
+                setJustMinted={setJustMinted}
+                setTokenId={setTokenId}
+                contract={contract}
+              />
             </GridItem>
           );
         })}

@@ -14,6 +14,8 @@ const ABI = [
   "event Transfer(address indexed, address indexed, uint)",
   "function opponent(uint256) public view returns (uint256)",
   "function expiryBlock(uint256) public view returns (uint256)",
+  "function balanceOf(address) public view returns (uint256)",
+  "function ownerOf(uint256 tokenId) public view returns (address)",
 ];
 
 function useEthereum(
@@ -25,21 +27,6 @@ function useEthereum(
   contract: Contract | undefined,
   rejected: boolean
 ] {
-  const INFURA_ID = process.env.REACT_APP_INFURA_ID;
-  const providerOptions = {
-    walletconnect: {
-      package: WalletConnectProvider,
-      options: {
-        infuraId: INFURA_ID,
-      },
-    },
-  };
-  const web3Modal = new Web3Modal({
-    network: "any",
-    cacheProvider: true,
-    providerOptions,
-  });
-
   const [provider, setProvider] = useState<JsonRpcProvider | undefined>();
   const [contract, setContract] = useState<Contract>();
   const [signer, setSigner] = useState<JsonRpcSigner | undefined>();
@@ -48,40 +35,19 @@ function useEthereum(
   const [chainId, setChainId] = useState<number>();
   const [network, setNetwork] = useState<string>();
 
-  async function resetSigner() {
-    try {
-      const newSigner = provider?.getSigner();
-      await newSigner?.getAddress();
-      setSigner(newSigner);
-    } catch {
-      setProvider(undefined);
-      setSigner(undefined);
-    }
-  }
-
-  async function init() {
-    try {
-      const instance = await web3Modal.connect();
-      setRejected(false);
-
-      const newProvider = new Web3Provider(instance, "any");
-      setProvider(newProvider);
-
-      instance.on("accountsChanged", async (accounts: string[]) => {
-        setAccounts(accounts);
-      });
-
-      instance.on("chainChanged", async (chainId: number) => {
-        setChainId(chainId);
-      });
-    } catch {
-      console.log("connection failed");
-      setRejected(true);
-    }
-  }
-
   useEffect(() => {
     (async () => {
+      async function resetSigner() {
+        try {
+          const newSigner = provider?.getSigner();
+          await newSigner?.getAddress();
+          setSigner(newSigner);
+        } catch {
+          setProvider(undefined);
+          setSigner(undefined);
+        }
+      }
+
       await resetSigner();
     })();
   }, [provider, accounts]);
@@ -96,6 +62,44 @@ function useEthereum(
   useEffect(() => {
     (async () => {
       if (requiresConnection) {
+        async function init() {
+          try {
+            const INFURA_ID = process.env.REACT_APP_INFURA_ID;
+
+            const providerOptions = {
+              walletconnect: {
+                package: WalletConnectProvider,
+                options: {
+                  infuraId: INFURA_ID,
+                },
+              },
+            };
+
+            const web3Modal = new Web3Modal({
+              network: "any",
+              cacheProvider: true,
+              providerOptions,
+            });
+
+            const instance = await web3Modal.connect();
+            setRejected(false);
+
+            const newProvider = new Web3Provider(instance, "any");
+            setProvider(newProvider);
+
+            instance.on("accountsChanged", async (accounts: string[]) => {
+              setAccounts(accounts);
+            });
+
+            instance.on("chainChanged", async (chainId: number) => {
+              setChainId(chainId);
+            });
+          } catch {
+            console.log("connection failed");
+            setRejected(true);
+          }
+        }
+
         await init();
       } else {
         setProvider(undefined);
@@ -110,7 +114,7 @@ function useEthereum(
         : undefined;
       setContract(contract);
     })();
-  }, [signer, CONTRACT_ADDRESS, ABI]);
+  }, [signer]);
 
   return [provider, signer, network, contract, rejected];
 }

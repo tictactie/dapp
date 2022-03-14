@@ -4,18 +4,9 @@ import useCachedConnection from "../hooks/useCachedConnection";
 import useEthereum from "../hooks/useEthereum";
 import UserInfo from "../UserInfo/UserInfo";
 import NetworkStatus from "../NetworkStatus/NetworkStatus";
-import Mint from "../Mint/Mint";
 import Header from "../Header/Header";
 import Body from "../Body/Body";
-import {
-  SimpleGrid,
-  Box,
-  AspectRatio,
-  Container,
-  Flex,
-  Spacer,
-  Stack,
-} from "@chakra-ui/react";
+import { Container } from "@chakra-ui/react";
 
 function App() {
   const cachedConnection = useCachedConnection();

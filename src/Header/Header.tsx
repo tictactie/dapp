@@ -1,5 +1,5 @@
 import "./Header.css";
-import { Box, Flex, Spacer, Stack, Button } from "@chakra-ui/react";
+import { Box, Flex, Spacer, Stack } from "@chakra-ui/react";
 import { Punchline } from "./Punchline";
 
 function Header() {

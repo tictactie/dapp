@@ -3,29 +3,8 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App/App";
 import reportWebVitals from "./reportWebVitals";
-import { ChakraProvider, keyframes, Box } from "@chakra-ui/react";
+import { ChakraProvider } from "@chakra-ui/react";
 import theme from "./theme/index";
-
-const colorShift = keyframes`
-  0%{background-position:0% 50%}
-  100%{background-position:100% 50%}
-`;
-
-{
-  /*
-const colorShift = keyframes`
-  0% {background: linear-gradient(270deg, #FF0000, #161fe2);}
-  20% {background-color: hsl(33, 100%, 90%);}
-  30% {background-color: hsl(60, 100%, 90%);}
-  50% {background-color: hsl(120, 100%, 98%);}
-  70% {background-color: hsl(180, 100%, 88%);}
-  80% {background-color: hsl(265, 100%, 90%);}
-  100% {background-color: hsl(300, 100%, 98%);}
-`;
-*/
-}
-
-const colorShiftAnimation = `${colorShift} infinite 10s ease alternate`;
 
 ReactDOM.render(
   <React.StrictMode>

@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
-import { JsonRpcProvider, JsonRpcSigner } from "@ethersproject/providers";
 import "./Mint.css";
-import { Button, useProps } from "@chakra-ui/react";
-import { Contract, ContractReceipt, ethers, BigNumber } from "ethers";
+import { Button } from "@chakra-ui/react";
+import { Contract, ethers } from "ethers";
 
 type MintProps = {
   tokenId: number;
   minted: boolean;
+  setJustMinted: (didMint: boolean) => void;
+  setTokenId: (tokenId: number) => void;
   contract: Contract | undefined;
 };
 function Mint(props: MintProps) {
@@ -28,15 +29,6 @@ function Mint(props: MintProps) {
     setTokenId(props.tokenId);
   }, [props.tokenId]);
 
-  useEffect(() => {
-    (async () => {
-      if (contract && tokenId) {
-        const metadataResponse = await fetch(await contract?.tokenURI(tokenId));
-        const metadata = await metadataResponse.json();
-      }
-    })();
-  }, [tokenId]);
-
   async function mint(tokenId: number) {
     if (contract) {
       try {
@@ -49,8 +41,10 @@ function Mint(props: MintProps) {
         });
 
         setMinting(true);
-        const receipt = await tx.wait(1);
+        await tx.wait(1);
         setMinting(false);
+        props.setJustMinted(true);
+        props.setTokenId(tokenId);
       } catch (e) {
         if (typeof e === "string") {
           const errorStarts = e.indexOf("error=") + 6;
@@ -60,14 +54,6 @@ function Mint(props: MintProps) {
         } else if (e instanceof Error) {
           const errorStarts = e.message.indexOf("error=") + 6;
           const errorEnds = e.message.indexOf(", code=");
-          console.log(e);
-          console.log(e.cause
-            );
-          console.log("DIOCANE");
-          console.log(e.message);
-          console.log(errorStarts);
-          console.log(errorEnds);
-          console.log(e.message.substring(errorStarts, errorEnds));
           const errorObj = JSON.parse(
             e.message.substring(errorStarts, errorEnds)
           );
