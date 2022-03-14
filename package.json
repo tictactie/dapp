@@ -15,6 +15,7 @@
     "@types/node": "^16.11.25",
     "@types/react": "^17.0.39",
     "@types/react-dom": "^17.0.11",
+    "@use-it/interval": "^1.0.0",
     "@walletconnect/web3-provider": "^1.7.1",
     "ethers": "^5.5.4",
     "ethers-utils": "^2.1.11",

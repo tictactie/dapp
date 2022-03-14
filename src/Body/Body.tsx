@@ -2,10 +2,8 @@ import "./Body.css";
 import {
   SimpleGrid,
   Box,
-  AspectRatio,
   Flex,
   Spacer,
-  Button,
   Image,
   GridItem,
 } from "@chakra-ui/react";
@@ -15,24 +13,26 @@ import NewBoard from "../NewBoard/NewBoard";
 import Play from "../Play/Play";
 import Challenge from "../Challenge/Challenge";
 import Mint from "../Mint/Mint";
-import { JsonRpcProvider, JsonRpcSigner } from "@ethersproject/providers";
+import { Contract } from "ethers";
+import useSupply from "../hooks/useSupply";
 
 type BodyProps = {
-  provider: JsonRpcProvider | undefined;
-  signer: JsonRpcSigner | undefined;
+  contract: Contract | undefined;
 };
 
 function Body(props: BodyProps) {
-  const [provider, setProvider] = useState<JsonRpcProvider>();
-  const [signer, setSigner] = useState<JsonRpcSigner>();
+  const [contract, setContract] = useState<Contract>();
+  const [supply] = useSupply(contract);
 
   useEffect(() => {
-    setProvider(props.provider);
-  }, [props.provider]);
+    (async () => {
+      setContract(props.contract);
+    })();
+  }, [props.contract]);
 
-  useEffect(() => {
-    setSigner(props.signer);
-  }, [props.signer]);
+  function isMinted(i: number) {
+    return (BigInt(supply) & (BigInt(1) << BigInt(i))) != BigInt(0);
+  }
 
   return (
     <Box>
@@ -46,7 +46,7 @@ function Body(props: BodyProps) {
       </Flex>
       {/*<NewBoard />*/}
       {/*<Challenge />*/}
-      <Play />
+      <Play contract={contract} tokenId={1} />
 
       <SimpleGrid columns={10} gap={2}>
         {[...Array(70).keys()].map((i) => {
@@ -56,12 +56,7 @@ function Body(props: BodyProps) {
                 <Image src={"/dapp/boards/board_" + i + ".svg"}></Image>
               </Box>
 
-              <Mint
-                tokenId={i}
-                minted={false}
-                provider={provider}
-                signer={signer}
-              />
+              <Mint tokenId={i} minted={isMinted(i)} contract={contract} />
             </GridItem>
           );
         })}

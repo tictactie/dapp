@@ -20,7 +20,8 @@ import {
 function App() {
   const cachedConnection = useCachedConnection();
   const [didConnect, setDidConnect] = useState<boolean>(cachedConnection);
-  const [provider, signer, network, rejected] = useEthereum(didConnect);
+  const [provider, signer, network, contract, rejected] =
+    useEthereum(didConnect);
   const [address, setAddress] = useState<string>();
 
   useEffect(() => {
@@ -42,7 +43,7 @@ function App() {
       <NetworkStatus network={network} />
       <Container maxWidth="130ch">
         <Header />
-        <Body provider={provider} signer={signer} />
+        <Body contract={contract} />
       </Container>
       {provider === undefined && (
         <button onClick={() => setDidConnect(true)}>Connect</button>

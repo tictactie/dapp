@@ -3,6 +3,18 @@ import Web3Modal from "web3modal";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import { JsonRpcProvider, Web3Provider } from "@ethersproject/providers";
 import { JsonRpcSigner } from "@ethersproject/providers/src.ts";
+import { Contract } from "ethers";
+
+const CONTRACT_ADDRESS = process.env.REACT_APP_CONTRACT_ADDRESS!;
+
+const ABI = [
+  "function mint(uint256) public payable",
+  "function tokenURI(uint256) public view returns (string memory)",
+  "function mintable() public view returns (uint256)",
+  "event Transfer(address indexed, address indexed, uint)",
+  "function opponent(uint256) public view returns (uint256)",
+  "function expiryBlock(uint256) public view returns (uint256)",
+];
 
 function useEthereum(
   requiresConnection: boolean
@@ -10,6 +22,7 @@ function useEthereum(
   provider: JsonRpcProvider | undefined,
   signer: JsonRpcSigner | undefined,
   network: string | undefined,
+  contract: Contract | undefined,
   rejected: boolean
 ] {
   const INFURA_ID = process.env.REACT_APP_INFURA_ID;
@@ -28,6 +41,7 @@ function useEthereum(
   });
 
   const [provider, setProvider] = useState<JsonRpcProvider | undefined>();
+  const [contract, setContract] = useState<Contract>();
   const [signer, setSigner] = useState<JsonRpcSigner | undefined>();
   const [accounts, setAccounts] = useState<string[]>();
   const [rejected, setRejected] = useState<boolean>(false);
@@ -89,7 +103,16 @@ function useEthereum(
     })();
   }, [requiresConnection]);
 
-  return [provider, signer, network, rejected];
+  useEffect(() => {
+    (async () => {
+      const contract = signer
+        ? new Contract(CONTRACT_ADDRESS, ABI, signer)
+        : undefined;
+      setContract(contract);
+    })();
+  }, [signer, CONTRACT_ADDRESS, ABI]);
+
+  return [provider, signer, network, contract, rejected];
 }
 
 export default useEthereum;

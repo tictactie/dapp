@@ -7,30 +7,18 @@ import { Contract, ContractReceipt, ethers, BigNumber } from "ethers";
 type MintProps = {
   tokenId: number;
   minted: boolean;
-  provider: JsonRpcProvider | undefined;
-  signer: JsonRpcSigner | undefined;
+  contract: Contract | undefined;
 };
-
-const CONTRACT_ADDRESS = process.env.REACT_APP_CONTRACT_ADDRESS!;
-
-const ABI = [
-  "function mint(uint256) public payable",
-  "function tokenURI(uint256) public view returns (string memory)",
-  "event Transfer(address indexed, address indexed, uint)",
-];
-
 function Mint(props: MintProps) {
   const [contract, setContract] = useState<Contract>();
-  const [provider, setProvider] = useState<JsonRpcProvider>();
-  const [address, setAddress] = useState<string>();
   const [minting, setMinting] = useState(false);
   const [tokenId, setTokenId] = useState<number>(0);
   const [minted, setMinted] = useState<boolean>();
   const [error, setError] = useState<string>();
 
   useEffect(() => {
-    setProvider(props.provider);
-  }, [props.provider]);
+    setContract(props.contract);
+  }, [props.contract]);
 
   useEffect(() => {
     setMinted(props.minted);
@@ -39,17 +27,6 @@ function Mint(props: MintProps) {
   useEffect(() => {
     setTokenId(props.tokenId);
   }, [props.tokenId]);
-
-  useEffect(() => {
-    (async () => {
-      const signer = props.signer;
-      setAddress(await signer?.getAddress());
-      const contract = signer
-        ? new Contract(CONTRACT_ADDRESS, ABI, signer)
-        : undefined;
-      setContract(contract);
-    })();
-  }, [props.signer, CONTRACT_ADDRESS, ABI]);
 
   useEffect(() => {
     (async () => {
@@ -65,8 +42,10 @@ function Mint(props: MintProps) {
       try {
         setError(undefined);
         const tx = await contract.mint(tokenId, {
-          value: ethers.utils.parseEther("0.1"),
-          from: address,
+          value: ethers.utils.parseEther(
+            process.env.REACT_APP_PRICE || "0.001"
+          ),
+          from: await contract.signer.getAddress(),
         });
 
         setMinting(true);
@@ -74,9 +53,27 @@ function Mint(props: MintProps) {
         setMinting(false);
       } catch (e) {
         if (typeof e === "string") {
-          setError(e);
+          const errorStarts = e.indexOf("error=") + 6;
+          const errorEnds = e.indexOf(",code=");
+
+          setError(e.substring(errorStarts, errorEnds));
         } else if (e instanceof Error) {
-          setError(e.message);
+          const errorStarts = e.message.indexOf("error=") + 6;
+          const errorEnds = e.message.indexOf(", code=");
+          console.log(e);
+          console.log(e.cause
+            );
+          console.log("DIOCANE");
+          console.log(e.message);
+          console.log(errorStarts);
+          console.log(errorEnds);
+          console.log(e.message.substring(errorStarts, errorEnds));
+          const errorObj = JSON.parse(
+            e.message.substring(errorStarts, errorEnds)
+          );
+          setError(errorObj["data"]["originalError"]["message"]);
+
+          //setError(e.message);
         }
       }
     }
@@ -88,10 +85,10 @@ function Mint(props: MintProps) {
         onClick={() => mint(tokenId)}
         height="20px"
         width="100%"
-        isDisabled={minted || !address}
+        isDisabled={minted || !contract}
         isLoading={minting}
       >
-        MINT!
+        {minted ? "TAKEN." : "MINT!"}
       </Button>
       <br />
       {!minting && error && <span>ERROR: {error}</span>}
