@@ -75,7 +75,7 @@ function Body(props: BodyProps) {
         {[...Array(70).keys()].map((i) => {
           return (
             <GridItem
-              colStart={i % 10}
+              colStart={(i % 10) + 1}
               key={i}
               rowStart={Math.floor(i / 10 + 4)}
             >

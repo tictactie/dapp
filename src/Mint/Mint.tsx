@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import "./Mint.css";
 import { Button } from "@chakra-ui/react";
 import { Contract, ethers } from "ethers";
+import { tokenIdToCountry } from "../utils/countries";
 
 type MintProps = {
   tokenId: number;
@@ -74,7 +75,8 @@ function Mint(props: MintProps) {
         isDisabled={minted || !contract}
         isLoading={minting}
       >
-        {minted ? "TAKEN." : "MINT!"}
+        {tokenIdToCountry(tokenId)}
+        {/*minted ? "TAKEN." : "MINT!"*/}
       </Button>
       <br />
       {!minting && error && <span>ERROR: {error}</span>}

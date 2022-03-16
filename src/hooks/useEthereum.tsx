@@ -65,6 +65,7 @@ function useEthereum(
         async function init() {
           try {
             const INFURA_ID = process.env.REACT_APP_INFURA_ID;
+            const RPC_URL = process.env.REACT_APP_RPC_URL;
 
             const providerOptions = {
               walletconnect: {

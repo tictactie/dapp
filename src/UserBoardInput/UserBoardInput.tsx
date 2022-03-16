@@ -1,6 +1,7 @@
 import { Input, Text, Button, VStack } from "@chakra-ui/react";
 import { Contract } from "ethers";
 import { useEffect, useState } from "react";
+import { countryToId } from "../utils/countries";
 
 type UserBoardInputProps = {
   contract: Contract | undefined;
@@ -8,11 +9,11 @@ type UserBoardInputProps = {
 };
 
 function UserBoardInput(props: UserBoardInputProps) {
-  const [tokenId, setTokenId] = useState<number>(0);
-  const handleChange = (event: any) => setTokenId(event.target.value);
+  const [country, setCountry] = useState();
+  const handleChange = (event: any) => setCountry(event.target.value);
   const [address, setAddress] = useState<string>();
   const [contract, setContract] = useState(props.contract);
-  const [text, setText] = useState("Type the ID of your board");
+  const [text, setText] = useState("Type the Country of your board");
 
   useEffect(() => {
     (async () => {
@@ -24,8 +25,11 @@ function UserBoardInput(props: UserBoardInputProps) {
   }, [contract]);
 
   async function handleClick() {
-    if (tokenId) {
+    if (country) {
+      console.log("DIOMERDA");
+      console.log(country);
       try {
+        const tokenId = countryToId(country);
         const owner = await contract?.ownerOf(tokenId);
         if (owner === address) {
           props.setTokenId(tokenId);
@@ -44,13 +48,12 @@ function UserBoardInput(props: UserBoardInputProps) {
         {text}
       </Text>
       <Input
-        value={tokenId}
+        value={country}
         onChange={handleChange}
         backgroundColor="rgba(255,255,255,0.8)"
         borderColor="black"
         height="50px"
-        placeholder="Token Id"
-        type="number"
+        placeholder="Country"
       />
       <Button
         backgroundColor="rgba(255,255,255,0.8)"
