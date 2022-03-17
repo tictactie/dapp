@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import "./Mint.css";
-import { Button } from "@chakra-ui/react";
+import { Button, Box, HStack } from "@chakra-ui/react";
 import { Contract, ethers } from "ethers";
 import { tokenIdToCountry } from "../utils/countries";
 
@@ -68,16 +68,20 @@ function Mint(props: MintProps) {
 
   return (
     <div className="Mint">
-      <Button
-        onClick={() => mint(tokenId)}
-        height="20px"
-        width="100%"
-        isDisabled={minted || !contract}
-        isLoading={minting}
-      >
-        {tokenIdToCountry(tokenId)}
-        {/*minted ? "TAKEN." : "MINT!"*/}
-      </Button>
+      <HStack>
+        <Button
+          onClick={() => mint(tokenId)}
+          height="20px"
+          width="80%"
+          isDisabled={minted || !contract}
+          isLoading={minting}
+        >
+          {minted ? "TAKEN." : "MINT!"}
+        </Button>
+        <Box width="20%" height="20px">
+          {tokenIdToCountry(tokenId)}
+        </Box>
+      </HStack>
       <br />
       {!minting && error && <span>ERROR: {error}</span>}
     </div>
