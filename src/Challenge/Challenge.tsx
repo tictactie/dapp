@@ -45,7 +45,7 @@ function Challenge(props: ChallengeProps) {
   }
 
   async function challenge(opponentId: number) {
-    if (contract && tokenId !== undefined) {
+    if (contract && tokenId) {
       setError(undefined);
       setWaiting(false);
 

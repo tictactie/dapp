@@ -22,8 +22,6 @@ function UserBoardInput(props: UserBoardInputProps) {
 
   async function handleClick() {
     if (country) {
-      console.log("DIOMERDA");
-      console.log(country);
       try {
         const tokenId = countryToId(country);
         const owner = await props.contract?.ownerOf(tokenId);

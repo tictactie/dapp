@@ -14,7 +14,6 @@ import Challenge from "../Challenge/Challenge";
 import Mint from "../Mint/Mint";
 import { Contract } from "ethers";
 import { getSupply, getOpponent } from "../utils/tictactie";
-import useOpponent from "../hooks/useOpponent";
 import useUserMinted from "../hooks/useUserBoard";
 import UserBoardInput from "../UserBoardInput/UserBoardInput";
 
@@ -44,7 +43,7 @@ function Body(props: BodyProps) {
 
   useEffect(() => {
     (async () => {
-      if (contract && tokenId !== undefined) {
+      if (contract && tokenId) {
         setOpponent(await getOpponent(contract, tokenId));
       }
     })();
@@ -61,15 +60,11 @@ function Body(props: BodyProps) {
   }
 
   function renderInteractiveComponent() {
-    console.log(minted);
-    console.log(opponent);
-    console.log(tokenId);
-    if (minted && opponent !== undefined && tokenId !== undefined) {
+    if (minted && opponent && tokenId) {
       return (
         <Play opponentId={opponent} contract={contract} tokenId={tokenId} />
       );
-    } else if (minted && tokenId !== undefined) {
-      console.log("CHALLENGE");
+    } else if (minted && tokenId) {
       return (
         <Challenge
           setOpponent={setOpponent}
@@ -99,6 +94,7 @@ function Body(props: BodyProps) {
 
       <SimpleGrid columns={10} gap={2}>
         {[...Array(70).keys()].map((i) => {
+          const tokenId = i + 1;
           return (
             <GridItem
               colStart={(i % 10) + 1}
@@ -110,8 +106,8 @@ function Body(props: BodyProps) {
               </Box>
 
               <Mint
-                tokenId={i}
-                minted={isMinted(i)}
+                tokenId={tokenId}
+                minted={isMinted(tokenId)}
                 setJustMinted={setJustMinted}
                 setTokenId={setTokenId}
                 contract={contract}

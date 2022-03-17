@@ -6,15 +6,15 @@ import {
   Box,
   GridItem,
   Input,
-  Text,
   Button,
   VStack,
 } from "@chakra-ui/react";
-import { BigNumber, Contract } from "ethers";
+import { Contract } from "ethers";
 import { useEffect, useState } from "react";
 import useImageSVG from "../hooks/useImageSVG";
 import { tokenIdToFlag, tokenIdToCountry } from "../utils/countries";
 import Countdown from "react-countdown";
+import { isTurn } from "../utils/tictactie";
 
 type PlayProps = {
   contract: Contract | undefined;
@@ -27,6 +27,7 @@ function Play(props: PlayProps) {
   const [tokenId, setTokenId] = useState<number>();
   const [expiresInSeconds, setExpiresInSeconds] = useState<number>();
   const [opponent, setOpponent] = useState<number>();
+  const [isAccountTurn, setIsAccountTurn] = useState(false);
   const imageSVG = useImageSVG(contract, tokenId);
 
   useEffect(() => {
@@ -43,19 +44,68 @@ function Play(props: PlayProps) {
 
   useEffect(() => {
     (async () => {
-      console.log("effect");
-      if (contract && tokenId !== undefined) {
+      if (contract && tokenId) {
         await fetchExpiryBlock(contract, tokenId);
+        await updateTurn(contract, tokenId);
       }
     })();
   }, [tokenId, contract]);
 
+  useEffect(() => {
+    (async () => {
+      if (contract && tokenId) await updateTurn(contract, tokenId);
+    })();
+  }, [expiresInSeconds, contract, tokenId]);
+
+  async function updateTurn(contract: Contract, tokenId: number) {
+    setIsAccountTurn(await isTurn(contract, tokenId));
+  }
+
   async function fetchExpiryBlock(contract: Contract, tokenId: number) {
     const epxirationBlock = await contract.expiryBlock(tokenId);
     const currentBlock = await contract.provider.getBlockNumber();
-    console.log(currentBlock);
-    console.log(BigNumber.from(epxirationBlock).toNumber());
     setExpiresInSeconds((epxirationBlock.toNumber() - currentBlock) * 13);
+  }
+
+  function renderPanel(expiresInSeconds: number) {
+    if (isAccountTurn) {
+      return (
+        <VStack>
+          <Box>
+            Your turn expires in:{" "}
+            <Countdown
+              onComplete={() => setExpiresInSeconds(0)}
+              date={Date.now() + expiresInSeconds * 1000}
+            />
+          </Box>
+          <Button
+            backgroundColor="rgba(255,255,255,0.8)"
+            colorScheme="black"
+            variant="outline"
+            height="40px"
+            width="100%"
+          >
+            PLAY
+          </Button>
+        </VStack>
+      );
+    } else {
+      return (
+        <VStack>
+          <Box>Opponent did not move yet. Come back later.</Box>
+          <Button
+            isDisabled={true}
+            backgroundColor="rgba(255,255,255,0.8)"
+            colorScheme="black"
+            variant="outline"
+            height="40px"
+            width="100%"
+          >
+            WAIT
+          </Button>
+        </VStack>
+      );
+    }
   }
 
   return (
@@ -68,7 +118,7 @@ function Play(props: PlayProps) {
       )}
 
       <br />
-      {imageSVG && expiresInSeconds && (
+      {imageSVG && expiresInSeconds && tokenId && contract && (
         <SimpleGrid columns={10} gap={2}>
           <GridItem colStart={4} rowStart={0} colSpan={2} rowSpan={2}>
             <AspectRatio ratio={1}>
@@ -76,21 +126,7 @@ function Play(props: PlayProps) {
             </AspectRatio>
           </GridItem>
           <GridItem colStart={6} colSpan={2} rowSpan={1}>
-            <VStack>
-              <Box>
-                Your turn expires in:{" "}
-                <Countdown date={Date.now() + expiresInSeconds * 1000} />
-              </Box>
-              <Button
-                backgroundColor="rgba(255,255,255,0.8)"
-                colorScheme="black"
-                variant="outline"
-                height="40px"
-                width="100%"
-              >
-                PLAY
-              </Button>
-            </VStack>
+            {renderPanel(expiresInSeconds)}
           </GridItem>
 
           <GridItem colStart={6} colSpan={2} rowSpan={1}>

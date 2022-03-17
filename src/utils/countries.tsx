@@ -149,13 +149,13 @@ export function countryToId(country: string) {
   if (tokenId === -1) {
     tokenId = COUNTRIES.indexOf(country);
   }
-  return tokenId;
+  return tokenId + 1;
 }
 
 export function tokenIdToFlag(tokenId: number) {
-  return FLAGS[tokenId];
+  return FLAGS[tokenId - 1];
 }
 
 export function tokenIdToCountry(tokenId: number) {
-  return COUNTRIES[tokenId];
+  return COUNTRIES[tokenId - 1];
 }

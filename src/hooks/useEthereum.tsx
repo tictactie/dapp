@@ -17,6 +17,7 @@ const ABI = [
   "function balanceOf(address) public view returns (uint256)",
   "function ownerOf(uint256 tokenId) public view returns (address)",
   "function challenge(uint256, uint256) public",
+  "function isBoardTurn(uint256) public view returns (bool)",
 ];
 
 function useEthereum(
@@ -66,7 +67,6 @@ function useEthereum(
         async function init() {
           try {
             const INFURA_ID = process.env.REACT_APP_INFURA_ID;
-            const RPC_URL = process.env.REACT_APP_RPC_URL;
 
             const providerOptions = {
               walletconnect: {
