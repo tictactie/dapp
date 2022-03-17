@@ -13,7 +13,7 @@ import Play from "../Play/Play";
 import Challenge from "../Challenge/Challenge";
 import Mint from "../Mint/Mint";
 import { Contract } from "ethers";
-import useSupply from "../hooks/useSupply";
+import { getSupply } from "../utils/supply";
 import useOpponent from "../hooks/useOpponent";
 import useUserMinted from "../hooks/useUserBoard";
 import UserBoardInput from "../UserBoardInput/UserBoardInput";
@@ -24,7 +24,7 @@ type BodyProps = {
 
 function Body(props: BodyProps) {
   const [contract, setContract] = useState<Contract>();
-  const [supply] = useSupply(contract);
+  const [supply, setSupply] = useState();
   const [tokenId, setTokenId] = useState<number>();
   const [justMinted, setJustMinted] = useState(false);
   const minted = useUserMinted(contract, justMinted);
@@ -42,8 +42,14 @@ function Body(props: BodyProps) {
     setJustMinted(false);
   }, [tokenId]);
 
+  useEffect(() => {
+    (async () => {
+      setSupply(await getSupply(contract));
+    })();
+  }, [justMinted, contract]);
+
   function isMinted(i: number) {
-    return (BigInt(supply) & (BigInt(1) << BigInt(i))) !== BigInt(0);
+    return (BigInt(supply || 0) & (BigInt(1) << BigInt(i))) !== BigInt(0);
   }
 
   function renderInteractiveComponent() {

@@ -9,7 +9,7 @@ type UserBoardInputProps = {
 };
 
 function UserBoardInput(props: UserBoardInputProps) {
-  const [country, setCountry] = useState();
+  const [country, setCountry] = useState("");
   const handleChange = (event: any) => setCountry(event.target.value);
   const [address, setAddress] = useState<string>();
   const [contract, setContract] = useState(props.contract);
@@ -37,7 +37,7 @@ function UserBoardInput(props: UserBoardInputProps) {
           setText("Not your board!");
         }
       } catch (e) {
-        setText("Non existing token Id");
+        setText("Not your board!");
       }
     }
   }
