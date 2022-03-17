@@ -16,6 +16,7 @@ const ABI = [
   "function expiryBlock(uint256) public view returns (uint256)",
   "function balanceOf(address) public view returns (uint256)",
   "function ownerOf(uint256 tokenId) public view returns (address)",
+  "function challenge(uint256, uint256) public",
 ];
 
 function useEthereum(

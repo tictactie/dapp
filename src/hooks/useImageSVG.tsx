@@ -9,7 +9,8 @@ function useImageSVG(
 
   useEffect(() => {
     (async () => {
-      if (contract && tokenId) await fetchImage(contract, tokenId);
+      if (contract && tokenId !== undefined)
+        await fetchImage(contract, tokenId);
     })();
   }, [contract, tokenId]);
 

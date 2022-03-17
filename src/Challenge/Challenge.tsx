@@ -11,16 +11,23 @@ import {
 import { Contract } from "ethers";
 import { useEffect, useState } from "react";
 import useImageSVG from "../hooks/useImageSVG";
+import { interact } from "../utils/tictactie";
+import { countryToId } from "../utils/countries";
 
 type ChallengeProps = {
   contract: Contract | undefined;
   tokenId: number;
+  setOpponent: (opponentId: number) => void;
 };
 
 function Challenge(props: ChallengeProps) {
   const [contract, setContract] = useState<Contract>();
   const [tokenId, setTokenId] = useState<number>();
+  const [waiting, setWaiting] = useState(false);
+  const [error, setError] = useState<string | undefined>();
+  const [country, setCountry] = useState("");
   const imageSVG = useImageSVG(contract, tokenId);
+  const handleChange = (event: any) => setCountry(event.target.value);
 
   useEffect(() => {
     setContract(props.contract);
@@ -29,6 +36,34 @@ function Challenge(props: ChallengeProps) {
   useEffect(() => {
     setTokenId(props.tokenId);
   }, [props.tokenId]);
+
+  async function handleClick() {
+    if (country) {
+      const opponentId = countryToId(country);
+      await challenge(opponentId);
+    }
+  }
+
+  async function challenge(opponentId: number) {
+    if (contract && tokenId !== undefined) {
+      setError(undefined);
+      setWaiting(false);
+
+      interact(
+        () => setWaiting(true),
+        (error) => setError(error),
+        () => {
+          setWaiting(false);
+          props.setOpponent(opponentId);
+        },
+        async () => {
+          return await contract.challenge(tokenId, opponentId, {
+            from: await contract.signer.getAddress(),
+          });
+        }
+      );
+    }
+  }
 
   return (
     <Box>
@@ -47,6 +82,8 @@ function Challenge(props: ChallengeProps) {
                 fontSize="xl"
               ></Text>
               <Button
+                onClick={handleClick}
+                isLoading={waiting}
                 backgroundColor="rgba(255,255,255,0.8)"
                 colorScheme="black"
                 variant="outline"
@@ -56,15 +93,18 @@ function Challenge(props: ChallengeProps) {
                 CHALLENGE
               </Button>
               <Input
+                value={country}
+                onChange={handleChange}
                 backgroundColor="rgba(255,255,255,0.8)"
                 borderColor="black"
                 height="50px"
-                placeholder="Player Name"
+                placeholder="Country or Flag"
               />
             </VStack>
           </GridItem>
         </SimpleGrid>
       )}
+      {!waiting && error && <span>ERROR: {error}</span>}
     </Box>
   );
 }

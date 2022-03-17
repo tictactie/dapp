@@ -146,12 +146,16 @@ const FLAGS = [
 
 export function countryToId(country: string) {
   var tokenId = FLAGS.indexOf(country);
-  if (tokenId == -1) {
+  if (tokenId === -1) {
     tokenId = COUNTRIES.indexOf(country);
   }
   return tokenId;
 }
 
-export function tokenIdToCountry(tokenId: number) {
+export function tokenIdToFlag(tokenId: number) {
   return FLAGS[tokenId];
+}
+
+export function tokenIdToCountry(tokenId: number) {
+  return COUNTRIES[tokenId];
 }

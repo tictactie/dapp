@@ -10,19 +10,22 @@ import {
   Button,
   VStack,
 } from "@chakra-ui/react";
-import { Contract } from "ethers";
+import { BigNumber, Contract } from "ethers";
 import { useEffect, useState } from "react";
 import useImageSVG from "../hooks/useImageSVG";
+import { tokenIdToFlag, tokenIdToCountry } from "../utils/countries";
+import Countdown from "react-countdown";
 
 type PlayProps = {
   contract: Contract | undefined;
   tokenId: number;
+  opponentId: number;
 };
 
 function Play(props: PlayProps) {
   const [contract, setContract] = useState<Contract>();
   const [tokenId, setTokenId] = useState<number>();
-  const [expiryBlock, setExpiryBlock] = useState<number>();
+  const [expiresInSeconds, setExpiresInSeconds] = useState<number>();
   const [opponent, setOpponent] = useState<number>();
   const imageSVG = useImageSVG(contract, tokenId);
 
@@ -35,35 +38,37 @@ function Play(props: PlayProps) {
   }, [props.tokenId]);
 
   useEffect(() => {
+    setOpponent(props.opponentId);
+  }, [props.opponentId]);
+
+  useEffect(() => {
     (async () => {
       console.log("effect");
-      if (contract && tokenId) {
+      if (contract && tokenId !== undefined) {
         await fetchExpiryBlock(contract, tokenId);
       }
     })();
   }, [tokenId, contract]);
 
-  useEffect(() => {
-    (async () => {
-      if (contract && opponent) {
-        await fetchOpponent(contract, opponent);
-      }
-    })();
-  }, [opponent, contract]);
-
   async function fetchExpiryBlock(contract: Contract, tokenId: number) {
-    const response = await contract.expiryBlock(tokenId);
-    setExpiryBlock(response.toNumber());
-  }
-
-  async function fetchOpponent(contract: Contract, tokenId: number) {
-    const response = await contract.opponent(tokenId);
-    setOpponent(response.toNumber());
+    const epxirationBlock = await contract.expiryBlock(tokenId);
+    const currentBlock = await contract.provider.getBlockNumber();
+    console.log(currentBlock);
+    console.log(BigNumber.from(epxirationBlock).toNumber());
+    setExpiresInSeconds((epxirationBlock.toNumber() - currentBlock) * 13);
   }
 
   return (
     <Box>
-      {imageSVG && (
+      {opponent && (
+        <Box>
+          You are playing against {tokenIdToCountry(opponent)}{" "}
+          {tokenIdToFlag(opponent)}
+        </Box>
+      )}
+
+      <br />
+      {imageSVG && expiresInSeconds && (
         <SimpleGrid columns={10} gap={2}>
           <GridItem colStart={4} rowStart={0} colSpan={2} rowSpan={2}>
             <AspectRatio ratio={1}>
@@ -72,13 +77,10 @@ function Play(props: PlayProps) {
           </GridItem>
           <GridItem colStart={6} colSpan={2} rowSpan={1}>
             <VStack>
-              <Text
-                backgroundColor="rgba(255,255,255,0.8)"
-                height="30px"
-                fontSize="xl"
-              >
-                {expiryBlock}
-              </Text>
+              <Box>
+                Your turn expires in:{" "}
+                <Countdown date={Date.now() + expiresInSeconds * 1000} />
+              </Box>
               <Button
                 backgroundColor="rgba(255,255,255,0.8)"
                 colorScheme="black"

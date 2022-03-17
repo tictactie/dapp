@@ -1,7 +1,8 @@
 import { Input, Text, Button, VStack } from "@chakra-ui/react";
 import { Contract } from "ethers";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { countryToId } from "../utils/countries";
+import { useAsync } from "../hooks/useAsync";
 
 type UserBoardInputProps = {
   contract: Contract | undefined;
@@ -12,17 +13,12 @@ function UserBoardInput(props: UserBoardInputProps) {
   const [country, setCountry] = useState("");
   const handleChange = (event: any) => setCountry(event.target.value);
   const [address, setAddress] = useState<string>();
-  const [contract, setContract] = useState(props.contract);
   const [text, setText] = useState("Type the Country of your board");
+  useAsync(getAddress, setAddress);
 
-  useEffect(() => {
-    (async () => {
-      if (contract) {
-        setContract(contract);
-        setAddress(await contract.signer.getAddress());
-      }
-    })();
-  }, [contract]);
+  async function getAddress() {
+    return await props.contract?.signer.getAddress();
+  }
 
   async function handleClick() {
     if (country) {
@@ -30,13 +26,15 @@ function UserBoardInput(props: UserBoardInputProps) {
       console.log(country);
       try {
         const tokenId = countryToId(country);
-        const owner = await contract?.ownerOf(tokenId);
+        const owner = await props.contract?.ownerOf(tokenId);
+        console.log(owner);
         if (owner === address) {
           props.setTokenId(tokenId);
         } else {
           setText("Not your board!");
         }
       } catch (e) {
+        console.log(e);
         setText("Not your board!");
       }
     }

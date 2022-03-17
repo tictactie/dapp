@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import "./Mint.css";
 import { Button, Box, HStack } from "@chakra-ui/react";
 import { Contract, ethers } from "ethers";
-import { tokenIdToCountry } from "../utils/countries";
+import { tokenIdToFlag } from "../utils/countries";
+import { interact } from "../utils/tictactie";
 
 type MintProps = {
   tokenId: number;
@@ -32,37 +33,23 @@ function Mint(props: MintProps) {
 
   async function mint(tokenId: number) {
     if (contract) {
-      try {
-        setError(undefined);
-        const tx = await contract.mint(tokenId, {
-          value: ethers.utils.parseEther(
-            process.env.REACT_APP_PRICE || "0.001"
-          ),
-          from: await contract.signer.getAddress(),
-        });
-
-        setMinting(true);
-        await tx.wait(1);
-        setMinting(false);
-        props.setJustMinted(true);
-        props.setTokenId(tokenId);
-      } catch (e) {
-        if (typeof e === "string") {
-          const errorStarts = e.indexOf("error=") + 6;
-          const errorEnds = e.indexOf(",code=");
-
-          setError(e.substring(errorStarts, errorEnds));
-        } else if (e instanceof Error) {
-          const errorStarts = e.message.indexOf("error=") + 6;
-          const errorEnds = e.message.indexOf(", code=");
-          const errorObj = JSON.parse(
-            e.message.substring(errorStarts, errorEnds)
-          );
-          setError(errorObj["data"]["originalError"]["message"]);
-
-          //setError(e.message);
+      interact(
+        () => setMinting(true),
+        (error) => setError(error),
+        () => {
+          setMinting(false);
+          props.setJustMinted(true);
+          props.setTokenId(tokenId);
+        },
+        async () => {
+          return await contract.mint(tokenId, {
+            value: ethers.utils.parseEther(
+              process.env.REACT_APP_PRICE || "0.001"
+            ),
+            from: await contract.signer.getAddress(),
+          });
         }
-      }
+      );
     }
   }
 
@@ -79,7 +66,7 @@ function Mint(props: MintProps) {
           {minted ? "TAKEN." : "MINT!"}
         </Button>
         <Box width="20%" height="20px">
-          {tokenIdToCountry(tokenId)}
+          {tokenIdToFlag(tokenId)}
         </Box>
       </HStack>
       <br />

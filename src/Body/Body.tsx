@@ -13,7 +13,7 @@ import Play from "../Play/Play";
 import Challenge from "../Challenge/Challenge";
 import Mint from "../Mint/Mint";
 import { Contract } from "ethers";
-import { getSupply } from "../utils/supply";
+import { getSupply, getOpponent } from "../utils/tictactie";
 import useOpponent from "../hooks/useOpponent";
 import useUserMinted from "../hooks/useUserBoard";
 import UserBoardInput from "../UserBoardInput/UserBoardInput";
@@ -28,7 +28,7 @@ function Body(props: BodyProps) {
   const [tokenId, setTokenId] = useState<number>();
   const [justMinted, setJustMinted] = useState(false);
   const minted = useUserMinted(contract, justMinted);
-  const opponent = useOpponent(contract, tokenId);
+  const [opponent, setOpponent] = useState<number>();
 
   useEffect(() => {
     (async () => {
@@ -44,6 +44,14 @@ function Body(props: BodyProps) {
 
   useEffect(() => {
     (async () => {
+      if (contract && tokenId !== undefined) {
+        setOpponent(await getOpponent(contract, tokenId));
+      }
+    })();
+  }, [tokenId, contract]);
+
+  useEffect(() => {
+    (async () => {
       setSupply(await getSupply(contract));
     })();
   }, [justMinted, contract]);
@@ -53,10 +61,22 @@ function Body(props: BodyProps) {
   }
 
   function renderInteractiveComponent() {
-    if (minted && opponent && tokenId) {
-      return <Play contract={contract} tokenId={tokenId} />;
-    } else if (minted && tokenId) {
-      return <Challenge contract={contract} tokenId={tokenId} />;
+    console.log(minted);
+    console.log(opponent);
+    console.log(tokenId);
+    if (minted && opponent !== undefined && tokenId !== undefined) {
+      return (
+        <Play opponentId={opponent} contract={contract} tokenId={tokenId} />
+      );
+    } else if (minted && tokenId !== undefined) {
+      console.log("CHALLENGE");
+      return (
+        <Challenge
+          setOpponent={setOpponent}
+          contract={contract}
+          tokenId={tokenId}
+        />
+      );
     } else if (minted) {
       return <UserBoardInput contract={contract} setTokenId={setTokenId} />;
     } else {
