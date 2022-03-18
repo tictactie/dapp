@@ -26,7 +26,7 @@ function Challenge(props: ChallengeProps) {
   const [waiting, setWaiting] = useState(false);
   const [error, setError] = useState<string | undefined>();
   const [country, setCountry] = useState("");
-  const imageSVG = useImageSVG(contract, tokenId);
+  const imageSVG = useImageSVG(contract, tokenId, 0);
   const handleChange = (event: any) => setCountry(event.target.value);
 
   useEffect(() => {

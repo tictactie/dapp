@@ -59,3 +59,39 @@ export async function isTurn(contract: Contract, tokenId: number) {
     console.log(e);
   }
 }
+
+export async function isOwnerOf(contract: Contract, tokenId: number) {
+  try {
+    const response = await contract.ownerOf(tokenId);
+    return response === (await contract.signer.getAddress());
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+export async function getBoardSVGs(
+  contract: Contract
+): Promise<string[] | undefined> {
+  try {
+    const response = await contract.getAllBoardsSVG();
+    const svgs = [];
+    for (var i = 0; i < 70; i++) {
+      var svg = response[i];
+      svgs.push(
+        svg
+          .replace(/xo/g, "xo" + i)
+          .replace(/bg/g, "bg" + i)
+          .replace(/hash/g, "hash" + i)
+          .replace(/xoline/g, "xoline" + i)
+          .replace(/id='o'/g, `id='o${i}'`)
+          .replace(/id='x'/g, `id='x${i}'`)
+          .replace(/'#o'/g, `'#o${i}'`)
+          .replace(/'#x'/g, `'#x${i}'`)
+          .replace(/pulse/g, "pulse" + i)
+      );
+    }
+    return svgs;
+  } catch (e) {
+    console.log(e);
+  }
+}

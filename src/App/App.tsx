@@ -19,7 +19,6 @@ function App() {
     (async () => {
       const newAddress = await signer?.getAddress();
       setAddress(newAddress);
-      console.log(newAddress);
     })();
   }, [signer]);
 
@@ -34,7 +33,7 @@ function App() {
       <NetworkStatus network={network} />
       <Container maxWidth="130ch">
         <Header />
-        <Body contract={contract} />
+        <Body signer={signer} contract={contract} />
       </Container>
       {provider === undefined && (
         <button onClick={() => setDidConnect(true)}>Connect</button>

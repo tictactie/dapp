@@ -18,6 +18,8 @@ const ABI = [
   "function ownerOf(uint256 tokenId) public view returns (address)",
   "function challenge(uint256, uint256) public",
   "function isBoardTurn(uint256) public view returns (bool)",
+  "function getAllBoardsSVG() public view returns (string[70] memory)",
+  "function play(uint256, uint16) public",
 ];
 
 function useEthereum(

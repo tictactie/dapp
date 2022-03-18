@@ -6,40 +6,92 @@ import {
   Spacer,
   Image,
   GridItem,
+  AspectRatio,
 } from "@chakra-ui/react";
 import { Title } from "./Title";
 import { useEffect, useState } from "react";
 import Play from "../Play/Play";
 import Challenge from "../Challenge/Challenge";
 import Mint from "../Mint/Mint";
-import { Contract } from "ethers";
-import { getSupply, getOpponent } from "../utils/tictactie";
+import { Contract, Signer } from "ethers";
+import {
+  getSupply,
+  getOpponent,
+  getBoardSVGs,
+  isOwnerOf,
+} from "../utils/tictactie";
 import useUserMinted from "../hooks/useUserBoard";
 import UserBoardInput from "../UserBoardInput/UserBoardInput";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 
 type BodyProps = {
   contract: Contract | undefined;
+  signer: Signer | undefined;
 };
 
 function Body(props: BodyProps) {
   const [contract, setContract] = useState<Contract>();
+  const [address, setAddress] = useState<string>();
   const [supply, setSupply] = useState();
-  const [tokenId, setTokenId] = useState<number>();
+  const [tokenId, setTokenId] = useLocalStorage("tokenId", undefined);
   const [justMinted, setJustMinted] = useState(false);
   const minted = useUserMinted(contract, justMinted);
   const [opponent, setOpponent] = useState<number>();
+  const [boardSVGs, setBoardSVGs] = useState<string[] | undefined>();
 
   useEffect(() => {
     (async () => {
       setContract(props.contract);
-      setJustMinted(false);
-      setTokenId(undefined);
+
+      if (props.contract) {
+        setBoardSVGs(await getBoardSVGs(props.contract));
+      }
     })();
   }, [props.contract]);
 
   useEffect(() => {
-    setJustMinted(false);
-  }, [tokenId]);
+    (async () => {
+      setJustMinted(false);
+
+      const newAddress = await props.signer?.getAddress();
+
+      setAddress(newAddress);
+    })();
+  }, [props.signer]);
+
+  useEffect(() => {
+    (async () => {
+      if (
+        address &&
+        contract &&
+        tokenId &&
+        !(await isOwnerOf(contract, tokenId))
+      )
+        setTokenId(undefined);
+    })();
+  }, [address]);
+
+  useEffect(() => {
+    (async () => {
+      if (
+        contract &&
+        tokenId &&
+        address &&
+        (await isOwnerOf(contract, parseInt(tokenId)))
+      )
+        window.localStorage.setItem(address, JSON.stringify(tokenId));
+
+      if (
+        contract &&
+        tokenId !== null &&
+        tokenId !== undefined &&
+        tokenId !== "undefined" &&
+        !(await isOwnerOf(contract, parseInt(tokenId)))
+      ) {
+        window.localStorage.removeItem("tokenId");
+      }
+    })();
+  }, [tokenId, address]);
 
   useEffect(() => {
     (async () => {
@@ -102,7 +154,14 @@ function Body(props: BodyProps) {
               rowStart={Math.floor(i / 10 + 4)}
             >
               <Box>
-                <Image src={"/dapp/boards/board_" + i + ".svg"}></Image>
+                {boardSVGs && (
+                  <AspectRatio ratio={1}>
+                    <span dangerouslySetInnerHTML={{ __html: boardSVGs[i] }} />
+                  </AspectRatio>
+                )}
+                {!boardSVGs && (
+                  <Image src={"/dapp/boards/board_" + i + ".svg"}></Image>
+                )}
               </Box>
 
               <Mint

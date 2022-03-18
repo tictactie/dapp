@@ -25,7 +25,6 @@ function UserBoardInput(props: UserBoardInputProps) {
       try {
         const tokenId = countryToId(country);
         const owner = await props.contract?.ownerOf(tokenId);
-        console.log(owner);
         if (owner === address) {
           props.setTokenId(tokenId);
         } else {
@@ -49,7 +48,7 @@ function UserBoardInput(props: UserBoardInputProps) {
         backgroundColor="rgba(255,255,255,0.8)"
         borderColor="black"
         height="50px"
-        placeholder="Country"
+        placeholder="Country or Flag"
       />
       <Button
         backgroundColor="rgba(255,255,255,0.8)"

@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 import useImageSVG from "../hooks/useImageSVG";
 import { tokenIdToFlag, tokenIdToCountry } from "../utils/countries";
 import Countdown from "react-countdown";
-import { isTurn } from "../utils/tictactie";
+import { isTurn, interact } from "../utils/tictactie";
 
 type PlayProps = {
   contract: Contract | undefined;
@@ -27,8 +27,13 @@ function Play(props: PlayProps) {
   const [tokenId, setTokenId] = useState<number>();
   const [expiresInSeconds, setExpiresInSeconds] = useState<number>();
   const [opponent, setOpponent] = useState<number>();
+  const [coordinate, setCoordinate] = useState<number>();
   const [isAccountTurn, setIsAccountTurn] = useState(false);
-  const imageSVG = useImageSVG(contract, tokenId);
+  const [round, setRound] = useState(0);
+  const imageSVG = useImageSVG(contract, tokenId, round);
+  const [waiting, setWaiting] = useState(false);
+  const [error, setError] = useState<string | undefined>();
+  const handleChange = (event: any) => setCoordinate(event.target.value);
 
   useEffect(() => {
     setContract(props.contract);
@@ -57,6 +62,30 @@ function Play(props: PlayProps) {
     })();
   }, [expiresInSeconds, contract, tokenId]);
 
+  async function handleClick() {
+    if (coordinate) {
+      await play(coordinate);
+    }
+  }
+
+  async function play(coordinate: number) {
+    if (contract && tokenId) {
+      setWaiting(false);
+      setError(undefined);
+      interact(
+        () => setWaiting(true),
+        (e) => setError(e),
+        () => {
+          setExpiresInSeconds(0);
+          setRound(round + 1);
+        },
+        async () => {
+          return await contract.play(tokenId, 1 << coordinate);
+        }
+      );
+    }
+  }
+
   async function updateTurn(contract: Contract, tokenId: number) {
     setIsAccountTurn(await isTurn(contract, tokenId));
   }
@@ -79,6 +108,8 @@ function Play(props: PlayProps) {
             />
           </Box>
           <Button
+            isLoading={waiting}
+            onClick={handleClick}
             backgroundColor="rgba(255,255,255,0.8)"
             colorScheme="black"
             variant="outline"
@@ -118,7 +149,7 @@ function Play(props: PlayProps) {
       )}
 
       <br />
-      {imageSVG && expiresInSeconds && tokenId && contract && (
+      {imageSVG && expiresInSeconds !== undefined && tokenId && contract && (
         <SimpleGrid columns={10} gap={2}>
           <GridItem colStart={4} rowStart={0} colSpan={2} rowSpan={2}>
             <AspectRatio ratio={1}>
@@ -136,12 +167,16 @@ function Play(props: PlayProps) {
                 backgroundColor="rgba(255,255,255,0.8)"
                 borderColor="black"
                 height="100px"
-                placeholder="A3"
+                placeholder="Index"
+                value={coordinate}
+                onChange={handleChange}
               />
             </Flex>
           </GridItem>
         </SimpleGrid>
       )}
+      <br />
+      {!waiting && error && <span>ERROR: {error}</span>}
     </Box>
   );
 }

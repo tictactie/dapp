@@ -6,12 +6,9 @@ function useCachedConnection() {
 
   useEffect(() => {
     (async () => {
-      console.log("check cache");
       if (window.ethereum) {
-        console.log("ethereum");
         const tempProvider = new Web3Provider(window.ethereum);
         const existingAccounts = await tempProvider.listAccounts();
-        console.log(existingAccounts);
         setAlreadyConnected(existingAccounts.length > 0);
       }
 
