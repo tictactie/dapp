@@ -8,6 +8,11 @@ import {
   Text,
   GridItem,
   AspectRatio,
+  VStack,
+  Container,
+  Input,
+  Button,
+  Divider,
 } from "@chakra-ui/react";
 import { Title } from "./Title";
 import { useEffect, useState } from "react";
@@ -22,10 +27,12 @@ import {
   isOwnerOf,
 } from "../utils/tictactie";
 import useUserMinted from "../hooks/useUserBoard";
-import UserBoardInput from "../UserBoardInput/UserBoardInput";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import MintTie from "../MintTie/MintTie";
 import MintFinal from "../MintFinal/MintFinal";
+import Board from "../Board/Board";
+import SetBoard from "../SetBoard/SetBoard";
+import GameStatus from "../GameStatus/GameStatus";
 
 type BodyProps = {
   contract: Contract | undefined;
@@ -38,7 +45,9 @@ function Body(props: BodyProps) {
   const [supply, setSupply] = useState<number>();
   const [tokenId, setTokenId] = useLocalStorage("tokenId", undefined);
   const [justMinted, setJustMinted] = useState(false);
+  const [isAccountTurn, setIsAccountTurn] = useState(false);
   const minted = useUserMinted(contract, justMinted);
+  const [round, setRound] = useState(0);
   const [opponent, setOpponent] = useState<number>();
   const [boardSVGs, setBoardSVGs] = useState<string[] | undefined>();
 
@@ -114,33 +123,54 @@ function Body(props: BodyProps) {
     return (BigInt(supply || 0) & (BigInt(1) << BigInt(i))) !== BigInt(0);
   }
 
-  function renderInteractiveComponent() {
-    if (minted && opponent && tokenId) {
+  function renderGameStatus() {
+    if (opponent && tokenId)
       return (
-        <Play opponentId={opponent} contract={contract} tokenId={tokenId} />
-      );
-    } else if (minted && tokenId) {
-      return (
-        <Challenge
-          setOpponent={setOpponent}
+        <GameStatus
           contract={contract}
           tokenId={tokenId}
+          isAccountTurn={isAccountTurn}
+          opponentId={opponent}
         />
       );
-    } else {
-      // (minted) {
-      return <UserBoardInput contract={contract} setTokenId={setTokenId} />;
-    } /*else {
+  }
+
+  function renderChallenge() {
+    if (!opponent && tokenId)
       return (
-        <Text
-          backgroundColor="rgba(255,255,255,0.8)"
-          height="30px"
-          fontSize="l"
-        >
-          Get a Board. Mint it or <a href="https://opensea.io">Buy</a> it.
-        </Text>
+        <Challenge
+          contract={contract}
+          tokenId={tokenId}
+          setOpponent={setOpponent}
+        />
       );
-    }*/
+  }
+
+  function renderPlay() {
+    if (opponent && tokenId)
+      return (
+        <Flex direction="column" w="10%" paddingLeft={5}>
+          <Play
+            contract={contract}
+            tokenId={tokenId}
+            setRound={setRound}
+            round={round}
+            setIsAccountTurn={setIsAccountTurn}
+            isAccountTurn={isAccountTurn}
+          />
+        </Flex>
+      );
+  }
+
+  function renderSetBoard() {
+    if (!tokenId)
+      return (
+        <SetBoard
+          contract={contract}
+          tokenId={tokenId}
+          setTokenId={setTokenId}
+        />
+      );
   }
 
   return (
@@ -168,15 +198,21 @@ function Body(props: BodyProps) {
       </HStack>*/}
 
       <Flex>
-        <Box w="25%">
-          <MintTie contract={contract} tokenId={tokenId} />
-        </Box>
-        <Spacer />
-        <Box w="50%">{renderInteractiveComponent()}</Box>
-        <Spacer />
-        <Box w="25%">
-          <MintFinal contract={contract} tokenId={tokenId} />
-        </Box>
+        <Flex direction="column" w="20%">
+          <Spacer />
+          <Board contract={contract} tokenId={tokenId} round={round} />
+        </Flex>
+        {renderPlay()}
+        <Flex textAlign="left" direction="column" lineHeight={6}>
+          <Spacer />
+          {renderSetBoard()}
+          {renderChallenge()}
+          {renderGameStatus()}
+          <Container>You have no ties to mint.</Container>
+          <Container>
+            You need 6 more victories to win the Final Prize.
+          </Container>
+        </Flex>
       </Flex>
 
       <SimpleGrid columns={10} gap={2}>

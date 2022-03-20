@@ -7,6 +7,7 @@ import {
   Text,
   Button,
   VStack,
+  Container,
 } from "@chakra-ui/react";
 import { Contract } from "ethers";
 import { useEffect, useState } from "react";
@@ -26,8 +27,8 @@ function Challenge(props: ChallengeProps) {
   const [waiting, setWaiting] = useState(false);
   const [error, setError] = useState<string | undefined>();
   const [country, setCountry] = useState("");
-  const imageSVG = useImageSVG(contract, tokenId, 0);
   const handleChange = (event: any) => setCountry(event.target.value);
+  const [inputInvalid, setInputInvalid] = useState(false);
 
   useEffect(() => {
     setContract(props.contract);
@@ -39,8 +40,11 @@ function Challenge(props: ChallengeProps) {
 
   async function handleClick() {
     if (country) {
+      setInputInvalid(false);
       const opponentId = countryToId(country);
       await challenge(opponentId);
+    } else {
+      setInputInvalid(true);
     }
   }
 
@@ -66,47 +70,33 @@ function Challenge(props: ChallengeProps) {
   }
 
   return (
-    <Box>
-      {imageSVG && (
-        <SimpleGrid columns={10} gap={2}>
-          <GridItem colStart={0} rowStart={0} colSpan={5} rowSpan={2}>
-            <AspectRatio ratio={1}>
-              <span dangerouslySetInnerHTML={{ __html: imageSVG }} />
-            </AspectRatio>
-          </GridItem>
-          <GridItem colStart={6} colSpan={4} rowSpan={1}>
-            <VStack>
-              <Text
-                backgroundColor="rgba(255,255,255,0.8)"
-                height="30px"
-                fontSize="xl"
-              ></Text>
-              <Button
-                onClick={handleClick}
-                isLoading={waiting}
-                backgroundColor="rgba(255,255,255,0.8)"
-                colorScheme="black"
-                variant="outline"
-                height="40px"
-                width="100%"
-              >
-                CHALLENGE
-              </Button>
-              <Input
-                value={country}
-                onChange={handleChange}
-                backgroundColor="rgba(255,255,255,0.8)"
-                borderColor="black"
-                height="50px"
-                fontSize={11}
-                placeholder="Country or Flag"
-              />
-            </VStack>
-          </GridItem>
-        </SimpleGrid>
-      )}
+    <Container>
+      Wait to be challenged.
+      <br />
+      Or{" "}
+      <Button
+        onClick={handleClick}
+        isLoading={waiting}
+        fontSize={12}
+        width="20%"
+        height="20px"
+      >
+        challenge
+      </Button>{" "}
+      a{" "}
+      <Input
+        isInvalid={inputInvalid}
+        value={country}
+        onChange={handleChange}
+        borderColor="transparent"
+        borderBottomColor="black"
+        height="20px"
+        fontSize={12}
+        width="40%"
+        placeholder="Country or Flag"
+      ></Input>
       {!waiting && error && <span>ERROR: {error}</span>}
-    </Box>
+    </Container>
   );
 }
 

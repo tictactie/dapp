@@ -13,7 +13,7 @@ export async function interact(
     const tx = await method();
     onWait();
     await tx.wait(1);
-    onSuccess();
+    await onSuccess();
   } catch (e) {
     if (typeof e === "string") {
       const errorStarts = e.indexOf("error=") + 6;
