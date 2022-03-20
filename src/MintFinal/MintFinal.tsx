@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Button, HStack, Box } from "@chakra-ui/react";
+import { Button, HStack, Box, Container } from "@chakra-ui/react";
 import { Contract } from "ethers";
 import { interact } from "../utils/tictactie";
 
@@ -40,22 +40,33 @@ function MintFinal(props: MintFinalProps) {
     }
   }
 
-  return (
-    <Box>
-      <HStack>
-        <Button
-          margin="auto"
-          height="50px"
-          isDisabled={!mintableFinal}
-          isLoading={minting}
-        >
-          {"MINT FINAL REWARD"}
-        </Button>
-      </HStack>
-      <br />
-      {!minting && error && <span>ERROR: {error}</span>}
-    </Box>
-  );
+  function renderContent() {
+    if (mintableFinal) {
+      return (
+        <Container>
+          <b>Hurray!</b> You have can now{" "}
+          <Button
+            onClick={() => mint(tokenId)}
+            fontSize={12}
+            height="20px"
+            isLoading={minting}
+          >
+            mint the Final Prize
+          </Button>
+          <br />
+          {!minting && error && <span>ERROR: {error}</span>}
+        </Container>
+      );
+    } else {
+      return (
+        <Container>
+          You need <b>4</b> more victories to win the Final Prize.
+        </Container>
+      );
+    }
+  }
+
+  return renderContent();
 }
 
 export default MintFinal;

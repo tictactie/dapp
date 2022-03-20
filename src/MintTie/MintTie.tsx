@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import { Button, Box, HStack } from "@chakra-ui/react";
+import { Button, Box, HStack, Container } from "@chakra-ui/react";
 import { Contract } from "ethers";
 import { interact } from "../utils/tictactie";
+import { render } from "@testing-library/react";
 
 type MintTieProps = {
   tokenId: number;
@@ -39,23 +40,33 @@ function MintTie(props: MintTieProps) {
     }
   }
 
-  return (
-    <Box>
-      <HStack>
-        <Button
-          onClick={() => mint(tokenId)}
-          height="50px"
-          margin="auto"
-          isDisabled={!mintableTies}
-          isLoading={minting}
-        >
-          {!mintableTies ? "YOU HAVE NO TIES" : `MINT ${mintableTies} TIES`}
-        </Button>
-      </HStack>
-      <br />
-      {!minting && error && <span>ERROR: {error}</span>}
-    </Box>
-  );
+  function renderContent() {
+    if (mintableTies > 0) {
+      return (
+        <Container>
+          <b>Hurray!</b> You have{" "}
+          <Button
+            onClick={() => mint(tokenId)}
+            fontSize={12}
+            height="20px"
+            isLoading={minting}
+          >
+            {mintableTies} ties to MINT!
+          </Button>
+          <br />
+          {!minting && error && <span>ERROR: {error}</span>}
+        </Container>
+      );
+    } else {
+      return (
+        <Container>
+          You have <b>0</b> mintable ties. Play and tie to earn them.
+        </Container>
+      );
+    }
+  }
+
+  return renderContent();
 }
 
 export default MintTie;

@@ -208,10 +208,8 @@ function Body(props: BodyProps) {
           {renderSetBoard()}
           {renderChallenge()}
           {renderGameStatus()}
-          <Container>You have no ties to mint.</Container>
-          <Container>
-            You need 6 more victories to win the Final Prize.
-          </Container>
+          <MintTie contract={contract} tokenId={tokenId} />
+          <MintFinal contract={contract} tokenId={tokenId} />
         </Flex>
       </Flex>
 
