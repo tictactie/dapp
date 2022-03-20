@@ -69,6 +69,15 @@ export async function isOwnerOf(contract: Contract, tokenId: number) {
   }
 }
 
+export async function mintableTies(contract: Contract, tokenId: number) {
+  try {
+    const response = await contract.mintableTies(tokenId);
+    return response;
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 export async function getBoardSVGs(
   contract: Contract
 ): Promise<string[] | undefined> {

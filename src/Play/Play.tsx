@@ -1,7 +1,6 @@
 import {
   SimpleGrid,
   AspectRatio,
-  Flex,
   Image,
   Box,
   GridItem,
@@ -15,6 +14,7 @@ import useImageSVG from "../hooks/useImageSVG";
 import { tokenIdToFlag, tokenIdToCountry } from "../utils/countries";
 import Countdown from "react-countdown";
 import { isTurn, interact } from "../utils/tictactie";
+import { Title } from "../Body/Title";
 
 type PlayProps = {
   contract: Contract | undefined;
@@ -32,6 +32,7 @@ function Play(props: PlayProps) {
   const [round, setRound] = useState(0);
   const imageSVG = useImageSVG(contract, tokenId, round);
   const [waiting, setWaiting] = useState(false);
+  const [inputInvalid, setInputInvalid] = useState(false);
   const [error, setError] = useState<string | undefined>();
   const handleChange = (event: any) => setCoordinate(event.target.value);
 
@@ -64,7 +65,10 @@ function Play(props: PlayProps) {
 
   async function handleClick() {
     if (coordinate) {
+      setInputInvalid(false);
       await play(coordinate);
+    } else {
+      setInputInvalid(true);
     }
   }
 
@@ -107,33 +111,12 @@ function Play(props: PlayProps) {
               date={Date.now() + expiresInSeconds * 1000}
             />
           </Box>
-          <Button
-            isLoading={waiting}
-            onClick={handleClick}
-            backgroundColor="rgba(255,255,255,0.8)"
-            colorScheme="black"
-            variant="outline"
-            height="40px"
-            width="100%"
-          >
-            PLAY
-          </Button>
         </VStack>
       );
     } else {
       return (
         <VStack>
           <Box>Opponent did not move yet. Come back later.</Box>
-          <Button
-            isDisabled={true}
-            backgroundColor="rgba(255,255,255,0.8)"
-            colorScheme="black"
-            variant="outline"
-            height="40px"
-            width="100%"
-          >
-            WAIT
-          </Button>
         </VStack>
       );
     }
@@ -142,36 +125,52 @@ function Play(props: PlayProps) {
   return (
     <Box>
       {opponent && (
-        <Box>
+        <Title>
           You are playing against {tokenIdToCountry(opponent)}{" "}
           {tokenIdToFlag(opponent)}
-        </Box>
+        </Title>
       )}
 
       <br />
       {imageSVG && expiresInSeconds !== undefined && tokenId && contract && (
-        <SimpleGrid columns={10} gap={2}>
-          <GridItem colStart={4} rowStart={0} colSpan={2} rowSpan={2}>
+        <SimpleGrid columns={9} gap={2} rowGap={1}>
+          <GridItem colStart={0} rowStart={0} colSpan={4} rowSpan={3}>
             <AspectRatio ratio={1}>
               <span dangerouslySetInnerHTML={{ __html: imageSVG }} />
             </AspectRatio>
           </GridItem>
-          <GridItem colStart={6} colSpan={2} rowSpan={1}>
+          <GridItem colStart={5} colSpan={5} rowSpan={1}>
             {renderPanel(expiresInSeconds)}
           </GridItem>
+          <GridItem colStart={5} colSpan={3} rowStart={2} rowSpan={3}>
+            <Image height="130px" src={"/dapp/sample.svg"}></Image>
+          </GridItem>
 
-          <GridItem colStart={6} colSpan={2} rowSpan={1}>
-            <Flex>
-              <Image height="100px" src={"/dapp/sample.svg"}></Image>
-              <Input
-                backgroundColor="rgba(255,255,255,0.8)"
-                borderColor="black"
-                height="100px"
-                placeholder="Index"
-                value={coordinate}
-                onChange={handleChange}
-              />
-            </Flex>
+          <GridItem colStart={8} colSpan={2} rowStart={2} rowSpan={1}>
+            <Button
+              isLoading={waiting}
+              isDisabled={!isAccountTurn}
+              onClick={handleClick}
+              backgroundColor="rgba(255,255,255,0.8)"
+              colorScheme="black"
+              variant="outline"
+              height="50px"
+              width="100%"
+            >
+              {isAccountTurn ? "PLAY" : "WAIT"}
+            </Button>
+          </GridItem>
+          <GridItem colStart={8} colSpan={2} rowStart={3} rowSpan={1}>
+            <Input
+              isInvalid={inputInvalid}
+              backgroundColor="rgba(255,255,255,0.8)"
+              borderColor="black"
+              height="50px"
+              marginTop="15%"
+              placeholder="#"
+              value={coordinate}
+              onChange={handleChange}
+            />
           </GridItem>
         </SimpleGrid>
       )}

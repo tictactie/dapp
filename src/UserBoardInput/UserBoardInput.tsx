@@ -13,7 +13,7 @@ function UserBoardInput(props: UserBoardInputProps) {
   const [country, setCountry] = useState("");
   const handleChange = (event: any) => setCountry(event.target.value);
   const [address, setAddress] = useState<string>();
-  const [text, setText] = useState("Type the Country of your board");
+  const [text, setText] = useState("Get a board. Already have one? Set it.");
   useAsync(getAddress, setAddress);
 
   async function getAddress() {
@@ -38,7 +38,7 @@ function UserBoardInput(props: UserBoardInputProps) {
   }
 
   return (
-    <VStack width="30%" margin="auto">
+    <VStack margin="auto">
       <Text backgroundColor="rgba(255,255,255,0.8)" height="30px" fontSize="l">
         {text}
       </Text>

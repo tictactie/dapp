@@ -20,6 +20,7 @@ const ABI = [
   "function isBoardTurn(uint256) public view returns (bool)",
   "function getAllBoardsSVG() public view returns (string[70] memory)",
   "function play(uint256, uint16) public",
+  "function mintableTies(uint256) public view returns (uint256)",
 ];
 
 function useEthereum(

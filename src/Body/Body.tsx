@@ -5,6 +5,7 @@ import {
   Flex,
   Spacer,
   Image,
+  Text,
   GridItem,
   AspectRatio,
 } from "@chakra-ui/react";
@@ -23,6 +24,8 @@ import {
 import useUserMinted from "../hooks/useUserBoard";
 import UserBoardInput from "../UserBoardInput/UserBoardInput";
 import { useLocalStorage } from "../hooks/useLocalStorage";
+import MintTie from "../MintTie/MintTie";
+import MintFinal from "../MintFinal/MintFinal";
 
 type BodyProps = {
   contract: Contract | undefined;
@@ -32,7 +35,7 @@ type BodyProps = {
 function Body(props: BodyProps) {
   const [contract, setContract] = useState<Contract>();
   const [address, setAddress] = useState<string>();
-  const [supply, setSupply] = useState();
+  const [supply, setSupply] = useState<number>();
   const [tokenId, setTokenId] = useLocalStorage("tokenId", undefined);
   const [justMinted, setJustMinted] = useState(false);
   const minted = useUserMinted(contract, justMinted);
@@ -124,11 +127,20 @@ function Body(props: BodyProps) {
           tokenId={tokenId}
         />
       );
-    } else if (minted) {
-      return <UserBoardInput contract={contract} setTokenId={setTokenId} />;
     } else {
-      return null;
-    }
+      // (minted) {
+      return <UserBoardInput contract={contract} setTokenId={setTokenId} />;
+    } /*else {
+      return (
+        <Text
+          backgroundColor="rgba(255,255,255,0.8)"
+          height="30px"
+          fontSize="l"
+        >
+          Get a Board. Mint it or <a href="https://opensea.io">Buy</a> it.
+        </Text>
+      );
+    }*/
   }
 
   return (
@@ -136,13 +148,36 @@ function Body(props: BodyProps) {
       <Flex pb={5} pt={5}>
         <Title>Mint your board and get on board.</Title>
         <Spacer />
-        <Title>There are 18 boards left</Title>
+        <Title>
+          There are{" "}
+          {70 -
+            (BigInt(supply || 0)
+              .toString(2)
+              .match(/1/g)?.length || 0)}{" "}
+          boards left
+        </Title>
         <Title variant="negative" ml={5}>
           Mint yours!
         </Title>
       </Flex>
 
-      {renderInteractiveComponent()}
+      {/*<HStack spacing={1}>
+        <MintTie contract={contract} tokenId={tokenId} />
+        {renderInteractiveComponent()}
+        <MintFinal contract={contract} tokenId={tokenId} />
+      </HStack>*/}
+
+      <Flex>
+        <Box w="25%">
+          <MintTie contract={contract} tokenId={tokenId} />
+        </Box>
+        <Spacer />
+        <Box w="50%">{renderInteractiveComponent()}</Box>
+        <Spacer />
+        <Box w="25%">
+          <MintFinal contract={contract} tokenId={tokenId} />
+        </Box>
+      </Flex>
 
       <SimpleGrid columns={10} gap={2}>
         {[...Array(70).keys()].map((i) => {

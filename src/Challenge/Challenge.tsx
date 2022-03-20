@@ -69,12 +69,12 @@ function Challenge(props: ChallengeProps) {
     <Box>
       {imageSVG && (
         <SimpleGrid columns={10} gap={2}>
-          <GridItem colStart={4} rowStart={0} colSpan={2} rowSpan={2}>
+          <GridItem colStart={0} rowStart={0} colSpan={5} rowSpan={2}>
             <AspectRatio ratio={1}>
               <span dangerouslySetInnerHTML={{ __html: imageSVG }} />
             </AspectRatio>
           </GridItem>
-          <GridItem colStart={6} colSpan={2} rowSpan={1}>
+          <GridItem colStart={6} colSpan={4} rowSpan={1}>
             <VStack>
               <Text
                 backgroundColor="rgba(255,255,255,0.8)"
@@ -98,6 +98,7 @@ function Challenge(props: ChallengeProps) {
                 backgroundColor="rgba(255,255,255,0.8)"
                 borderColor="black"
                 height="50px"
+                fontSize={11}
                 placeholder="Country or Flag"
               />
             </VStack>
