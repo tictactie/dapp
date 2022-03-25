@@ -1,4 +1,8 @@
-import { BigNumber, Contract } from "ethers";
+import {
+  TransactionReceipt,
+  TransactionResponse,
+} from "@ethersproject/providers";
+import { BigNumber, Contract, ContractReceipt } from "ethers";
 
 type ContractError = Record<"data", Record<"message", string>>;
 type MetamaskError = Record<"message", string>;
@@ -6,14 +10,14 @@ type MetamaskError = Record<"message", string>;
 export async function interact(
   onWait: () => any,
   onFailure: (error: string | undefined) => any,
-  onSuccess: () => any,
+  onSuccess: (receipt: ContractReceipt) => any,
   method: () => any
 ) {
   try {
     const tx = await method();
     onWait();
-    await tx.wait(1);
-    await onSuccess();
+    const receipt = await tx.wait(1);
+    await onSuccess(receipt);
   } catch (e) {
     if (typeof e === "string") {
       const errorStarts = e.indexOf("error=") + 6;
@@ -21,6 +25,7 @@ export async function interact(
 
       onFailure(e.substring(errorStarts, errorEnds));
     } else if (e instanceof Error) {
+      console.log(e);
       const errorStarts = e.message.indexOf("error=") + 6;
       const errorEnds = e.message.indexOf(", code=");
       const errorObj = JSON.parse(e.message.substring(errorStarts, errorEnds));
@@ -32,6 +37,19 @@ export async function interact(
       } else {
         onFailure(error["message"]);
       }
+    }
+  }
+}
+
+export function getDidWinEvent(contract: Contract, receipt: ContractReceipt) {
+  const filter = contract.filters.DidWin(contract.address);
+  for (const e of receipt.events || []) {
+    if (
+      e.address === filter.address &&
+      // `filter.topics` is set
+      e.topics[0] === filter.topics![0]
+    ) {
+      return e.args!["winningBoard"] as BigNumber;
     }
   }
 }
@@ -69,10 +87,19 @@ export async function isOwnerOf(contract: Contract, tokenId: number) {
   }
 }
 
-export async function mintableTies(contract: Contract, tokenId: number) {
+export async function getMintableTies(contract: Contract, tokenId: number) {
   try {
     const response = await contract.mintableTies(tokenId);
-    return response;
+    return response.toNumber();
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+export async function getVictoriesLeft(contract: Contract, tokenId: number) {
+  try {
+    const response = await contract.victoriesLeft(tokenId);
+    return response.toNumber();
   } catch (e) {
     console.log(e);
   }

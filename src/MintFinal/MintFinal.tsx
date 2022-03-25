@@ -1,30 +1,34 @@
 import { useState, useEffect } from "react";
-import { Button, HStack, Box, Container } from "@chakra-ui/react";
+import { Button, Container } from "@chakra-ui/react";
 import { Contract } from "ethers";
-import { interact } from "../utils/tictactie";
+import { interact, getVictoriesLeft } from "../utils/tictactie";
 
 type MintFinalProps = {
   tokenId: number;
   contract: Contract | undefined;
+  isAccountTurn: boolean;
 };
 
 function MintFinal(props: MintFinalProps) {
-  const [contract, setContract] = useState<Contract>();
   const [minting, setMinting] = useState(false);
-  const [tokenId, setTokenId] = useState<number>(0);
-  const [mintableFinal, setMintableFinal] = useState<boolean>();
+  const [victoriesLeft, setVictoriesLeft] = useState<number>(5);
   const [error, setError] = useState<string>();
 
   useEffect(() => {
-    setContract(props.contract);
-  }, [props.contract]);
+    (async () => {
+      if (props.contract && props.tokenId) {
+        await fetchVictoriesLeft(props.contract, props.tokenId);
+      }
+    })();
+  }, [props.tokenId, props.contract, props.isAccountTurn]);
 
-  useEffect(() => {
-    setTokenId(props.tokenId);
-  }, [props.tokenId]);
+  async function fetchVictoriesLeft(contract: Contract, tokenId: number) {
+    const newVictoriesLeft = await getVictoriesLeft(contract, tokenId);
+    setVictoriesLeft(newVictoriesLeft);
+  }
 
   async function mint(tokenId: number) {
-    if (contract) {
+    if (props.contract) {
       interact(
         () => setMinting(true),
         (error) => setError(error),
@@ -32,8 +36,8 @@ function MintFinal(props: MintFinalProps) {
           setMinting(false);
         },
         async () => {
-          return await contract.mintTie(tokenId, {
-            from: await contract.signer.getAddress(),
+          return await props.contract!.mintFinal(tokenId, {
+            from: await props.contract!.signer.getAddress(),
           });
         }
       );
@@ -41,12 +45,12 @@ function MintFinal(props: MintFinalProps) {
   }
 
   function renderContent() {
-    if (mintableFinal) {
+    if (victoriesLeft == 0) {
       return (
         <Container>
           <b>Hurray!</b> You have can now{" "}
           <Button
-            onClick={() => mint(tokenId)}
+            onClick={() => mint(props.tokenId!)}
             fontSize={12}
             height="20px"
             isLoading={minting}
@@ -60,7 +64,7 @@ function MintFinal(props: MintFinalProps) {
     } else {
       return (
         <Container>
-          You need <b>4</b> more victories to win the Final Prize.
+          You need <b>{victoriesLeft}</b> more victories to win the Final Prize.
         </Container>
       );
     }

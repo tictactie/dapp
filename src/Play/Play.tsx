@@ -1,7 +1,7 @@
-import { Image, Flex, Input, Button, VStack, Spacer } from "@chakra-ui/react";
-import { Contract } from "ethers";
+import { Image, Flex, Input, Button, Spacer } from "@chakra-ui/react";
+import { Contract, ContractReceipt } from "ethers";
 import { useEffect, useState } from "react";
-import { isTurn, interact } from "../utils/tictactie";
+import { isTurn, interact, getDidWinEvent } from "../utils/tictactie";
 
 type PlayProps = {
   contract: Contract | undefined;
@@ -53,8 +53,14 @@ function Play(props: PlayProps) {
       interact(
         () => setWaiting(true),
         (e) => setError(e),
-        async () => {
-          props.setRound(props.round + 1);
+        async (receipt: ContractReceipt) => {
+          const event = getDidWinEvent(contract, receipt);
+          if (!event) {
+            props.setRound(props.round + 1);
+          } else {
+            console.log(event);
+            console.log("someone won");
+          }
           setWaiting(false);
           setError(undefined);
           setCoordinate(undefined);
@@ -82,7 +88,7 @@ function Play(props: PlayProps) {
         height="50px"
         marginTop="15%"
         placeholder="#"
-        value={coordinate}
+        value={coordinate || ""}
         onChange={handleChange}
       />
       <Button

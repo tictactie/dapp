@@ -34,7 +34,10 @@ function Mint(props: MintProps) {
   async function mint(tokenId: number) {
     if (contract) {
       interact(
-        () => setMinting(true),
+        () => {
+          setMinting(true);
+          setError(undefined);
+        },
         (error) => setError(error),
         () => {
           setMinting(false);

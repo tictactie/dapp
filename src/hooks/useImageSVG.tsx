@@ -15,6 +15,7 @@ function useImageSVG(
   }, [contract, tokenId, round]);
 
   async function fetchImage(contract: Contract, tokenId: number) {
+    console.log(tokenId);
     const response = await contract.tokenURI(tokenId);
     let json = JSON.parse(response.slice(16));
     setImageSVG(json["image"]);

@@ -5,14 +5,8 @@ import {
   Flex,
   Spacer,
   Image,
-  Text,
   GridItem,
   AspectRatio,
-  VStack,
-  Container,
-  Input,
-  Button,
-  Divider,
 } from "@chakra-ui/react";
 import { Title } from "./Title";
 import { useEffect, useState } from "react";
@@ -26,11 +20,11 @@ import {
   getBoardSVGs,
   isOwnerOf,
 } from "../utils/tictactie";
-import useUserMinted from "../hooks/useUserBoard";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import MintTie from "../MintTie/MintTie";
 import MintFinal from "../MintFinal/MintFinal";
 import Board from "../Board/Board";
+import Tie from "../Tie/Tie";
 import SetBoard from "../SetBoard/SetBoard";
 import GameStatus from "../GameStatus/GameStatus";
 
@@ -46,9 +40,9 @@ function Body(props: BodyProps) {
   const [tokenId, setTokenId] = useLocalStorage("tokenId", undefined);
   const [justMinted, setJustMinted] = useState(false);
   const [isAccountTurn, setIsAccountTurn] = useState(false);
-  const minted = useUserMinted(contract, justMinted);
   const [round, setRound] = useState(0);
   const [opponent, setOpponent] = useState<number>();
+  const [tieId, setTieId] = useState<number>();
   const [boardSVGs, setBoardSVGs] = useState<string[] | undefined>();
 
   useEffect(() => {
@@ -73,37 +67,18 @@ function Body(props: BodyProps) {
 
   useEffect(() => {
     (async () => {
-      if (
-        address &&
-        contract &&
-        tokenId &&
-        !(await isOwnerOf(contract, tokenId))
-      )
-        setTokenId(undefined);
-    })();
-  }, [address]);
-
-  useEffect(() => {
-    (async () => {
-      if (
-        contract &&
-        tokenId &&
-        address &&
-        (await isOwnerOf(contract, parseInt(tokenId)))
-      )
-        window.localStorage.setItem(address, JSON.stringify(tokenId));
-
-      if (
-        contract &&
-        tokenId !== null &&
-        tokenId !== undefined &&
-        tokenId !== "undefined" &&
-        !(await isOwnerOf(contract, parseInt(tokenId)))
-      ) {
-        window.localStorage.removeItem("tokenId");
+      if (contract && tokenId && address) {
+        if (await isOwnerOf(contract, parseInt(tokenId))) {
+          console.log("token id ", tokenId);
+          window.localStorage.setItem(address, JSON.stringify(tokenId));
+        } else {
+          console.log("undefine tokenId");
+          window.localStorage.removeItem("tokenId");
+          setTokenId(undefined);
+        }
       }
     })();
-  }, [tokenId, address]);
+  }, [tokenId, address, contract, setTokenId]);
 
   useEffect(() => {
     (async () => {
@@ -124,15 +99,7 @@ function Body(props: BodyProps) {
   }
 
   function renderGameStatus() {
-    if (opponent && tokenId)
-      return (
-        <GameStatus
-          contract={contract}
-          tokenId={tokenId}
-          isAccountTurn={isAccountTurn}
-          opponentId={opponent}
-        />
-      );
+    if (opponent && tokenId) return;
   }
 
   function renderChallenge() {
@@ -190,13 +157,6 @@ function Body(props: BodyProps) {
           Mint yours!
         </Title>
       </Flex>
-
-      {/*<HStack spacing={1}>
-        <MintTie contract={contract} tokenId={tokenId} />
-        {renderInteractiveComponent()}
-        <MintFinal contract={contract} tokenId={tokenId} />
-      </HStack>*/}
-
       <Flex>
         <Flex direction="column" w="20%">
           <Spacer />
@@ -207,10 +167,26 @@ function Body(props: BodyProps) {
           <Spacer />
           {renderSetBoard()}
           {renderChallenge()}
-          {renderGameStatus()}
-          <MintTie contract={contract} tokenId={tokenId} />
-          <MintFinal contract={contract} tokenId={tokenId} />
+          <GameStatus
+            contract={contract}
+            tokenId={tokenId}
+            isAccountTurn={isAccountTurn}
+            opponentId={opponent}
+          />
+          <MintTie
+            contract={contract}
+            tokenId={tokenId}
+            setTieId={setTieId}
+            isAccountTurn={isAccountTurn}
+          />
+          <MintFinal
+            contract={contract}
+            tokenId={tokenId}
+            isAccountTurn={isAccountTurn}
+          />
         </Flex>
+        <Spacer />
+        <Tie contract={contract} tieId={tieId} />;
       </Flex>
 
       <SimpleGrid columns={10} gap={2}>

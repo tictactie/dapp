@@ -12,6 +12,8 @@ const ABI = [
   "function tokenURI(uint256) public view returns (string memory)",
   "function mintable() public view returns (uint256)",
   "event Transfer(address indexed, address indexed, uint)",
+  "event DidWin(address indexed from, uint256 indexed winningBoard, uint256 indexed losingBoard)",
+  "event Transfer(address indexed, address indexed, uint)",
   "function opponent(uint256) public view returns (uint256)",
   "function expiryBlock(uint256) public view returns (uint256)",
   "function balanceOf(address) public view returns (uint256)",
@@ -21,6 +23,8 @@ const ABI = [
   "function getAllBoardsSVG() public view returns (string[70] memory)",
   "function play(uint256, uint16) public",
   "function mintableTies(uint256) public view returns (uint256)",
+  "function mintTie(uint256 boardIndex) public",
+  "function victoriesLeft(uint256) public view returns (uint256)",
 ];
 
 function useEthereum(

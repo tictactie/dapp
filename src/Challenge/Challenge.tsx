@@ -1,17 +1,6 @@
-import {
-  SimpleGrid,
-  AspectRatio,
-  Box,
-  GridItem,
-  Input,
-  Text,
-  Button,
-  VStack,
-  Container,
-} from "@chakra-ui/react";
+import { Input, Button, Container } from "@chakra-ui/react";
 import { Contract } from "ethers";
 import { useEffect, useState } from "react";
-import useImageSVG from "../hooks/useImageSVG";
 import { interact } from "../utils/tictactie";
 import { countryToId } from "../utils/countries";
 
