@@ -39,6 +39,7 @@ function Body(props: BodyProps) {
   const [supply, setSupply] = useState<number>();
   const [tokenId, setTokenId] = useLocalStorage("tokenId", undefined);
   const [justMinted, setJustMinted] = useState(false);
+  const [abandoned, setAbandoned] = useState(false);
   const [isAccountTurn, setIsAccountTurn] = useState(false);
   const [round, setRound] = useState(0);
   const [opponent, setOpponent] = useState<number>();
@@ -121,7 +122,8 @@ function Body(props: BodyProps) {
   }
 
   function renderPlay() {
-    if (opponent && tokenId)
+    console.log("Abandoned ", abandoned);
+    if (opponent && tokenId && !abandoned)
       return (
         <Flex direction="column" w="10%" paddingLeft={5}>
           <Play
@@ -134,6 +136,7 @@ function Body(props: BodyProps) {
           />
         </Flex>
       );
+    else return <Box></Box>;
   }
 
   function renderSetBoard() {
@@ -179,6 +182,8 @@ function Body(props: BodyProps) {
             tokenId={tokenId}
             isAccountTurn={isAccountTurn}
             opponentId={opponent}
+            setRound={setRound}
+            setAbandoned={setAbandoned}
           />
           <MintTie
             contract={contract}

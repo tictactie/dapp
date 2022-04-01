@@ -26,6 +26,11 @@ export async function interact(
       onFailure(e.substring(errorStarts, errorEnds));
     } else if (e instanceof Error) {
       console.log(e);
+      if (e.message.includes("insufficient funds")) {
+        onFailure("Insufficient Funds");
+        return;
+      }
+
       const errorStarts = e.message.indexOf("error=") + 6;
       const errorEnds = e.message.indexOf(", code=");
       const errorObj = JSON.parse(e.message.substring(errorStarts, errorEnds));
@@ -113,6 +118,20 @@ export async function getVictoriesLeft(contract: Contract, tokenId: number) {
   try {
     const response = await contract.victoriesLeft(tokenId);
     return response.toNumber();
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+export async function getWhoAbandoned(
+  contract: Contract | undefined,
+  tokenId: number
+) {
+  try {
+    if (contract) {
+      const whoAbandoned = await contract.whoAbandoned(tokenId);
+      return whoAbandoned.toNumber();
+    }
   } catch (e) {
     console.log(e);
   }

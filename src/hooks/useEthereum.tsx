@@ -25,6 +25,8 @@ const ABI = [
   "function mintableTies(uint256) public view returns (uint256)",
   "function mintTie(uint256 boardIndex) public",
   "function victoriesLeft(uint256) public view returns (uint256)",
+  "function whoAbandoned(uint256 boardIndex) public view returns (uint256)",
+  "function endGame(uint256 boardIndex) public",
 ];
 
 function useEthereum(
