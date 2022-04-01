@@ -64,7 +64,10 @@ function MintFinal(props: MintFinalProps) {
     } else {
       return (
         <Container>
-          You need <b>{victoriesLeft}</b> more victories to win the Final Prize.
+          {props.tokenId &&
+            `You have a <b>level ${5 - victoriesLeft}</b> board now. <br />`}
+          You need <b>{victoriesLeft}</b> {props.tokenId && "more"} victories{" "}
+          {!props.tokenId && "in a row"} to win the Final Prize.
         </Container>
       );
     }

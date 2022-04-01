@@ -12,24 +12,15 @@ type MintProps = {
   setTokenId: (tokenId: number) => void;
   contract: Contract | undefined;
 };
-function Mint(props: MintProps) {
-  const [contract, setContract] = useState<Contract>();
+function Mint({
+  tokenId,
+  minted,
+  setJustMinted,
+  setTokenId,
+  contract,
+}: MintProps) {
   const [minting, setMinting] = useState(false);
-  const [tokenId, setTokenId] = useState<number>(0);
-  const [minted, setMinted] = useState<boolean>();
   const [error, setError] = useState<string>();
-
-  useEffect(() => {
-    setContract(props.contract);
-  }, [props.contract]);
-
-  useEffect(() => {
-    setMinted(props.minted);
-  }, [props.minted]);
-
-  useEffect(() => {
-    setTokenId(props.tokenId);
-  }, [props.tokenId]);
 
   async function mint(tokenId: number) {
     if (contract) {
@@ -41,11 +32,11 @@ function Mint(props: MintProps) {
         (error) => setError(error),
         () => {
           setMinting(false);
-          props.setJustMinted(true);
-          props.setTokenId(tokenId);
+          setJustMinted(true);
+          setTokenId(tokenId);
         },
         async () => {
-          return await contract.mint(tokenId, {
+          return await contract!.mint(tokenId, {
             value: ethers.utils.parseEther(
               process.env.REACT_APP_PRICE || "0.001"
             ),

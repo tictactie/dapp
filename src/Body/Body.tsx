@@ -44,6 +44,15 @@ function Body(props: BodyProps) {
   const [opponent, setOpponent] = useState<number>();
   const [tieId, setTieId] = useState<number>();
   const [boardSVGs, setBoardSVGs] = useState<string[] | undefined>();
+  const colors = [
+    "violet",
+    "purple",
+    "blue",
+    "green",
+    "yellow",
+    "orange",
+    "red",
+  ];
 
   useEffect(() => {
     (async () => {
@@ -69,10 +78,8 @@ function Body(props: BodyProps) {
     (async () => {
       if (contract && tokenId && address) {
         if (await isOwnerOf(contract, parseInt(tokenId))) {
-          console.log("token id ", tokenId);
           window.localStorage.setItem(address, JSON.stringify(tokenId));
         } else {
-          console.log("undefine tokenId");
           window.localStorage.removeItem("tokenId");
           setTokenId(undefined);
         }
@@ -201,11 +208,20 @@ function Body(props: BodyProps) {
               <Box>
                 {boardSVGs && (
                   <AspectRatio ratio={1}>
-                    <span dangerouslySetInnerHTML={{ __html: boardSVGs[i] }} />
+                    <span dangerouslySetInnerHTML={{ __html: boardSVGs![i] }} />
                   </AspectRatio>
                 )}
                 {!boardSVGs && (
-                  <Image src={"/dapp/boards/board_" + i + ".svg"}></Image>
+                  <Image
+                    src={
+                      "/dapp/boards/board_" +
+                      colors[Math.floor(i / 10)] +
+                      "_" +
+                      4 +
+                      (Math.random() > 10.5 ? "_play" : "") +
+                      ".svg"
+                    }
+                  ></Image>
                 )}
               </Box>
 

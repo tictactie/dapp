@@ -13,7 +13,7 @@ const ABI = [
   "function mintable() public view returns (uint256)",
   "event Transfer(address indexed, address indexed, uint)",
   "event DidWin(address indexed from, uint256 indexed winningBoard, uint256 indexed losingBoard)",
-  "event Transfer(address indexed, address indexed, uint)",
+  "event DidTie(address indexed from, uint256 indexed board1, uint256 indexed board2)",
   "function opponent(uint256) public view returns (uint256)",
   "function expiryBlock(uint256) public view returns (uint256)",
   "function balanceOf(address) public view returns (uint256)",

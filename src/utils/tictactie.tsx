@@ -54,6 +54,19 @@ export function getDidWinEvent(contract: Contract, receipt: ContractReceipt) {
   }
 }
 
+export function getDidTieEvent(contract: Contract, receipt: ContractReceipt) {
+  const filter = contract.filters.DidWin(contract.address);
+  for (const e of receipt.events || []) {
+    if (
+      e.address === filter.address &&
+      // `filter.topics` is set
+      e.topics[0] === filter.topics![0]
+    ) {
+      return e.args!["board1"] as BigNumber;
+    }
+  }
+}
+
 export async function getSupply(contract: Contract | undefined) {
   if (contract) {
     const supply = (await contract.mintable()) || BigNumber.from(0);

@@ -34,9 +34,12 @@ function MintTie(props: MintTieProps) {
     setTokenId(props.tokenId);
   }, [props.tokenId]);
 
+  useEffect(() => {
+    setTokenId(props.tokenId);
+  }, [mintableTies]);
+
   async function fetchMintableTies(contract: Contract, tokenId: number) {
     const nTies = await getMintableTies(contract, tokenId);
-    console.log("FETCHING ", nTies);
     setMintableTies(nTies);
   }
 
@@ -60,7 +63,6 @@ function MintTie(props: MintTieProps) {
 
   function renderContent() {
     if (mintableTies > 0) {
-      console.log("mint tie > 0");
       return (
         <Container>
           <b>Hurray!</b> You have{" "}
