@@ -12,6 +12,7 @@ type GameStatusProps = {
   isAccountTurn: boolean;
   setRound: (round: number) => void;
   setAbandoned: (abandoned: boolean) => void;
+  setOpponent: (opponentId: number | undefined) => void;
 };
 
 function GameStatus(props: GameStatusProps) {
@@ -24,10 +25,17 @@ function GameStatus(props: GameStatusProps) {
     (async () => {
       if (props.contract && props.tokenId) {
         await fetchExpiryBlock(props.contract, props.tokenId);
-        await checkAbandoned();
       }
     })();
   }, [props.tokenId, props.contract]);
+
+  useEffect(() => {
+    (async () => {
+      if (props.opponentId) {
+        await checkAbandoned();
+      }
+    })();
+  }, [props.opponentId]);
 
   useEffect(() => {
     (async () => {
@@ -65,6 +73,8 @@ function GameStatus(props: GameStatusProps) {
         async () => {
           setIsLoadin(false);
           props.setRound(0);
+          props.setAbandoned(false);
+          props.setOpponent(undefined);
         },
         async () => {
           const victorious =

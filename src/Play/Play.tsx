@@ -15,6 +15,7 @@ type PlayProps = {
   setRound: (round: number) => void;
   isAccountTurn: boolean;
   setIsAccountTurn: (isAccountTurn: boolean) => void;
+  setOpponent: (opponentId: number | undefined) => void;
 };
 
 function Play(props: PlayProps) {
@@ -65,6 +66,10 @@ function Play(props: PlayProps) {
             props.setRound(props.round + 1);
           } else {
             props.setRound(0);
+
+            if (winEvent) {
+              props.setOpponent(undefined);
+            }
           }
           setWaiting(false);
           setError(undefined);

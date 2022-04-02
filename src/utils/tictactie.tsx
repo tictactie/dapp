@@ -83,7 +83,7 @@ export async function getSupply(contract: Contract | undefined) {
 }
 
 export async function getOpponent(contract: Contract, tokenId: number) {
-  const response = await contract.opponent(tokenId);
+  const response = await contract.getOpponent(tokenId);
   return response.toNumber();
 }
 

@@ -48,6 +48,8 @@ function MintFinal(props: MintFinalProps) {
     if (victoriesLeft == 0) {
       return (
         <Container>
+          You have a <b>level {5 - victoriesLeft}</b> board now.
+          <br />
           <b>Hurray!</b> You have can now{" "}
           <Button
             onClick={() => mint(props.tokenId!)}

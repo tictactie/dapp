@@ -14,7 +14,7 @@ const ABI = [
   "event Transfer(address indexed, address indexed, uint)",
   "event DidWin(address indexed from, uint256 indexed winningBoard, uint256 indexed losingBoard)",
   "event DidTie(address indexed from, uint256 indexed board1, uint256 indexed board2)",
-  "function opponent(uint256) public view returns (uint256)",
+  "function getOpponent(uint256 boardIndex) public view returns (uint256)",
   "function expiryBlock(uint256) public view returns (uint256)",
   "function balanceOf(address) public view returns (uint256)",
   "function ownerOf(uint256 tokenId) public view returns (address)",

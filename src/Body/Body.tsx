@@ -106,10 +106,6 @@ function Body(props: BodyProps) {
     return (BigInt(supply || 0) & (BigInt(1) << BigInt(i))) !== BigInt(0);
   }
 
-  function renderGameStatus() {
-    if (opponent && tokenId) return;
-  }
-
   function renderChallenge() {
     if (!opponent && tokenId)
       return (
@@ -122,7 +118,6 @@ function Body(props: BodyProps) {
   }
 
   function renderPlay() {
-    console.log("Abandoned ", abandoned);
     if (opponent && tokenId && !abandoned)
       return (
         <Flex direction="column" w="10%" paddingLeft={5}>
@@ -133,6 +128,7 @@ function Body(props: BodyProps) {
             round={round}
             setIsAccountTurn={setIsAccountTurn}
             isAccountTurn={isAccountTurn}
+            setOpponent={setOpponent}
           />
         </Flex>
       );
@@ -184,6 +180,7 @@ function Body(props: BodyProps) {
             opponentId={opponent}
             setRound={setRound}
             setAbandoned={setAbandoned}
+            setOpponent={setOpponent}
           />
           <MintTie
             contract={contract}
