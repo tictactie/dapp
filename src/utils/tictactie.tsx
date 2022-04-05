@@ -145,7 +145,10 @@ export async function getBoardSVGs(
     const response = await contract.getAllBoardsSVG();
     const svgs = [];
     for (var i = 0; i < 70; i++) {
-      var svg = response[i];
+      var r = response[i];
+      let json = JSON.parse(r.slice(16));
+      let svg = json["image"];
+
       svgs.push(
         svg
           .replace(/xo/g, "xo" + i)
