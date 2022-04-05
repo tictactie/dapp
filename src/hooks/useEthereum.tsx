@@ -24,7 +24,7 @@ const ABI = [
   "function play(uint256, uint16) public",
   "function mintableTies(uint256) public view returns (uint256)",
   "function mintTie(uint256 boardIndex) public",
-  "function victoriesLeft(uint256) public view returns (uint256)",
+  "function victories(uint256) public view returns (uint256)",
   "function whoAbandoned(uint256 boardIndex) public view returns (uint256)",
   "function endGame(uint256 boardIndex) public",
 ];

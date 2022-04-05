@@ -116,10 +116,11 @@ export async function getMintableTies(contract: Contract, tokenId: number) {
 
 export async function getVictoriesLeft(contract: Contract, tokenId: number) {
   try {
-    const response = await contract.victoriesLeft(tokenId);
-    return response.toNumber();
+    const response = await contract.victories(tokenId);
+    return Math.max(0, 5 - response.toNumber());
   } catch (e) {
     console.log(e);
+    return 5;
   }
 }
 
@@ -149,6 +150,7 @@ export async function getBoardSVGs(
         svg
           .replace(/xo/g, "xo" + i)
           .replace(/bg/g, "bg" + i)
+          .replace(/fg/g, "fg" + i)
           .replace(/hash/g, "hash" + i)
           .replace(/xoline/g, "xoline" + i)
           .replace(/id='o'/g, `id='o${i}'`)
