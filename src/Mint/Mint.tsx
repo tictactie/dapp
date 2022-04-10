@@ -57,11 +57,6 @@ function Mint({
           width="80%"
           isDisabled={minted || !contract}
           isLoading={minting}
-          _disabled={{
-            bg: "white",
-            color: "grey",
-            borderColor: "grey",
-          }}
         >
           {minted ? <Link href={openSeaBoard(tokenId)}>VIEW</Link> : "MINT!"}
         </Button>

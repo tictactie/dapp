@@ -14,7 +14,7 @@ import {
 import { Contract } from "ethers";
 import { useEffect, useState } from "react";
 import { openSeaProfile } from "../utils/links";
-import Countdown from "react-countdown";
+import { NavLink } from "react-router-dom";
 
 type RightPanelProps = {
   contract: Contract | undefined;
@@ -56,7 +56,9 @@ function RightPanel(props: RightPanelProps) {
             </Box>
           )}
           <Box>Want to prevent the next war?</Box>
-          <Box>Make a donation when you mint a tie.</Box>
+          <Box>
+            <NavLink to="/peace">Make a donation</NavLink> when you mint a tie.
+          </Box>
           <Box>Current donation fee: {props.donation} ETH</Box>
           <Flex>
             <Spacer />

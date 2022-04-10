@@ -67,7 +67,7 @@ function Challenge(props: ChallengeProps) {
         onClick={handleClick}
         isLoading={waiting}
         fontSize={12}
-        width="20%"
+        width="7em"
         height="20px"
       >
         challenge
@@ -81,7 +81,7 @@ function Challenge(props: ChallengeProps) {
         borderBottomColor="black"
         height="20px"
         fontSize={12}
-        width="40%"
+        width="13em"
         placeholder="Country or Flag"
       ></Input>
       {!waiting && error && <span>ERROR: {error}</span>}

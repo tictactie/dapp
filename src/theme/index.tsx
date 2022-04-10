@@ -65,6 +65,11 @@ const theme = extendTheme({
         _focus: {
           boxShadow: "0 0 1px 1px black, 0 1px 1px black",
         },
+        _disabled: {
+          color: "lightGrey",
+          borderColor: "grey",
+          bgColor: "white",
+        },
       },
       variants: {
         outline: {
