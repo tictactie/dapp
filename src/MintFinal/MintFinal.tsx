@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { Button, Container } from "@chakra-ui/react";
-import { Contract } from "ethers";
+import { Contract, ethers } from "ethers";
 import { interact, getVictoriesLeft } from "../utils/tictactie";
 
 type MintFinalProps = {
   tokenId: number;
   contract: Contract | undefined;
   isAccountTurn: boolean;
+  donation: string;
 };
 
 function MintFinal(props: MintFinalProps) {
@@ -36,7 +37,8 @@ function MintFinal(props: MintFinalProps) {
           setMinting(false);
         },
         async () => {
-          return await props.contract!.mintFinal(tokenId, {
+          return await props.contract!.redeemFinalPrize(tokenId, {
+            value: ethers.utils.parseEther(props.donation),
             from: await props.contract!.signer.getAddress(),
           });
         }

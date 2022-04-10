@@ -2,12 +2,13 @@ import { useState, useEffect } from "react";
 import { Button, Container } from "@chakra-ui/react";
 import { Contract } from "ethers";
 import { interact, getMintableTies } from "../utils/tictactie";
+import { parseEther } from "ethers/lib/utils";
 
 type MintTieProps = {
   tokenId: number | undefined;
   contract: Contract | undefined;
-  setTieId: (tieId: number) => void;
   isAccountTurn: boolean; // to refresh
+  donation: string;
 };
 function MintTie(props: MintTieProps) {
   const [contract, setContract] = useState<Contract>();
@@ -54,6 +55,7 @@ function MintTie(props: MintTieProps) {
         },
         async () => {
           return await contract.mintTie(tokenId, {
+            value: parseEther(props.donation),
             from: await contract.signer.getAddress(),
           });
         }

@@ -9,12 +9,6 @@ import theme from "./theme/index";
 ReactDOM.render(
   <React.StrictMode>
     <ChakraProvider theme={theme}>
-      {/*
-      <Box
-      animation={colorShiftAnimation}
-      background="linear-gradient(270deg, #FF0000, #FF8E00, #FFFF00, #008E00, #00C0C0, #400098, #8E008E);"
-      backgroundSize="400% 400%"
-      >*/}
       <App />
       {/*</Box>*/}
     </ChakraProvider>

@@ -27,6 +27,7 @@ const ABI = [
   "function victories(uint256) public view returns (uint256)",
   "function whoAbandoned(uint256 boardIndex) public view returns (uint256)",
   "function endGame(uint256 boardIndex) public",
+  "function redeemFinalPrize(uint256 boardIndex) external",
 ];
 
 function useEthereum(

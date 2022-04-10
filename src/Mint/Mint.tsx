@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import "./Mint.css";
-import { Button, Box, HStack } from "@chakra-ui/react";
+import { Button, Box, HStack, Link } from "@chakra-ui/react";
 import { Contract, ethers } from "ethers";
 import { tokenIdToFlag } from "../utils/countries";
 import { interact } from "../utils/tictactie";
+import { openSeaBoard } from "../utils/links";
 
 type MintProps = {
   tokenId: number;
@@ -56,8 +57,13 @@ function Mint({
           width="80%"
           isDisabled={minted || !contract}
           isLoading={minting}
+          _disabled={{
+            bg: "white",
+            color: "grey",
+            borderColor: "grey",
+          }}
         >
-          {minted ? "TAKEN." : "MINT!"}
+          {minted ? <Link href={openSeaBoard(tokenId)}>VIEW</Link> : "MINT!"}
         </Button>
         <Box width="20%" height="20px">
           {tokenIdToFlag(tokenId)}

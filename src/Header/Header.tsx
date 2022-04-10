@@ -8,9 +8,9 @@ function Header() {
       <Flex>
         <Spacer />
         <Box p={2}>ABOUT</Box>
-        <Box p={2}>WHO WE ARE</Box>
+        <Box p={2}>TIES</Box>
         <Box p={2}>TIC TAC TIPS</Box>
-        <Box p={2}>HELP UKRAINE</Box>
+        <Box p={2}>BRING PEACE</Box>
       </Flex>
       <Flex>
         <Box mr={3} ml={3}>

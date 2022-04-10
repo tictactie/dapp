@@ -63,6 +63,11 @@ const theme = extendTheme({
           boxShadow: "0 0 1px 1px black, 0 1px 1px black",
         },
       },
+      variants: {
+        outline: {
+          borderColor: "green",
+        },
+      },
       defaultProps: {
         variant: "outline",
       },

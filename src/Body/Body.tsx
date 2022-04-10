@@ -6,6 +6,7 @@ import {
   Spacer,
   Image,
   GridItem,
+  Input,
   AspectRatio,
 } from "@chakra-ui/react";
 import { Title } from "./Title";
@@ -13,6 +14,7 @@ import { useEffect, useState } from "react";
 import Play from "../Play/Play";
 import Challenge from "../Challenge/Challenge";
 import Mint from "../Mint/Mint";
+import RightPanel from "../RightPanel/RightPanel";
 import { Contract, Signer } from "ethers";
 import {
   getSupply,
@@ -24,7 +26,6 @@ import { useLocalStorage } from "../hooks/useLocalStorage";
 import MintTie from "../MintTie/MintTie";
 import MintFinal from "../MintFinal/MintFinal";
 import Board from "../Board/Board";
-import Tie from "../Tie/Tie";
 import SetBoard from "../SetBoard/SetBoard";
 import GameStatus from "../GameStatus/GameStatus";
 
@@ -43,7 +44,7 @@ function Body(props: BodyProps) {
   const [isAccountTurn, setIsAccountTurn] = useState(false);
   const [round, setRound] = useState(0);
   const [opponent, setOpponent] = useState<number>();
-  const [tieId, setTieId] = useState<number>();
+  const [donation, setDonation] = useState<string>("0.0");
   const [boardSVGs, setBoardSVGs] = useState<string[] | undefined>();
   const colors = [
     "violet",
@@ -185,17 +186,22 @@ function Body(props: BodyProps) {
           <MintTie
             contract={contract}
             tokenId={tokenId}
-            setTieId={setTieId}
             isAccountTurn={isAccountTurn}
+            donation={donation}
           />
           <MintFinal
             contract={contract}
             tokenId={tokenId}
             isAccountTurn={isAccountTurn}
+            donation={donation}
           />
         </Flex>
         <Spacer />
-        <Tie contract={contract} tieId={tieId} />;
+        <RightPanel
+          contract={contract}
+          setDonation={setDonation}
+          donation={donation}
+        />
       </Flex>
 
       <SimpleGrid columns={10} gap={2}>
