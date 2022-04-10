@@ -1,16 +1,31 @@
 import "./Header.css";
 import { Box, Flex, Spacer, Stack } from "@chakra-ui/react";
 import { Punchline } from "./Punchline";
+import { NavLink } from "react-router-dom";
 
 function Header() {
   return (
     <Box backgroundColor="lightgray" p={5}>
       <Flex>
         <Spacer />
-        <Box p={2}>ABOUT</Box>
-        <Box p={2}>TIES</Box>
-        <Box p={2}>TIC TAC TIPS</Box>
-        <Box p={2}>BRING PEACE</Box>
+        <Box p={2}>
+          <NavLink to="/game">GAME</NavLink>
+        </Box>
+        <Box p={2}>
+          <NavLink to="/about">ABOUT</NavLink>
+        </Box>
+        <Box p={2}>
+          <NavLink to="/rules">RULES</NavLink>
+        </Box>
+        <Box p={2}>
+          <NavLink to="/prize">PRIZE</NavLink>
+        </Box>
+        <Box p={2}>
+          <NavLink to="/ties">TIES</NavLink>
+        </Box>
+        <Box p={2}>
+          <NavLink to="/peace">PEACE</NavLink>
+        </Box>
       </Flex>
       <Flex>
         <Box mr={3} ml={3}>

@@ -5,11 +5,29 @@ import App from "./App/App";
 import reportWebVitals from "./reportWebVitals";
 import { ChakraProvider } from "@chakra-ui/react";
 import theme from "./theme/index";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import About from "./static/About";
+import Rules from "./static/Rules";
+import Ties from "./static/Ties";
+import Prize from "./static/Prize";
+import Peace from "./static/Peace";
+import Header from "./Header/Header";
 
 ReactDOM.render(
   <React.StrictMode>
     <ChakraProvider theme={theme}>
-      <App />
+      <Router>
+        <Header />
+        <Routes>
+          <Route path="/" element={<App />} />
+          <Route path="/game" element={<App />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/rules" element={<Rules />} />
+          <Route path="/prize" element={<Rules />} />
+          <Route path="/ties" element={<Rules />} />
+          <Route path="/peace" element={<Rules />} />
+        </Routes>
+      </Router>
       {/*</Box>*/}
     </ChakraProvider>
   </React.StrictMode>,

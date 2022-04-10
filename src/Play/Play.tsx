@@ -84,7 +84,6 @@ function Play(props: PlayProps) {
   }
 
   async function updateTurn(contract: Contract, tokenId: number) {
-    console.log("update turn");
     props.setIsAccountTurn(await isTurn(contract, tokenId));
   }
 

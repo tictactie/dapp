@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Button, Container } from "@chakra-ui/react";
+import { Box, Button, Container } from "@chakra-ui/react";
 import { Contract } from "ethers";
 import { interact, getMintableTies } from "../utils/tictactie";
 import { parseEther } from "ethers/lib/utils";
@@ -81,10 +81,13 @@ function MintTie(props: MintTieProps) {
         </Container>
       );
     } else {
-      console.log("mint tie == 0");
       return (
         <Container>
-          You have <b>0</b> mintable ties. Play and tie to earn them.
+          <span style={{ color: "#008F07" }}>
+            You have <b>0</b> mintable ties.
+          </span>
+          <br />
+          <span style={{ color: "#FFD900" }}>Play and tie to earn them.</span>
         </Container>
       );
     }

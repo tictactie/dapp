@@ -6,6 +6,10 @@ import { BigNumber, Contract, ContractReceipt } from "ethers";
 
 type ContractError = Record<"data", Record<"message", string>>;
 type MetamaskError = Record<"message", string>;
+type EtherjsError = {
+  message: string;
+  code: string;
+};
 
 export async function interact(
   onWait: () => any,
@@ -24,24 +28,32 @@ export async function interact(
       const errorEnds = e.indexOf(",code=");
 
       onFailure(e.substring(errorStarts, errorEnds));
-    } else if (e instanceof Error) {
+      return;
+    }
+
+    if (e instanceof Error) {
       console.log(e);
       if (e.message.includes("insufficient funds")) {
         onFailure("Insufficient Funds");
         return;
       }
 
-      const errorStarts = e.message.indexOf("error=") + 6;
-      const errorEnds = e.message.indexOf(", code=");
-      const errorObj = JSON.parse(e.message.substring(errorStarts, errorEnds));
-      onFailure(errorObj["data"]["originalError"]["message"]);
+      try {
+        const errorStarts = e.message.indexOf("error=") + 6;
+        const errorEnds = e.message.indexOf(", code=");
+        const errorObj = JSON.parse(
+          e.message.substring(errorStarts, errorEnds)
+        );
+        onFailure(errorObj["data"]["originalError"]["message"]);
+        return;
+      } catch {}
+    }
+
+    const error = e as MetamaskError | ContractError | EtherjsError;
+    if ("data" in error) {
+      onFailure(error["data"]["message"]);
     } else {
-      const error = e as MetamaskError | ContractError;
-      if ("data" in error) {
-        onFailure(error["data"]["message"]);
-      } else {
-        onFailure(error["message"]);
-      }
+      onFailure(error["message"]);
     }
   }
 }

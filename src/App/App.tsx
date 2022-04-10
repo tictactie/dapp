@@ -30,15 +30,14 @@ function App() {
 
   return (
     <div className="App">
-      <NetworkStatus network={network} />
       <Container maxWidth="130ch">
-        <Header />
         <Body signer={signer} contract={contract} />
       </Container>
       {provider === undefined && (
         <button onClick={() => setDidConnect(true)}>Connect</button>
       )}
       <UserInfo address={address} />
+      <NetworkStatus network={network} />
     </div>
   );
 }

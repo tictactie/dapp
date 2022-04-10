@@ -27,7 +27,7 @@ function GameStatus(props: GameStatusProps) {
         await fetchExpiryBlock(props.contract, props.tokenId);
       }
     })();
-  }, [props.tokenId, props.contract]);
+  }, [props.tokenId, props.contract, props.isAccountTurn]);
 
   useEffect(() => {
     (async () => {
@@ -39,7 +39,6 @@ function GameStatus(props: GameStatusProps) {
 
   useEffect(() => {
     (async () => {
-      console.log(expiresInSeconds);
       if (expiresInSeconds == 0) {
         await checkAbandoned();
       }
@@ -48,7 +47,9 @@ function GameStatus(props: GameStatusProps) {
 
   async function fetchExpiryBlock(contract: Contract, tokenId: number) {
     const epxirationBlock = await contract.expiryBlock(tokenId);
+    console.log(epxirationBlock.toNumber());
     const currentBlock = await contract.provider.getBlockNumber();
+    console.log(currentBlock);
     setExpiresInSeconds((epxirationBlock.toNumber() - currentBlock) * 13);
   }
 
@@ -61,7 +62,6 @@ function GameStatus(props: GameStatusProps) {
       } else {
         props.setAbandoned(false);
       }
-      console.log(abandoned);
     }
   }
 
@@ -88,7 +88,7 @@ function GameStatus(props: GameStatusProps) {
   function renderContent() {
     if (whoAbandoned === 0) {
       return (
-        <Box>
+        <Box color="#4500AD">
           {props.isAccountTurn ? (
             <span>
               <b>Your</b> turn.
@@ -106,7 +106,9 @@ function GameStatus(props: GameStatusProps) {
             />
           )}
           <br />
-          {!props.isAccountTurn && "Come back later."}
+          {!props.isAccountTurn && (
+            <span style={{ color: "#00BFE6" }}>Come back later.</span>
+          )}
         </Box>
       );
     } else if (whoAbandoned === props.tokenId) {
@@ -146,8 +148,10 @@ function GameStatus(props: GameStatusProps) {
     if (props.tokenId && props.opponentId) {
       return (
         <Container>
-          You are playing against {tokenIdToCountry(props.opponentId)}{" "}
-          {tokenIdToFlag(props.opponentId)}
+          <span style={{ color: "#B500D1" }}>
+            You are playing against {tokenIdToCountry(props.opponentId)}{" "}
+            {tokenIdToFlag(props.opponentId)}
+          </span>
           <br />
           {renderContent()}
           {!isLoading && error && <span>ERROR: {error}</span>}

@@ -50,7 +50,9 @@ function MintFinal(props: MintFinalProps) {
     if (victoriesLeft == 0) {
       return (
         <Container>
-          You have a <b>level {5 - victoriesLeft}</b> board now.
+          <span style={{ color: "#FF8C00" }}>
+            You have a <b>level {5 - victoriesLeft}</b> board now.
+          </span>
           <br />
           <b>Hurray!</b> You have can now{" "}
           <Button
@@ -69,13 +71,15 @@ function MintFinal(props: MintFinalProps) {
       return (
         <Container>
           {props.tokenId && (
-            <span>
+            <span style={{ color: "#FF8C00" }}>
               You have a <b>level {5 - victoriesLeft}</b> board now.
               <br />
             </span>
           )}
-          You need <b>{victoriesLeft}</b> {props.tokenId && "more"} victories{" "}
-          {!props.tokenId && "in a row"} to win the Final Prize.
+          <span style={{ color: "#F50010" }}>
+            You need <b>{victoriesLeft}</b> {props.tokenId && "more"} victories{" "}
+            {!props.tokenId && "in a row"} to win the Final Prize.
+          </span>
         </Container>
       );
     }

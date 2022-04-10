@@ -34,7 +34,6 @@ function SetBoard(props: SetBoardProps) {
           setError("Not your board!");
         }
       } catch (e) {
-        console.log(e);
         setError("Not your board!");
       }
     } else {
@@ -48,7 +47,7 @@ function SetBoard(props: SetBoardProps) {
     } else {
       return (
         <Container>
-          Get a board. Already have one?
+          Mint a board. Already have one?
           <br />
           <Button
             onClick={async () => await handleClick()}
@@ -56,7 +55,7 @@ function SetBoard(props: SetBoardProps) {
             width="20%"
             height="22px"
           >
-            Set it
+            Restore it
           </Button>{" "}
           <Input
             isInvalid={inputInvalid}
