@@ -31,11 +31,13 @@ function App() {
   return (
     <div className="App">
       <Container maxWidth="130ch">
-        <Body signer={signer} contract={contract} />
+        <Body
+          signer={signer}
+          contract={contract}
+          setDidConnect={setDidConnect}
+          didConnect={provider !== undefined}
+        />
       </Container>
-      {provider === undefined && (
-        <button onClick={() => setDidConnect(true)}>Connect</button>
-      )}
       <UserInfo address={address} />
       <NetworkStatus network={network} />
     </div>

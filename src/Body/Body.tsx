@@ -6,7 +6,7 @@ import {
   Spacer,
   Image,
   GridItem,
-  Input,
+  Button,
   AspectRatio,
 } from "@chakra-ui/react";
 import { Title } from "./Title";
@@ -32,6 +32,8 @@ import GameStatus from "../GameStatus/GameStatus";
 type BodyProps = {
   contract: Contract | undefined;
   signer: Signer | undefined;
+  setDidConnect: (didConnect: boolean) => void;
+  didConnect: boolean;
 };
 
 function Body(props: BodyProps) {
@@ -160,9 +162,14 @@ function Body(props: BodyProps) {
               .match(/1/g)?.length || 0)}{" "}
           boards left
         </Title>
-        <Title variant="negative" ml={5}>
-          Mint yours!
-        </Title>
+
+        {!props.didConnect && (
+          <Button onClick={() => props.setDidConnect(true)}>
+            <Title variant="negative" ml={5}>
+              CONNECT
+            </Title>
+          </Button>
+        )}
       </Flex>
       <Flex>
         <Flex direction="column" w="20%">
