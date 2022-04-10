@@ -39,6 +39,9 @@ const theme = extendTheme({
       body: {
         fontFamily: "monospace",
       },
+      a: {
+        textDecoration: "dotted underlin",
+      },
     },
   },
   radii: {

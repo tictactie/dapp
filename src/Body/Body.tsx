@@ -222,7 +222,7 @@ function Body(props: BodyProps) {
                 {!boardSVGs && (
                   <Image
                     src={
-                      "/dapp/boards/board_" +
+                      "/boards/board_" +
                       colors[Math.floor(i / 10)] +
                       "_" +
                       4 +

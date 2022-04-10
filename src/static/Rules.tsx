@@ -1,7 +1,7 @@
 import { Container } from "@chakra-ui/react";
 
 function Rules() {
-  return <Container>Llorem ipsum</Container>;
+  return <Container>Rules</Container>;
 }
 
 export default Rules;

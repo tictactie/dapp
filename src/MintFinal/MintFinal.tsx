@@ -61,7 +61,7 @@ function MintFinal(props: MintFinalProps) {
             height="20px"
             isLoading={minting}
           >
-            mint the Final Prize
+            claim the Final Prize
           </Button>
           <br />
           {!minting && error && <span>ERROR: {error}</span>}

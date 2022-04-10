@@ -1,7 +1,7 @@
 import { Container } from "@chakra-ui/react";
 
 function Peace() {
-  return <Container>Llorem ipsum</Container>;
+  return <Container>Peace</Container>;
 }
 
 export default Peace;

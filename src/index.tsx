@@ -23,9 +23,9 @@ ReactDOM.render(
           <Route path="/game" element={<App />} />
           <Route path="/about" element={<About />} />
           <Route path="/rules" element={<Rules />} />
-          <Route path="/prize" element={<Rules />} />
-          <Route path="/ties" element={<Rules />} />
-          <Route path="/peace" element={<Rules />} />
+          <Route path="/prize" element={<Prize />} />
+          <Route path="/ties" element={<Ties />} />
+          <Route path="/peace" element={<Peace />} />
         </Routes>
       </Router>
       {/*</Box>*/}
