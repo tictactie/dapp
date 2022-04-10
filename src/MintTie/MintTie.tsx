@@ -83,11 +83,11 @@ function MintTie(props: MintTieProps) {
     } else {
       return (
         <Container>
-          <span style={{ color: "#008F07" }}>
+          <span style={{ color: "#B500D1" }}>
             You have <b>0</b> mintable ties.
           </span>
           <br />
-          <span style={{ color: "#FFD900" }}>Play and tie to earn them.</span>
+          <span style={{ color: "#4500AD" }}>Play and tie to earn them.</span>
         </Container>
       );
     }

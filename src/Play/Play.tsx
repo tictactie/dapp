@@ -90,7 +90,7 @@ function Play(props: PlayProps) {
   return (
     <Flex direction="column">
       <Spacer />
-      <Image src={"/dapp/sample.svg"}></Image>{" "}
+      <Image src={"/sample.svg"}></Image>{" "}
       <Input
         isInvalid={inputInvalid}
         borderBottomColor="black"

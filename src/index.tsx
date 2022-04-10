@@ -3,9 +3,9 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App/App";
 import reportWebVitals from "./reportWebVitals";
-import { ChakraProvider } from "@chakra-ui/react";
+import { Box, ChakraProvider } from "@chakra-ui/react";
 import theme from "./theme/index";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { HashRouter as Router, Route, Routes } from "react-router-dom";
 import About from "./static/About";
 import Rules from "./static/Rules";
 import Ties from "./static/Ties";
@@ -18,6 +18,13 @@ ReactDOM.render(
     <ChakraProvider theme={theme}>
       <Router>
         <Header />
+        <Box height="3px" bgColor="#B500D1" />
+        <Box height="3px" bgColor="#4500AD" />
+        <Box height="3px" bgColor="#00BFE6" />
+        <Box height="3px" bgColor="#008F07" />
+        <Box height="3px" bgColor="#FFD900" />
+        <Box height="3px" bgColor="#FF8C00" />
+        <Box height="3px" bgColor="#F50010" />
         <Routes>
           <Route path="/" element={<App />} />
           <Route path="/game" element={<App />} />

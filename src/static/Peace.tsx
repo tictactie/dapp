@@ -1,7 +1,11 @@
-import { Container } from "@chakra-ui/react";
+import { Container, Box } from "@chakra-ui/react";
 
 function Peace() {
-  return <Container>Peace</Container>;
+  return (
+    <Container>
+      <Box></Box>
+    </Container>
+  );
 }
 
 export default Peace;

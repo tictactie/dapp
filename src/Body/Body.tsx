@@ -152,8 +152,7 @@ function Body(props: BodyProps) {
   return (
     <Box>
       <Flex pb={5} pt={5}>
-        <Title>Mint your board and get on board.</Title>
-        <Spacer />
+        {props.didConnect && <Spacer />}
         <Title>
           There are{" "}
           {70 -
@@ -162,12 +161,15 @@ function Body(props: BodyProps) {
               .match(/1/g)?.length || 0)}{" "}
           boards left
         </Title>
-
+        <Spacer />
         {!props.didConnect && (
-          <Button onClick={() => props.setDidConnect(true)}>
-            <Title variant="negative" ml={5}>
-              CONNECT
-            </Title>
+          <Button
+            backgroundColor="red"
+            color="white"
+            ml={5}
+            onClick={() => props.setDidConnect(true)}
+          >
+            CONNECT
           </Button>
         )}
       </Flex>
@@ -204,6 +206,9 @@ function Body(props: BodyProps) {
           />
         </Flex>
         <Spacer />
+        {!props.didConnect && (
+          <Image width={200} height={200} src="/ties.gif" />
+        )}
         <RightPanel
           contract={contract}
           setDonation={setDonation}
@@ -229,12 +234,7 @@ function Body(props: BodyProps) {
                 {!boardSVGs && (
                   <Image
                     src={
-                      "/boards/board_" +
-                      colors[Math.floor(i / 10)] +
-                      "_" +
-                      4 +
-                      (Math.random() > 10.5 ? "_play" : "") +
-                      ".svg"
+                      "/boards/board_" + colors[Math.floor(i / 10)] + "_4.svg"
                     }
                   ></Image>
                 )}

@@ -7,8 +7,8 @@ const PunchlineComponent = {
     display: "flex",
     color: "purple",
     fontWeight: "bold",
-    fontSize: "0.8em",
-    lineHeight: "1.5ch",
+    fontSize: "1.3em",
+    lineHeight: "2.4ch",
   },
 };
 
@@ -40,7 +40,7 @@ const theme = extendTheme({
         fontFamily: "monospace",
       },
       a: {
-        textDecoration: "dotted underlin",
+        textDecoration: "dotted underline",
       },
     },
   },

@@ -88,7 +88,7 @@ function GameStatus(props: GameStatusProps) {
   function renderContent() {
     if (whoAbandoned === 0) {
       return (
-        <Box color="#4500AD">
+        <Box>
           {props.isAccountTurn ? (
             <span>
               <b>Your</b> turn.
@@ -106,9 +106,7 @@ function GameStatus(props: GameStatusProps) {
             />
           )}
           <br />
-          {!props.isAccountTurn && (
-            <span style={{ color: "#00BFE6" }}>Come back later.</span>
-          )}
+          {!props.isAccountTurn && <span>Come back later.</span>}
         </Box>
       );
     } else if (whoAbandoned === props.tokenId) {
@@ -148,7 +146,7 @@ function GameStatus(props: GameStatusProps) {
     if (props.tokenId && props.opponentId) {
       return (
         <Container>
-          <span style={{ color: "#B500D1" }}>
+          <span>
             You are playing against {tokenIdToCountry(props.opponentId)}{" "}
             {tokenIdToFlag(props.opponentId)}
           </span>

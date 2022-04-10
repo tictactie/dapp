@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Button, Container } from "@chakra-ui/react";
 import { Contract, ethers } from "ethers";
 import { interact, getVictoriesLeft } from "../utils/tictactie";
+import { NavLink } from "react-router-dom";
 
 type MintFinalProps = {
   tokenId: number;
@@ -71,14 +72,17 @@ function MintFinal(props: MintFinalProps) {
       return (
         <Container>
           {props.tokenId && (
-            <span style={{ color: "#FF8C00" }}>
+            <span style={{ color: "#008F07" }}>
               You have a <b>level {5 - victoriesLeft}</b> board now.
               <br />
             </span>
           )}
-          <span style={{ color: "#F50010" }}>
+          <span style={{ color: "#FF8C00" }}>
             You need <b>{victoriesLeft}</b> {props.tokenId && "more"} victories{" "}
-            {!props.tokenId && "in a row"} to win the Final Prize.
+            {!props.tokenId && "in a row"} to win the <br />
+            <b>
+              <NavLink to="/prize">Final Prize.</NavLink>
+            </b>
           </span>
         </Container>
       );
