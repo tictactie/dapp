@@ -52,7 +52,7 @@ function SetBoard(props: SetBoardProps) {
           <Button
             onClick={async () => await handleClick()}
             fontSize={12}
-            width="20%"
+            width="8em"
             height="22px"
           >
             Restore it

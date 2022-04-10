@@ -20,7 +20,7 @@ export async function interact(
   try {
     const tx = await method();
     onWait();
-    const receipt = await tx.wait(1);
+    const receipt = await tx.wait(3);
     await onSuccess(receipt);
   } catch (e) {
     if (typeof e === "string") {
