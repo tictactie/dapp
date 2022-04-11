@@ -66,7 +66,7 @@ const theme = extendTheme({
           boxShadow: "0 0 1px 1px black, 0 1px 1px black",
         },
         _disabled: {
-          color: "lightGrey",
+          color: "grey",
           borderColor: "grey",
           bgColor: "white",
         },
