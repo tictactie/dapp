@@ -79,7 +79,6 @@ function useErrorMessage(message: string | undefined) {
 
       if (message.indexOf("execution reverted: ") > -1) {
         const code = message.replace("execution reverted: ", "");
-        console.log(code === "E11");
         finalMessage = getError(code);
         if (finalMessage === undefined) {
           finalMessage = message;

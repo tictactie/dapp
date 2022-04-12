@@ -21,8 +21,6 @@ ReactDOM.render(
       <Router>
         <Header />
         <PeaceDivider />
-        <br />
-        <br />
         <Routes>
           <Route path="/" element={<App />} />
           <Route path="/game" element={<App />} />

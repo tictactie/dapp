@@ -14,15 +14,11 @@ export async function interact(
   method: () => any
 ) {
   try {
-    console.log("start");
     const tx = await method();
 
-    console.log("start 1");
     onWait();
 
-    console.log("start 2");
     const receipt = await tx.wait(1);
-    console.log("start 3");
     await onSuccess(receipt);
   } catch (e) {
     if (typeof e === "string") {
@@ -34,14 +30,12 @@ export async function interact(
     }
 
     if (e instanceof Error) {
-      console.log(e);
       if (e.message.includes("insufficient funds")) {
         onFailure("Insufficient Funds");
         return;
       }
 
       try {
-        console.log(e);
         const errorStarts = e.message.indexOf("error=") + 6;
         const errorEnds = e.message.indexOf(", code=");
         const errorObj = JSON.parse(

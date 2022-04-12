@@ -61,11 +61,9 @@ function Play(props: PlayProps) {
       interact(
         () => setWaiting(true),
         (e) => {
-          console.log(e);
           setError(e);
         },
         async (receipt: ContractReceipt) => {
-          console.log("done");
           const winEvent = getDidWinEvent(contract, receipt);
           const tieEvent = getDidTieEvent(contract, receipt);
           if (!winEvent && !tieEvent) {
@@ -83,7 +81,6 @@ function Play(props: PlayProps) {
           return await updateTurn(contract, tokenId);
         },
         async () => {
-          console.log("play");
           return await contract.play(tokenId, 1 << coordinate);
         }
       );

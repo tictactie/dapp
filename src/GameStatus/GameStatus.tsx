@@ -49,9 +49,7 @@ function GameStatus(props: GameStatusProps) {
 
   async function fetchExpiryBlock(contract: Contract, tokenId: number) {
     const epxirationBlock = await contract.expiryBlock(tokenId);
-    console.log(epxirationBlock.toNumber());
     const currentBlock = await contract.provider.getBlockNumber();
-    console.log(currentBlock);
     setExpiresInSeconds((epxirationBlock.toNumber() - currentBlock) * 13);
   }
 
