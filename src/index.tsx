@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App/App";
 import reportWebVitals from "./reportWebVitals";
-import { Box, ChakraProvider } from "@chakra-ui/react";
+import { ChakraProvider } from "@chakra-ui/react";
 import theme from "./theme/index";
 import { HashRouter as Router, Route, Routes } from "react-router-dom";
 import About from "./static/About";
@@ -12,19 +12,15 @@ import Ties from "./static/Ties";
 import Prize from "./static/Prize";
 import Peace from "./static/Peace";
 import Header from "./Header/Header";
+import Footer from "./Footer/Footer";
+import PeaceDivider from "./PeaceDivider/PeaceDivider";
 
 ReactDOM.render(
   <React.StrictMode>
     <ChakraProvider theme={theme}>
       <Router>
         <Header />
-        <Box height="3px" bgColor="#B500D1" />
-        <Box height="3px" bgColor="#4500AD" />
-        <Box height="3px" bgColor="#00BFE6" />
-        <Box height="3px" bgColor="#008F07" />
-        <Box height="3px" bgColor="#FFD900" />
-        <Box height="3px" bgColor="#FF8C00" />
-        <Box height="3px" bgColor="#F50010" />
+        <PeaceDivider />
         <Routes>
           <Route path="/" element={<App />} />
           <Route path="/game" element={<App />} />
@@ -34,6 +30,10 @@ ReactDOM.render(
           <Route path="/ties" element={<Ties />} />
           <Route path="/peace" element={<Peace />} />
         </Routes>
+        <br />
+        <br />
+        <PeaceDivider />
+        <Footer />
       </Router>
       {/*</Box>*/}
     </ChakraProvider>

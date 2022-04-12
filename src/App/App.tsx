@@ -31,6 +31,7 @@ function App() {
 
   return (
     <div className="App">
+      <NetworkStatus network={network} />
       <Container maxWidth="130ch">
         <Body
           signer={signer}
@@ -41,7 +42,6 @@ function App() {
         />
       </Container>
       <UserInfo address={address} />
-      <NetworkStatus network={network} />
     </div>
   );
 }
