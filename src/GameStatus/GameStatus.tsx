@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { tokenIdToFlag, tokenIdToCountry } from "../utils/countries";
 import Countdown from "react-countdown";
 import { getWhoAbandoned, interact } from "../utils/tictactie";
+import useErrorMessage from "../hooks/useErrorMessage";
 
 type GameStatusProps = {
   contract: Contract | undefined;
@@ -19,6 +20,7 @@ function GameStatus(props: GameStatusProps) {
   const [expiresInSeconds, setExpiresInSeconds] = useState<number>();
   const [whoAbandoned, setWhoAbandoned] = useState<number>(0);
   const [error, setError] = useState<string>();
+  useErrorMessage(error);
   const [isLoading, setIsLoadin] = useState<boolean>(false);
 
   useEffect(() => {
@@ -39,7 +41,7 @@ function GameStatus(props: GameStatusProps) {
 
   useEffect(() => {
     (async () => {
-      if (expiresInSeconds == 0) {
+      if (expiresInSeconds === 0) {
         await checkAbandoned();
       }
     })();
@@ -78,7 +80,7 @@ function GameStatus(props: GameStatusProps) {
         },
         async () => {
           const victorious =
-            props.tokenId == whoAbandoned ? props.opponentId : props.tokenId;
+            props.tokenId === whoAbandoned ? props.opponentId : props.tokenId;
           return await props.contract!.endGame(victorious);
         }
       );
@@ -152,7 +154,6 @@ function GameStatus(props: GameStatusProps) {
           </span>
           <br />
           {renderContent()}
-          {!isLoading && error && <span>ERROR: {error}</span>}
         </Container>
       );
     } else {

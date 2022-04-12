@@ -2,7 +2,6 @@ import {
   Box,
   Button,
   Spacer,
-  Input,
   NumberInput,
   NumberInputField,
   NumberInputStepper,
@@ -26,7 +25,6 @@ function RightPanel(props: RightPanelProps) {
   const [address, setAddress] = useState<string>();
   const [fee, setFee] = useState<string>("0.0");
   const handleChange = (value: string) => setFee(value);
-  const [inputInvalid, setInputInvalid] = useState(false);
 
   useEffect(() => {
     (async () => {

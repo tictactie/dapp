@@ -3,6 +3,7 @@ import { Button, Container } from "@chakra-ui/react";
 import { Contract, ethers } from "ethers";
 import { interact, getVictoriesLeft } from "../utils/tictactie";
 import { NavLink } from "react-router-dom";
+import useErrorMessage from "../hooks/useErrorMessage";
 
 type MintFinalProps = {
   tokenId: number;
@@ -15,6 +16,7 @@ function MintFinal(props: MintFinalProps) {
   const [minting, setMinting] = useState(false);
   const [victoriesLeft, setVictoriesLeft] = useState<number>(5);
   const [error, setError] = useState<string>();
+  useErrorMessage(error);
 
   useEffect(() => {
     (async () => {
@@ -48,7 +50,7 @@ function MintFinal(props: MintFinalProps) {
   }
 
   function renderContent() {
-    if (victoriesLeft == 0) {
+    if (victoriesLeft === 0) {
       return (
         <Container>
           <span style={{ color: "#FF8C00" }}>

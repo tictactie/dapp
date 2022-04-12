@@ -1,4 +1,4 @@
-import { Container, Box, Link } from "@chakra-ui/react";
+import { Container, Link } from "@chakra-ui/react";
 import { NavLink } from "react-router-dom";
 
 function Peace() {

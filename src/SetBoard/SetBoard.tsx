@@ -1,8 +1,9 @@
-import { Input, Text, Button, Container } from "@chakra-ui/react";
+import { Input, Button, Container } from "@chakra-ui/react";
 import { Contract } from "ethers";
 import { useState } from "react";
 import { countryToId } from "../utils/countries";
 import { useAsync } from "../hooks/useAsync";
+import useErrorMessage from "../hooks/useErrorMessage";
 
 type SetBoardProps = {
   contract: Contract | undefined;
@@ -15,6 +16,7 @@ function SetBoard(props: SetBoardProps) {
   const handleChange = (event: any) => setCountry(event.target.value);
   const [address, setAddress] = useState<string>();
   const [error, setError] = useState("");
+  useErrorMessage(error);
   const [inputInvalid, setInputInvalid] = useState(false);
   useAsync(getAddress, setAddress);
 
@@ -68,7 +70,6 @@ function SetBoard(props: SetBoardProps) {
             width="40%"
             placeholder="Country or Flag"
           ></Input>{" "}
-          <Text color="red">{error}</Text>
         </Container>
       );
     }

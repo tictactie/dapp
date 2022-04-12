@@ -28,7 +28,6 @@ import MintFinal from "../MintFinal/MintFinal";
 import Board from "../Board/Board";
 import SetBoard from "../SetBoard/SetBoard";
 import GameStatus from "../GameStatus/GameStatus";
-import { isConstructSignatureDeclaration } from "typescript";
 
 type BodyProps = {
   contract: Contract | undefined;

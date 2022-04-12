@@ -3,6 +3,7 @@ import { Contract } from "ethers";
 import { useEffect, useState } from "react";
 import { interact } from "../utils/tictactie";
 import { countryToId } from "../utils/countries";
+import useErrorMessage from "../hooks/useErrorMessage";
 
 type ChallengeProps = {
   contract: Contract | undefined;
@@ -15,6 +16,7 @@ function Challenge(props: ChallengeProps) {
   const [tokenId, setTokenId] = useState<number>();
   const [waiting, setWaiting] = useState(false);
   const [error, setError] = useState<string | undefined>();
+  useErrorMessage(error);
   const [country, setCountry] = useState("");
   const handleChange = (event: any) => setCountry(event.target.value);
   const [inputInvalid, setInputInvalid] = useState(false);
@@ -84,7 +86,6 @@ function Challenge(props: ChallengeProps) {
         width="13em"
         placeholder="Country or Flag"
       ></Input>
-      {!waiting && error && <span>ERROR: {error}</span>}
     </Container>
   );
 }

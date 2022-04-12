@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import "./Mint.css";
 import { Button, Box, HStack, Link } from "@chakra-ui/react";
 import { Contract, ethers } from "ethers";
 import { tokenIdToFlag } from "../utils/countries";
 import { interact } from "../utils/tictactie";
 import { openSeaBoard } from "../utils/links";
+import useErrorMessage from "../hooks/useErrorMessage";
 
 type MintProps = {
   tokenId: number;
@@ -13,6 +14,7 @@ type MintProps = {
   setTokenId: (tokenId: number) => void;
   contract: Contract | undefined;
 };
+
 function Mint({
   tokenId,
   minted,
@@ -22,6 +24,7 @@ function Mint({
 }: MintProps) {
   const [minting, setMinting] = useState(false);
   const [error, setError] = useState<string>();
+  useErrorMessage(error);
 
   async function mint(tokenId: number) {
     if (contract) {
@@ -65,7 +68,6 @@ function Mint({
         </Box>
       </HStack>
       <br />
-      {!minting && error && <span>ERROR: {error}</span>}
     </div>
   );
 }

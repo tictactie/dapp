@@ -7,6 +7,7 @@ import {
   getDidWinEvent,
   getDidTieEvent,
 } from "../utils/tictactie";
+import useErrorMessage from "../hooks/useErrorMessage";
 
 type PlayProps = {
   contract: Contract | undefined;
@@ -26,6 +27,7 @@ function Play(props: PlayProps) {
   const [inputInvalid, setInputInvalid] = useState(false);
   const [error, setError] = useState<string | undefined>();
   const handleChange = (event: any) => setCoordinate(event.target.value);
+  useErrorMessage(error);
 
   useEffect(() => {
     setContract(props.contract);

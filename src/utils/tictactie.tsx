@@ -1,7 +1,3 @@
-import {
-  TransactionReceipt,
-  TransactionResponse,
-} from "@ethersproject/providers";
 import { BigNumber, Contract, ContractReceipt } from "ethers";
 
 type ContractError = Record<"data", Record<"message", string>>;
@@ -20,7 +16,7 @@ export async function interact(
   try {
     const tx = await method();
     onWait();
-    const receipt = await tx.wait(3);
+    const receipt = await tx.wait(2);
     await onSuccess(receipt);
   } catch (e) {
     if (typeof e === "string") {

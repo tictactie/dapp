@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import { Box, Button, Container } from "@chakra-ui/react";
+import { Button, Container } from "@chakra-ui/react";
 import { Contract } from "ethers";
 import { interact, getMintableTies } from "../utils/tictactie";
 import { parseEther } from "ethers/lib/utils";
+import useErrorMessage from "../hooks/useErrorMessage";
 
 type MintTieProps = {
   tokenId: number | undefined;
@@ -16,6 +17,7 @@ function MintTie(props: MintTieProps) {
   const [tokenId, setTokenId] = useState<number>();
   const [mintableTies, setMintableTies] = useState<number>(0);
   const [error, setError] = useState<string>();
+  useErrorMessage(error);
 
   useEffect(() => {
     (async () => {
@@ -33,11 +35,7 @@ function MintTie(props: MintTieProps) {
 
   useEffect(() => {
     setTokenId(props.tokenId);
-  }, [props.tokenId]);
-
-  useEffect(() => {
-    setTokenId(props.tokenId);
-  }, [mintableTies]);
+  }, [mintableTies, props.tokenId]);
 
   async function fetchMintableTies(contract: Contract, tokenId: number) {
     const nTies = await getMintableTies(contract, tokenId);
@@ -76,8 +74,6 @@ function MintTie(props: MintTieProps) {
           >
             {mintableTies} ties to MINT!
           </Button>
-          <br />
-          {!minting && error && <span>ERROR: {error}</span>}
         </Container>
       );
     } else {
