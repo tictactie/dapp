@@ -64,7 +64,7 @@ function MintTie(props: MintTieProps) {
   function renderContent() {
     if (mintableTies > 0) {
       return (
-        <Container>
+        <Container style={{ color: "#B500D1" }}>
           <b>Hurray!</b> You have{" "}
           <Button
             onClick={() => mint(tokenId!)}

@@ -181,7 +181,12 @@ function Body(props: BodyProps) {
       <Flex>
         <Flex direction="column" w="20%">
           <Spacer />
-          <Board contract={contract} tokenId={tokenId} round={round} />
+          <Board
+            contract={contract}
+            tokenId={tokenId}
+            round={round}
+            opponent={opponent}
+          />
         </Flex>
         {renderPlay()}
         <Flex textAlign="left" direction="column" lineHeight={6}>
@@ -208,6 +213,7 @@ function Body(props: BodyProps) {
             tokenId={tokenId}
             isAccountTurn={isAccountTurn}
             donation={donation}
+            opponent={opponent}
           />
         </Flex>
         <Spacer />

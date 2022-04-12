@@ -7,12 +7,13 @@ type BoardProps = {
   contract: Contract | undefined;
   tokenId: number;
   round: number;
+  opponent: number | undefined;
 };
 
 function Board(props: BoardProps) {
   const [contract, setContract] = useState<Contract>();
   const [tokenId, setTokenId] = useState<number>();
-  const imageSVG = useImageSVG(contract, tokenId, props.round);
+  const imageSVG = useImageSVG(contract, tokenId, props.round, props.opponent);
 
   useEffect(() => {
     setContract(props.contract);

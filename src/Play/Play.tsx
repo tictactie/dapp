@@ -60,8 +60,12 @@ function Play(props: PlayProps) {
       setError(undefined);
       interact(
         () => setWaiting(true),
-        (e) => setError(e),
+        (e) => {
+          console.log(e);
+          setError(e);
+        },
         async (receipt: ContractReceipt) => {
+          console.log("done");
           const winEvent = getDidWinEvent(contract, receipt);
           const tieEvent = getDidTieEvent(contract, receipt);
           if (!winEvent && !tieEvent) {
@@ -79,6 +83,7 @@ function Play(props: PlayProps) {
           return await updateTurn(contract, tokenId);
         },
         async () => {
+          console.log("play");
           return await contract.play(tokenId, 1 << coordinate);
         }
       );
@@ -113,7 +118,6 @@ function Play(props: PlayProps) {
         {props.isAccountTurn ? "PLAY" : "WAIT"}
       </Button>
       <br />
-      {!waiting && error && <span>ERROR: {error}</span>}
     </Flex>
   );
 }

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button, Container } from "@chakra-ui/react";
 import { Contract, ethers } from "ethers";
-import { interact, getVictoriesLeft } from "../utils/tictactie";
+import { interact, getVictories } from "../utils/tictactie";
 import { NavLink } from "react-router-dom";
 import useErrorMessage from "../hooks/useErrorMessage";
 
@@ -10,25 +10,26 @@ type MintFinalProps = {
   contract: Contract | undefined;
   isAccountTurn: boolean;
   donation: string;
+  opponent: number | undefined;
 };
 
 function MintFinal(props: MintFinalProps) {
   const [minting, setMinting] = useState(false);
-  const [victoriesLeft, setVictoriesLeft] = useState<number>(5);
+  const [victories, setVictories] = useState<number>(5);
   const [error, setError] = useState<string>();
   useErrorMessage(error);
 
   useEffect(() => {
     (async () => {
       if (props.contract && props.tokenId) {
-        await fetchVictoriesLeft(props.contract, props.tokenId);
+        await fetchVictories(props.contract, props.tokenId);
       }
     })();
-  }, [props.tokenId, props.contract, props.isAccountTurn]);
+  }, [props.tokenId, props.contract, props.isAccountTurn, props.opponent]);
 
-  async function fetchVictoriesLeft(contract: Contract, tokenId: number) {
-    const newVictoriesLeft = await getVictoriesLeft(contract, tokenId);
-    setVictoriesLeft(newVictoriesLeft);
+  async function fetchVictories(contract: Contract, tokenId: number) {
+    const newVictories = await getVictories(contract, tokenId);
+    setVictories(newVictories);
   }
 
   async function mint(tokenId: number) {
@@ -50,11 +51,11 @@ function MintFinal(props: MintFinalProps) {
   }
 
   function renderContent() {
-    if (victoriesLeft === 0) {
+    if (victories === 5) {
       return (
         <Container>
           <span style={{ color: "#FF8C00" }}>
-            You have a <b>level {5 - victoriesLeft}</b> board now.
+            You have a <b>level {victories}</b> board now.
           </span>
           <br />
           <b>Hurray!</b> You have can now{" "}
@@ -66,8 +67,6 @@ function MintFinal(props: MintFinalProps) {
           >
             claim the Final Prize
           </Button>
-          <br />
-          {!minting && error && <span>ERROR: {error}</span>}
         </Container>
       );
     } else {
@@ -75,12 +74,12 @@ function MintFinal(props: MintFinalProps) {
         <Container>
           {props.tokenId && (
             <span style={{ color: "#008F07" }}>
-              You have a <b>level {5 - victoriesLeft}</b> board now.
+              You have a <b>level {victories}</b> board now.
               <br />
             </span>
           )}
           <span style={{ color: "#FF8C00" }}>
-            You need <b>{victoriesLeft}</b> {props.tokenId && "more"} victories{" "}
+            You need <b>{5 - victories}</b> {props.tokenId && "more"} victories{" "}
             {!props.tokenId && "in a row"} to win the <br />
             <b>
               <NavLink to="/prize">Final Prize.</NavLink>

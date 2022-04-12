@@ -14,9 +14,15 @@ export async function interact(
   method: () => any
 ) {
   try {
+    console.log("start");
     const tx = await method();
+
+    console.log("start 1");
     onWait();
-    const receipt = await tx.wait(2);
+
+    console.log("start 2");
+    const receipt = await tx.wait(1);
+    console.log("start 3");
     await onSuccess(receipt);
   } catch (e) {
     if (typeof e === "string") {
@@ -35,6 +41,7 @@ export async function interact(
       }
 
       try {
+        console.log(e);
         const errorStarts = e.message.indexOf("error=") + 6;
         const errorEnds = e.message.indexOf(", code=");
         const errorObj = JSON.parse(
@@ -122,10 +129,10 @@ export async function getMintableTies(contract: Contract, tokenId: number) {
   }
 }
 
-export async function getVictoriesLeft(contract: Contract, tokenId: number) {
+export async function getVictories(contract: Contract, tokenId: number) {
   try {
     const response = await contract.victories(tokenId);
-    return Math.max(0, 5 - response.toNumber());
+    return response.toNumber();
   } catch (e) {
     console.log(e);
     return 5;

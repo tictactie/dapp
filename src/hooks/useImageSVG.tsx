@@ -4,7 +4,8 @@ import { Contract } from "ethers";
 function useImageSVG(
   contract: Contract | undefined,
   tokenId: number | undefined,
-  round: number
+  round: number,
+  opponent: number | undefined
 ): string | undefined {
   const [imageSVG, setImageSVG] = useState<string>();
 
@@ -12,7 +13,7 @@ function useImageSVG(
     (async () => {
       if (contract && tokenId) await fetchImage(contract, tokenId);
     })();
-  }, [contract, tokenId, round]);
+  }, [contract, tokenId, round, opponent]);
 
   async function fetchImage(contract: Contract, tokenId: number) {
     const response = await contract.tokenURI(tokenId);
