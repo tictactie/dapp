@@ -28,9 +28,11 @@ import MintFinal from "../MintFinal/MintFinal";
 import Board from "../Board/Board";
 import SetBoard from "../SetBoard/SetBoard";
 import GameStatus from "../GameStatus/GameStatus";
+import { isConstructSignatureDeclaration } from "typescript";
 
 type BodyProps = {
   contract: Contract | undefined;
+  contractReadOnly: Contract | undefined;
   signer: Signer | undefined;
   setDidConnect: (didConnect: boolean) => void;
   didConnect: boolean;
@@ -60,12 +62,14 @@ function Body(props: BodyProps) {
 
   useEffect(() => {
     (async () => {
-      setContract(props.contract);
-
-      if (props.contract) {
-        setBoardSVGs(await getBoardSVGs(props.contract));
+      if (props.contractReadOnly) {
+        setBoardSVGs(await getBoardSVGs(props.contractReadOnly));
       }
     })();
+  }, [props.contractReadOnly]);
+
+  useEffect(() => {
+    setContract(props.contract);
   }, [props.contract]);
 
   useEffect(() => {
@@ -101,9 +105,11 @@ function Body(props: BodyProps) {
 
   useEffect(() => {
     (async () => {
-      setSupply(await getSupply(contract));
+      if (props.contractReadOnly) {
+        setSupply(await getSupply(props.contractReadOnly));
+      }
     })();
-  }, [justMinted, contract]);
+  }, [justMinted, props.contractReadOnly]);
 
   function isMinted(i: number) {
     return (BigInt(supply || 0) & (BigInt(1) << BigInt(i))) !== BigInt(0);

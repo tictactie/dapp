@@ -4,9 +4,9 @@ import { NavLink } from "react-router-dom";
 function Peace() {
   return (
     <Container>
-      When conceiving the idea of the first NFT-based TicTacToe game where users
-      actually own and get to keep the board, Russia started the invasion of
-      Ukraine and the horrible war began. So the idea immediately change into
+      When conceiving the idea of the first NFT-based Tic Tac Toe game where
+      users actually own and get to keep the board, Russia started the invasion
+      of Ukraine and the horrible war began. So the idea immediately change into
       something more than just a <NavLink to="/rules">game</NavLink>: a way to
       literally paint the NFT space with the colors of peace. TicTacTie boards
       and all the game's graphics are based off the 7 colors of the peace flag.
