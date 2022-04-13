@@ -10,10 +10,10 @@ function About() {
       TicTacTie was born from a delirious discussion between{" "}
       <Link href="https://twitter.com/the_innerspace">
         Inner Space
-      </Link> and <Link href="https://twitter.com/delirium86">Delirium</Link>,
-      two creatives based in Germany and Italy, with the help and support of a
-      small crew of Europe-based friends, crypto-enthusiasts and digital
-      artists.
+      </Link> and{" "}
+      <Link href="https://twitter.com/Delirium_Tre">Delirium Tremens</Link>, two
+      creatives based in Germany and Italy, with the help and support of a small
+      crew of Europe-based friends, crypto-enthusiasts and digital artists.
       <br /> <br />
       The aim was to show the power of on-chain NFTs off, while bringing to the
       space a fun and addictive game and a message of peace.

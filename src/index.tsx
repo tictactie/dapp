@@ -14,6 +14,7 @@ import Peace from "./static/Peace";
 import Header from "./Header/Header";
 import Footer from "./Footer/Footer";
 import PeaceDivider from "./PeaceDivider/PeaceDivider";
+import Follow from "./static/Follow";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -25,6 +26,7 @@ ReactDOM.render(
           <Route path="/" element={<App />} />
           <Route path="/game" element={<App />} />
           <Route path="/about" element={<About />} />
+          <Route path="/follow" element={<Follow />} />
           <Route path="/rules" element={<Rules />} />
           <Route path="/prize" element={<Prize />} />
           <Route path="/ties" element={<Ties />} />

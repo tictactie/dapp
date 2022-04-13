@@ -113,7 +113,7 @@ function Rules() {
           <Link href="https://twitter.com/@the_innerspace">
             @the_innerspace
           </Link>{" "}
-          or <Link href="https://twitter.com/@delirium86">@delirium86</Link>
+          or <Link href="https://twitter.com/Delirium_Tre">@Delirium_Tre</Link>
           on Twitter
         </ListItem>
         <ListItem>

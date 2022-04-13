@@ -18,6 +18,11 @@ function Footer() {
 
         <Spacer />
         <Box p={2}>
+          <NavLink to="/follow">FOLLOW US</NavLink>
+        </Box>
+
+        <Spacer />
+        <Box p={2}>
           <NavLink to="/rules">RULES</NavLink>
         </Box>
 

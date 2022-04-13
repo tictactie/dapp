@@ -151,7 +151,7 @@ export async function getBoardSVGs(
   contract: Contract
 ): Promise<string[] | undefined> {
   try {
-    const response = await contract.getAllBoardsSVG();
+    const response = await contract.getAllBoardsSVG(1);
     const svgs = [];
     for (var i = 0; i < 70; i++) {
       var r = response[i];
