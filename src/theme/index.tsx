@@ -40,7 +40,7 @@ const theme = extendTheme({
         fontFamily: "monospace",
       },
       a: {
-        textDecoration: "dotted underline",
+        textDecoration: "dotted underline !important",
       },
     },
   },

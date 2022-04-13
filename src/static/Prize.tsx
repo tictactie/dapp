@@ -1,12 +1,14 @@
-import { Container, Image, Link, Box } from "@chakra-ui/react";
+import { Container, Image, Link, Box, Heading } from "@chakra-ui/react";
 
 function Prize() {
   return (
     <Container>
-      <br></br>
+      <br />
+      <Heading>Prize</Heading>
+      <br />
       <Box>
-        The first player making 5 victories in a row will be able to claim a
-        piece of fine NFT Art: <br />
+        The first player reaching level 5 will be able to claim a piece of fine
+        NFT Art: <br />
         <br />
         <b>Homage #107</b> by{" "}
         <Link

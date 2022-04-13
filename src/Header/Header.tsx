@@ -28,10 +28,13 @@ function Header() {
               Welcome to the first 100% on-chain Tic Tac Toe NFT game.
             </Punchline>
             <Punchline color="#4500AD">
-              Put together a string of 5 wins to get a juicy prize.
+              Reach level 5 to claim the{"‏‏‎ ‎"}
+              <NavLink to="/prize">final prize</NavLink>.
             </Punchline>
             <Punchline color="#008F07">
-              Unlock the unique NFT Tie collection... By making ties!
+              Unlock the‏‏‎ ‎<NavLink to="/ties">unique NFT Tie</NavLink>
+              {"‏‏‎ ‎"}
+              collection... By making ties!
             </Punchline>
             <Punchline color="#FF8C00">
               Mint your board and get on board. Make ties, not war.
