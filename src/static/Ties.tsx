@@ -1,4 +1,4 @@
-import { Container, Heading, Link } from "@chakra-ui/react";
+import { Container, Heading, Link, Image } from "@chakra-ui/react";
 import { NavLink } from "react-router-dom";
 
 function Ties() {
@@ -42,7 +42,14 @@ function Ties() {
         @TicTacTieNFT
       </Link>{" "}
       on Twitter to find out more about the future developments of the project.
-      Maybe one day our awesome ties will become a real-life thing to wear!{" "}
+      <br />
+      <br />
+      <b>
+        Maybe one day our awesome ties will become a real-life thing to wear!
+      </b>
+      <br />
+      <br />
+      <Image width="100%" src="/ties.gif" />
     </Container>
   );
 }
