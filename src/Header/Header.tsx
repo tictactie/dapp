@@ -20,7 +20,7 @@ import { openSeaCollection } from "../utils/links";
 function Header() {
   return (
     <Container
-      marginLeft={{ base: "6%", md: "auto" }}
+      marginLeft={{ base: "1%", md: "auto" }}
       maxWidth={{ md: "130ch" }}
       marginBottom={5}
       marginTop={5}
@@ -74,28 +74,16 @@ function Header() {
             justifyContent="left"
             fontSize={{ base: "10px", md: "1em" }}
           >
-            <Punchline
-              justifyContent={{ base: "center", md: "left" }}
-              color="#B500D1"
-            >
+            <Punchline color="#B500D1">
               Welcome to the first 100% on-chain Tic Tac Toe NFT game.
             </Punchline>
-            <Punchline
-              justifyContent={{ base: "center", md: "left" }}
-              color="#4500AD"
-            >
+            <Punchline color="#4500AD">
               Reach level 5 to claim the final prize.
             </Punchline>
-            <Punchline
-              justifyContent={{ base: "center", md: "left" }}
-              color="#008F07"
-            >
+            <Punchline color="#008F07">
               Unlock the unique NFT Tie collection... By making ties!
             </Punchline>
-            <Punchline
-              justifyContent={{ base: "center", md: "left" }}
-              color="#FF8C00"
-            >
+            <Punchline color="#FF8C00">
               Mint your board and get on board. Make ties, not war.
             </Punchline>
           </Stack>
