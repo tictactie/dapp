@@ -7,6 +7,11 @@ import {
   Container,
   Image,
   Link,
+  Menu,
+  MenuButton,
+  Button,
+  MenuList,
+  MenuItem,
 } from "@chakra-ui/react";
 import { Punchline } from "./Punchline";
 import { NavLink } from "react-router-dom";
@@ -14,35 +19,90 @@ import { openSeaCollection } from "../utils/links";
 
 function Header() {
   return (
-    <Container maxWidth="130ch" marginBottom={5} marginTop={5}>
+    <Container
+      marginLeft={{ base: "6%", md: "auto" }}
+      maxWidth={{ md: "130ch" }}
+      marginBottom={5}
+      marginTop={5}
+    >
+      <Box
+        position="absolute"
+        right="0"
+        backgroundColor="white"
+        display={{ base: "block", md: "none" }}
+      >
+        <Menu>
+          <MenuButton as={Button}>Menu</MenuButton>
+          <MenuList>
+            <MenuItem>
+              <Link href={openSeaCollection()} isExternal>
+                OPENSEA
+              </Link>
+            </MenuItem>
+            <MenuItem>
+              <NavLink to="/about">ABOUT</NavLink>
+            </MenuItem>
+            <MenuItem>
+              <NavLink to="/rules">RULES</NavLink>
+            </MenuItem>
+            <MenuItem>
+              <NavLink to="/prize">PRIZE</NavLink>
+            </MenuItem>
+            <MenuItem>
+              <NavLink to="/ties">TIES</NavLink>
+            </MenuItem>
+            <MenuItem>
+              <NavLink to="/peace">PEACE</NavLink>
+            </MenuItem>
+          </MenuList>
+        </Menu>
+      </Box>
       <Flex direction="row">
-        <Flex>
-          <Box mr={3} ml={3}>
+        <Flex direction={{ base: "column", md: "row" }}>
+          <Box>
             <NavLink to="/">
-              <Image width={140} src="/logo_cold.png" />
+              <Image
+                width={140}
+                margin={{ base: "auto", md: 0 }}
+                src="/logo_cold.png"
+              />
             </NavLink>
           </Box>
-          <Stack align="stretch" justifyContent="left" ml={4}>
-            <Box borderColor="black"></Box>
-            <Punchline color="#B500D1">
+          <Stack
+            margin="auto"
+            align="stretch"
+            justifyContent="left"
+            fontSize={{ base: "10px", md: "1em" }}
+          >
+            <Punchline
+              justifyContent={{ base: "center", md: "left" }}
+              color="#B500D1"
+            >
               Welcome to the first 100% on-chain Tic Tac Toe NFT game.
             </Punchline>
-            <Punchline color="#4500AD">
-              Reach level 5 to claim the{"‏‏‎ ‎"}
-              <NavLink to="/prize">final prize</NavLink>.
+            <Punchline
+              justifyContent={{ base: "center", md: "left" }}
+              color="#4500AD"
+            >
+              Reach level 5 to claim the final prize.
             </Punchline>
-            <Punchline color="#008F07">
-              Unlock the‏‏‎ ‎<NavLink to="/ties">unique NFT Tie</NavLink>
-              {"‏‏‎ ‎"}
-              collection... By making ties!
+            <Punchline
+              justifyContent={{ base: "center", md: "left" }}
+              color="#008F07"
+            >
+              Unlock the unique NFT Tie collection... By making ties!
             </Punchline>
-            <Punchline color="#FF8C00">
+            <Punchline
+              justifyContent={{ base: "center", md: "left" }}
+              color="#FF8C00"
+            >
               Mint your board and get on board. Make ties, not war.
             </Punchline>
           </Stack>
         </Flex>
         <Spacer />
         <Flex
+          display={{ base: "none", md: "block" }}
           direction="column"
           textAlign="right"
           fontWeight="bold"

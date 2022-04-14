@@ -49,7 +49,7 @@ function SetBoard(props: SetBoardProps) {
     } else {
       return (
         <Container>
-          Mint a board. Already have one?
+          <b>Mint a board</b>. Already have one?
           <br />
           <Button
             onClick={async () => await handleClick()}

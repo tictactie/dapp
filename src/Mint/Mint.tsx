@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./Mint.css";
-import { Button, Box, HStack, Link } from "@chakra-ui/react";
+import { Button, Box, HStack, Link, Stack } from "@chakra-ui/react";
 import { Contract, ethers } from "ethers";
 import { tokenIdToFlag } from "../utils/countries";
 import { interact } from "../utils/tictactie";
@@ -53,20 +53,19 @@ function Mint({
 
   return (
     <div className="Mint">
-      <HStack>
+      <Stack direction={{ base: "column", md: "row" }}>
         <Button
           onClick={() => mint(tokenId)}
           height="20px"
-          width="80%"
+          width={{ base: "100%", md: "80%" }}
+          fontSize={{ base: "10px", md: "1em" }}
           isDisabled={minted || !contract}
           isLoading={minting}
         >
           {minted ? <Link href={openSeaBoard(tokenId)}>VIEW</Link> : "MINT!"}
         </Button>
-        <Box width="20%" height="20px">
-          {tokenIdToFlag(tokenId)}
-        </Box>
-      </HStack>
+        <Box width={{ base: "100%", md: "20%" }}>{tokenIdToFlag(tokenId)}</Box>
+      </Stack>
       <br />
     </div>
   );

@@ -178,7 +178,10 @@ function Body(props: BodyProps) {
           </Button>
         )}
       </Flex>
-      <Flex>
+      <Box display={{ base: "block", md: "none" }}>
+        On mobile, you can't play but you can mint!
+      </Box>
+      <Flex display={{ base: "none", md: "flex" }}>
         <Flex direction="column" w="20%">
           <Spacer />
           <Board

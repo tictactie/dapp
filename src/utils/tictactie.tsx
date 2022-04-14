@@ -129,7 +129,7 @@ export async function getVictories(contract: Contract, tokenId: number) {
     return response.toNumber();
   } catch (e) {
     console.log(e);
-    return 5;
+    return 0;
   }
 }
 

@@ -15,7 +15,7 @@ type MintFinalProps = {
 
 function MintFinal(props: MintFinalProps) {
   const [minting, setMinting] = useState(false);
-  const [victories, setVictories] = useState<number>(5);
+  const [victories, setVictories] = useState<number>(0);
   const [error, setError] = useState<string>();
   useErrorMessage(error);
 
