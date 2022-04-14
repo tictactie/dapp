@@ -95,26 +95,34 @@ function Rules() {
       <Heading size="md">What's the purpose of the levels?</Heading>
       <UnorderedList>
         <ListItem>
-          To give you pride (you can show off a more colorful board if the level
-          is higher)
+          Levels are a way to identify how many games you have won. At level 5
+          you can mint the <NavLink to="/prize">Final Prize</NavLink>
         </ListItem>
         <ListItem>
-          A higher level means you usually can start the game first
+          The higher the level means you will get more chances to start a game
+          first.
         </ListItem>
         <ListItem>
-          At level 5 you can mint the <NavLink to="/prize">Final Prize</NavLink>
+          Also, another plus: levels give you a little pride, as you can show
+          off a more colorful board if the level is higher.
+        </ListItem>
+      </UnorderedList>
+      <br />
+      <Heading size="md">
+        What happens after someone reaches level 5 and gets the final prize?
+      </Heading>
+      <UnorderedList>
+        <ListItem>
+          We could propose a new final prize to the TicTacToe community and
+          start a new tournament.
         </ListItem>
       </UnorderedList>
       <br />
       <Heading size="md">What happens if I have another question?</Heading>
       <UnorderedList>
         <ListItem>
-          You write a message to one of the authors:{" "}
-          <Link href="https://twitter.com/@the_innerspace">
-            @the_innerspace
-          </Link>{" "}
-          or <Link href="https://twitter.com/Delirium_Tre">@Delirium_Tre</Link>
-          on Twitter
+          You write a message to our Twitter user:{" "}
+          <Link href="https://twitter.com/@tictactienft">@TicTacTieNFT</Link>
         </ListItem>
         <ListItem>
           You write an email to tictactie [at] posteo [dot] eu
