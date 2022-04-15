@@ -48,6 +48,8 @@ function Mint({
           });
         }
       );
+    } else {
+      setError("You need to CONNECT first!");
     }
   }
 
@@ -59,7 +61,7 @@ function Mint({
           height="20px"
           width={{ base: "100%", md: "80%" }}
           fontSize={{ base: "10px", md: "1em" }}
-          isDisabled={minted || !contract}
+          isDisabled={minted}
           isLoading={minting}
         >
           {minted ? <Link href={openSeaBoard(tokenId)}>VIEW</Link> : "MINT!"}
