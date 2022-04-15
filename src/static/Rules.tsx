@@ -122,7 +122,7 @@ function Rules() {
       <UnorderedList>
         <ListItem>
           You write a message to our Twitter user:{" "}
-          <Link href="https://twitter.com/@tictactienft">@TicTacTieNFT</Link>
+          <Link href="https://twitter.com/@tictactienft">TicTacTieNFT</Link>
         </ListItem>
         <ListItem>
           You write an email to tictactie [at] posteo [dot] eu

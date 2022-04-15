@@ -6,8 +6,9 @@ import useEthereumReadOnly from "../hooks/useEthereumReadOnly";
 import UserInfo from "../UserInfo/UserInfo";
 import NetworkStatus from "../NetworkStatus/NetworkStatus";
 import Body from "../Body/Body";
-import { Container } from "@chakra-ui/react";
+import { Container, Text, Link, Divider } from "@chakra-ui/react";
 import FollowUs from "../Follow/Follow";
+import { NavLink } from "react-router-dom";
 
 function App() {
   const cachedConnection = useCachedConnection();
@@ -44,6 +45,29 @@ function App() {
       </Container>
       <UserInfo address={address} />
       <br />
+      <br />
+      <Divider />
+      <br />
+      <br />
+      <Text padding="10px" as="i">
+        &#8220;<b>Art inspires people, money make them strive</b>. So with money
+        we will try to help the cause: we have let the <b>ties free to mint</b>{" "}
+        so to allow everyone to make a voluntary donation upon minting.
+        <br />
+        <br />
+        <b>
+          100% of these profits will be donated to{" "}
+          <Link href="https://meduza.io/en">Meduza</Link>
+        </b>
+        , an indipendent publication that brings subjective and unbiased news to
+        Russian youth&#8222;
+      </Text>
+      <br />
+      <br />
+      <NavLink to="/peace">Read more about our message...</NavLink>
+      <br />
+      <br />
+      <Divider />
       <br />
       <FollowUs />
     </div>
