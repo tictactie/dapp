@@ -44,7 +44,7 @@ function App() {
           didConnect={provider !== undefined}
         />
       </Container>
-      <UserInfo address={address} />
+      {address && <UserInfo address={address} />}
       <br />
       <br />
       <Divider />
