@@ -39,11 +39,11 @@ function Peace() {
       <br />
       <b>Art inspires people, money make them strive</b>. So with money we will
       try to help the cause: we have let the <b>ties free to mint</b> so to
-      allow everyone to make a voluntary donation upon minting.
+      allow everyone to make a voluntary fee-donation upon minting.
       <br />
       <br />
       <b>
-        100% of these profits will be donated to{" "}
+        100% of these fee-donations will be given to{" "}
         <Link href="https://meduza.io/en">Meduza</Link>
       </b>
       , an indipendent publication that brings subjective and unbiased news to
