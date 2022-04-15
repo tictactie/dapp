@@ -50,8 +50,8 @@ function App() {
       <br />
       <br />
       <Text padding="10px" as="i">
-        &#8220;<b>Art inspires people, money make them strive</b>. So with money
-        we will try to help the cause: <br />
+        <b>Art inspires people, money make them strive</b>. So with money we
+        will try to help the cause: <br />
         we have let the <b>ties free to mint</b> so to allow everyone to make a
         voluntary donation upon minting.
         <br />
@@ -60,7 +60,7 @@ function App() {
           <Link href="https://meduza.io/en">Meduza</Link>
         </b>
         , an indipendent publication that brings subjective and unbiased news to
-        Russian youth&#8222;
+        Russian youth
       </Text>
       <br />
       <br />

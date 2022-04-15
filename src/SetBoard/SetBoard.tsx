@@ -67,7 +67,7 @@ function SetBoard(props: SetBoardProps) {
             borderBottomColor="black"
             height="20px"
             fontSize={12}
-            width="40%"
+            width="13em"
             placeholder="Country or Flag"
           ></Input>{" "}
         </Container>

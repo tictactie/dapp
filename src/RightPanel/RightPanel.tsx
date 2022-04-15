@@ -63,7 +63,7 @@ function RightPanel(props: RightPanelProps) {
             </Link>
             .
           </Box>
-          <Box>Current minting fee: {props.donation} ETH</Box>
+          <Box>Current Tie minting fee: {props.donation} ETH</Box>
           <Flex>
             <Spacer />
             <Button
