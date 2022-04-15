@@ -64,7 +64,13 @@ function Mint({
           isDisabled={minted}
           isLoading={minting}
         >
-          {minted ? <Link href={openSeaBoard(tokenId)}>VIEW</Link> : "MINT!"}
+          {minted ? (
+            <Link href={openSeaBoard(tokenId)} isExternal>
+              VIEW
+            </Link>
+          ) : (
+            "MINT!"
+          )}
         </Button>
         <Box width={{ base: "100%", md: "20%" }}>{tokenIdToFlag(tokenId)}</Box>
       </Stack>
