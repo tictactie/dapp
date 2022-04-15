@@ -53,11 +53,17 @@ function RightPanel(props: RightPanelProps) {
               </Link>{" "}
             </Box>
           )}
-          <Box>Want to prevent the next war?</Box>
           <Box>
-            <NavLink to="/peace">Make a donation</NavLink> when you mint a tie.
+            <NavLink to="/peace">Set a donation</NavLink> when you mint a tie.
           </Box>
-          <Box>Current donation fee: {props.donation} ETH</Box>
+          <Box>
+            100% of these fees will go to{" "}
+            <Link href="https://meduza.io/en" isExternal>
+              Meduza
+            </Link>
+            .
+          </Box>
+          <Box>Current minting fee: {props.donation} ETH</Box>
           <Flex>
             <Spacer />
             <Button
