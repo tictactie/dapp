@@ -7,6 +7,7 @@ import {
   Image,
   GridItem,
   Button,
+  Text,
   AspectRatio,
 } from "@chakra-ui/react";
 import { Title } from "./Title";
@@ -128,7 +129,11 @@ function Body(props: BodyProps) {
   function renderPlay() {
     if (opponent && tokenId && !abandoned)
       return (
-        <Flex direction="column" w="10%" paddingLeft={5}>
+        <Flex
+          direction="column"
+          w={{ base: "100%", md: "10%" }}
+          paddingLeft={5}
+        >
           <Play
             contract={contract}
             tokenId={tokenId}
@@ -178,8 +183,34 @@ function Body(props: BodyProps) {
           </Button>
         )}
       </Flex>
-      <Box display={{ base: "block", md: "none" }}>
-        On mobile, you can't play but you can mint!
+      <Box
+        className="mobileBox"
+        w="100%"
+        display={{ base: "block", md: "none" }}
+      >
+        <GameStatus
+          contract={contract}
+          tokenId={tokenId}
+          isAccountTurn={isAccountTurn}
+          opponentId={opponent}
+          setRound={setRound}
+          setAbandoned={setAbandoned}
+          setOpponent={setOpponent}
+        />
+        {!tokenId && renderSetBoard()}
+        {tokenId && (
+          <Board
+            contract={contract}
+            tokenId={tokenId}
+            round={round}
+            opponent={opponent}
+          />
+        )}
+        {renderPlay()}
+        {renderChallenge()}
+        <Text>
+          You can see your level and mint ties only on the desktop version.
+        </Text>
       </Box>
       <Flex display={{ base: "none", md: "flex" }}>
         <Flex direction="column" w="20%">

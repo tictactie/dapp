@@ -1,4 +1,12 @@
-import { Image, Flex, Input, Button, Spacer } from "@chakra-ui/react";
+import {
+  Image,
+  Flex,
+  Input,
+  Button,
+  Spacer,
+  Container,
+  Box,
+} from "@chakra-ui/react";
 import { Contract, ContractReceipt } from "ethers";
 import { useEffect, useState } from "react";
 import {
@@ -92,30 +100,64 @@ function Play(props: PlayProps) {
   }
 
   return (
-    <Flex direction="column">
-      <Spacer />
-      <Image src={"/sample.svg"}></Image>{" "}
-      <Input
-        isInvalid={inputInvalid}
-        borderBottomColor="black"
-        height="50px"
-        marginTop="15%"
-        placeholder="#"
-        value={coordinate || ""}
-        onChange={handleChange}
-      />
-      <Button
-        isLoading={waiting}
-        isDisabled={!props.isAccountTurn}
-        onClick={handleClick}
-        variant="outline"
-        height="50px"
+    <Box className="mobilePlay">
+      <Flex
         width="100%"
+        display={{ base: "flex", md: "none" }}
+        direction="column"
       >
-        {props.isAccountTurn ? "PLAY" : "WAIT"}
-      </Button>
-      <br />
-    </Flex>
+        <Spacer />
+        <Flex height="200px">
+          <Image width="50%" src={"/sample.svg"}></Image>{" "}
+          <Input
+            isInvalid={inputInvalid}
+            borderBottomColor="black"
+            height="85%"
+            width="50%"
+            marginTop="15px"
+            marginRight="15px"
+            placeholder="#"
+            value={coordinate || ""}
+            onChange={handleChange}
+          />
+        </Flex>
+        <Button
+          isLoading={waiting}
+          isDisabled={!props.isAccountTurn}
+          onClick={handleClick}
+          variant="outline"
+          height="50px"
+          width="100%"
+        >
+          {props.isAccountTurn ? "PLAY" : "WAIT"}
+        </Button>
+        <br />
+      </Flex>
+      <Flex display={{ base: "none", md: "flex" }} direction="column">
+        <Spacer />
+        <Image src={"/sample.svg"}></Image>{" "}
+        <Input
+          isInvalid={inputInvalid}
+          borderBottomColor="black"
+          height="50px"
+          marginTop="15%"
+          placeholder="#"
+          value={coordinate || ""}
+          onChange={handleChange}
+        />
+        <Button
+          isLoading={waiting}
+          isDisabled={!props.isAccountTurn}
+          onClick={handleClick}
+          variant="outline"
+          height="50px"
+          width="100%"
+        >
+          {props.isAccountTurn ? "PLAY" : "WAIT"}
+        </Button>
+        <br />
+      </Flex>
+    </Box>
   );
 }
 

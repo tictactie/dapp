@@ -61,16 +61,16 @@ function Challenge(props: ChallengeProps) {
   }
 
   return (
-    <Container>
+    <Container fontSize={{ base: "30px", md: "1em" }}>
       Wait to be challenged.
       <br />
       Or{" "}
       <Button
         onClick={handleClick}
         isLoading={waiting}
-        fontSize={12}
+        fontSize={{ base: "30px", md: 12 }}
         width="7em"
-        height="20px"
+        height={{ base: "40px", md: "20px" }}
       >
         challenge
       </Button>{" "}
@@ -81,9 +81,10 @@ function Challenge(props: ChallengeProps) {
         onChange={handleChange}
         borderColor="transparent"
         borderBottomColor="black"
-        height="20px"
-        fontSize={12}
+        height={{ base: "80px", md: "20px" }}
+        fontSize={{ base: "30px", md: 12 }}
         width="13em"
+        textAlign="center"
         placeholder="Country or Flag"
       ></Input>
     </Container>
