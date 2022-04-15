@@ -65,7 +65,7 @@ function MintFinal(props: MintFinalProps) {
             height="20px"
             isLoading={minting}
           >
-            claim the Final Prize
+            claim the Grand Prize
           </Button>
         </Container>
       );
@@ -82,7 +82,7 @@ function MintFinal(props: MintFinalProps) {
             You need <b>{5 - victories}</b> {props.tokenId && "more"} victories{" "}
             {!props.tokenId && "in a row"} to win the <br />
             <b>
-              <NavLink to="/prize">Final Prize.</NavLink>
+              <NavLink to="/prize">Grand Prize.</NavLink>
             </b>
           </span>
         </Container>

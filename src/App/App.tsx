@@ -7,6 +7,7 @@ import UserInfo from "../UserInfo/UserInfo";
 import NetworkStatus from "../NetworkStatus/NetworkStatus";
 import Body from "../Body/Body";
 import { Container } from "@chakra-ui/react";
+import FollowUs from "../Follow/Follow";
 
 function App() {
   const cachedConnection = useCachedConnection();
@@ -42,6 +43,9 @@ function App() {
         />
       </Container>
       <UserInfo address={address} />
+      <br />
+      <br />
+      <FollowUs />
     </div>
   );
 }

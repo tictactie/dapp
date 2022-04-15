@@ -169,7 +169,8 @@ function Body(props: BodyProps) {
             (BigInt(supply || 0)
               .toString(2)
               .match(/1/g)?.length || 0)}{" "}
-          boards left
+          boards left. <br />
+          Minting Price: 0.1 ETH
         </Title>
         <Spacer />
         {!props.didConnect && (

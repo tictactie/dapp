@@ -46,7 +46,7 @@ function Peace() {
         100% of these profits will be donated to{" "}
         <Link href="https://meduza.io/en">Meduza</Link>
       </b>
-      , an indipendent publication that brings subkective and unbiased news to
+      , an indipendent publication that brings subjective and unbiased news to
       Russian youth.
       <br />
       <br />
@@ -58,7 +58,7 @@ function Peace() {
       <br />
       <br />
       PS: Feel free to donate more at{" "}
-      <Link href="https://support.meduza.io/en">their website.</Link>.
+      <Link href="https://support.meduza.io/en">their website</Link>.
     </Container>
   );
 }

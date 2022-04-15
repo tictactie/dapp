@@ -78,7 +78,7 @@ function Header() {
               Welcome to the first 100% on-chain Tic Tac Toe NFT game.
             </Punchline>
             <Punchline color="#4500AD">
-              Reach level 5 to claim the final prize.
+              Reach level 5 to claim the grand prize.
             </Punchline>
             <Punchline color="#008F07">
               Unlock the unique NFT Tie collection... By making ties!

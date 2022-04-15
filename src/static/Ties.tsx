@@ -37,9 +37,9 @@ function Ties() {
       colorful message across the NFT space: make ties, not war.
       <br />
       <br />
-      Follow
+      Follow{" "}
       <Link href="https://twitter.com/@TicTacTieNFT" isExternal>
-        @TicTacTieNFT
+        TicTacTieNFT
       </Link>{" "}
       on Twitter to find out more about the future developments of the project.
       <br />

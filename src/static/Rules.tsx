@@ -96,7 +96,7 @@ function Rules() {
       <UnorderedList>
         <ListItem>
           Levels are a way to identify how many games you have won. At level 5
-          you can mint the <NavLink to="/prize">Final Prize</NavLink>
+          you can mint the <NavLink to="/prize">Grand Prize</NavLink>
         </ListItem>
         <ListItem>
           The higher the level means you will get more chances to start a game
@@ -109,11 +109,11 @@ function Rules() {
       </UnorderedList>
       <br />
       <Heading size="md">
-        What happens after someone reaches level 5 and gets the final prize?
+        What happens after someone reaches level 5 and gets the grand prize?
       </Heading>
       <UnorderedList>
         <ListItem>
-          We could propose a new final prize to the TicTacToe community and
+          We could propose a new grand prize to the TicTacToe community and
           start a new tournament.
         </ListItem>
       </UnorderedList>
