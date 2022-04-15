@@ -33,6 +33,7 @@ import GameStatus from "../GameStatus/GameStatus";
 type BodyProps = {
   contract: Contract | undefined;
   contractReadOnly: Contract | undefined;
+  prizeContractReadOnly: Contract | undefined;
   signer: Signer | undefined;
   setDidConnect: (didConnect: boolean) => void;
   didConnect: boolean;
@@ -249,6 +250,7 @@ function Body(props: BodyProps) {
             isAccountTurn={isAccountTurn}
             donation={donation}
             opponent={opponent}
+            prizeContractReadOnly={props.prizeContractReadOnly}
           />
         </Flex>
         <Spacer />

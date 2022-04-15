@@ -15,7 +15,7 @@ function App() {
   const [didConnect, setDidConnect] = useState<boolean>(cachedConnection);
   const [provider, signer, network, contract, rejected] =
     useEthereum(didConnect);
-  const [contractReadOnly] = useEthereumReadOnly();
+  const [contractReadOnly, prizeContractReadOnly] = useEthereumReadOnly();
   const [address, setAddress] = useState<string>();
 
   useEffect(() => {
@@ -39,6 +39,7 @@ function App() {
           signer={signer}
           contract={contract}
           contractReadOnly={contractReadOnly}
+          prizeContractReadOnly={prizeContractReadOnly}
           setDidConnect={setDidConnect}
           didConnect={provider !== undefined}
         />

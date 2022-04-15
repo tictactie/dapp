@@ -1,26 +1,15 @@
 const CONTRACT_ADDRESS = process.env.REACT_APP_CONTRACT_ADDRESS!.toLowerCase();
 const NETWORK = process.env.REACT_APP_NETWOR!;
+const OPENSEA_LINK = process.env.REACT_APP_OPENSEA_LINK!;
 
 export function openSeaCollection() {
-  if (NETWORK === "homestead") {
-    return "https://opensea.io/collection/tictactie";
-  } else {
-    return "https://testnets.opensea.io/collection/tictactie";
-  }
+  return `${OPENSEA_LINK}/collection/tictactie`;
 }
 
 export function openSeaProfile(userAddress: string) {
-  if (NETWORK === "homestead") {
-    return `https://opensea.io/${userAddress.toLowerCase()}`;
-  } else {
-    return `https://testnets.opensea.io/${userAddress.toLowerCase()}`;
-  }
+  return `${OPENSEA_LINK}/${userAddress.toLowerCase()}`;
 }
 
 export function openSeaBoard(boardId: number) {
-  if (NETWORK === "homestead") {
-    return `https://opensea.io/assets/${CONTRACT_ADDRESS}/${boardId}`;
-  } else {
-    return `https://testnets.opensea.io/assets/${CONTRACT_ADDRESS}/${boardId}`;
-  }
+  return `${OPENSEA_LINK}/assets/${CONTRACT_ADDRESS}/${boardId}`;
 }
