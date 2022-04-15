@@ -28,6 +28,11 @@ function About() {
       win Ties from the unique NFT collection <b>hidden behind the game</b>.
       <br />
       <br />
+      One more detail: the code to play has been optimized to the maximum
+      extent. Hence making a move should be, with gas price in the lower range,
+      a quite cheap operation. <b>The cost for a move is around 50k gas</b>.
+      <br />
+      <br />
       Follow <Link href="https://twitter.com/tictactienft">
         @TicTacTieNFT
       </Link>{" "}

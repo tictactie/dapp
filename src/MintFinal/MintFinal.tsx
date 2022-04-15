@@ -66,7 +66,7 @@ function MintFinal(props: MintFinalProps) {
   }
 
   function renderContent() {
-    if (victories === 0) {
+    if (victories === 5) {
       if (!redeemed) {
         return (
           <Container>
