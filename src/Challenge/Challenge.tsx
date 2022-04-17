@@ -83,7 +83,7 @@ function Challenge(props: ChallengeProps) {
         borderBottomColor="black"
         height={{ base: "80px", md: "20px" }}
         fontSize={{ base: "30px", md: "10px" }}
-        width="50px"
+        width="13em"
         textAlign="center"
         placeholder="Flag or Country"
       ></Input>

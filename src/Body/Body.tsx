@@ -171,10 +171,8 @@ function Body(props: BodyProps) {
               .toString(2)
               .match(/1/g)?.length || 0)}{" "}
           boards left. <br />
-          Minting Price: 0.1 ETH
-          <Text fontSize="10px">
-            The cost for a move is on average <b>50k gas</b>
-          </Text>
+          Minting Price: 0.01945 ETH
+          <Text fontSize="10px"></Text>
         </Title>
         <Spacer />
         {!props.didConnect && (

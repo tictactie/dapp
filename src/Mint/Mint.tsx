@@ -1,8 +1,8 @@
 import { useState } from "react";
 import "./Mint.css";
-import { Button, Box, HStack, Link, Stack } from "@chakra-ui/react";
+import { Button, Box, HStack, Link, Stack, Tooltip } from "@chakra-ui/react";
 import { Contract, ethers } from "ethers";
-import { tokenIdToFlag } from "../utils/countries";
+import { tokenIdToFlag, tokenIdToCountry } from "../utils/countries";
 import { interact } from "../utils/tictactie";
 import { openSeaBoard } from "../utils/links";
 import useErrorMessage from "../hooks/useErrorMessage";
@@ -72,7 +72,11 @@ function Mint({
             "MINT!"
           )}
         </Button>
-        <Box width={{ base: "100%", md: "20%" }}>{tokenIdToFlag(tokenId)}</Box>
+        <Tooltip label={tokenIdToCountry(tokenId)}>
+          <Box width={{ base: "100%", md: "20%" }}>
+            {tokenIdToFlag(tokenId)}
+          </Box>
+        </Tooltip>
       </Stack>
       <br />
     </div>
