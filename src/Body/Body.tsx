@@ -171,7 +171,7 @@ function Body(props: BodyProps) {
               .toString(2)
               .match(/1/g)?.length || 0)}{" "}
           boards left. <br />
-          Minting Price: 0.01945 ETH
+          Minting Price: 0.001945 ETH
           <Text fontSize="10px"></Text>
         </Title>
         <Spacer />

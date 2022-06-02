@@ -59,6 +59,10 @@ function useEthereum(
                 package: WalletConnectProvider,
                 options: {
                   infuraId: INFURA_ID,
+                  rpc: {
+                    1: "https://mainnet.infura.io/v3/55a919d275424d258567afe517821b92",
+                    // ...
+                  },
                 },
               },
             };
@@ -80,6 +84,7 @@ function useEthereum(
             });
 
             instance.on("chainChanged", async (chainId: number) => {
+              console.log("changed");
               setChainId(chainId);
             });
           } catch {

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Button, Container, Link } from "@chakra-ui/react";
+import { Button, Container, Link, Text } from "@chakra-ui/react";
 import { Contract, ethers } from "ethers";
 import { interact, getVictories } from "../utils/tictactie";
 import { NavLink } from "react-router-dom";
@@ -65,6 +65,14 @@ function MintFinal(props: MintFinalProps) {
     }
   }
 
+  function renferVictories() {
+    return (
+      <span>
+        You need <b>{5 - victories}</b> more victories to win the
+      </span>
+    );
+  }
+
   function renderContent() {
     if (victories === 5) {
       if (!redeemed) {
@@ -117,8 +125,7 @@ function MintFinal(props: MintFinalProps) {
             </span>
           )}
           <span style={{ color: "#FF8C00" }}>
-            {props.tokenId &&
-              `You need ${(<b>{5 - victories}</b>)} more victories to win the`}
+            {props.tokenId && renferVictories()}
             {!props.tokenId && `You need to reach level 5 to win the`} <br />
             <b>
               <NavLink to="/prize">Grand Prize.</NavLink>

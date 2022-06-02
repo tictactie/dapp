@@ -75,16 +75,20 @@ function Header() {
             fontSize={{ base: "10px", md: "1em" }}
           >
             <Punchline color="#B500D1">
-              Welcome to the first 100% on-chain Tic Tac Toe NFT game.
+              Play Tic Tac Toe on the blockchain and win NFTs!
             </Punchline>
             <Punchline color="#4500AD">
-              Reach level 5 to claim the grand prize.
+              <NavLink to="/prize">
+                Score 5 victories and win a Fine Art NFT
+              </NavLink>
             </Punchline>
             <Punchline color="#008F07">
-              Unlock the unique NFT Tie collection... By making ties!
+              <NavLink to="/ties">
+                Make a tie and get a free mint for the secret NFT Tie collection
+              </NavLink>
             </Punchline>
-            <Punchline color="#FF8C00">
-              Mint your board and get on board. Make ties, not war.
+            <Punchline color="#ff0000">
+              How? Mint a board and challenge a country. Make ties, not war.
             </Punchline>
           </Stack>
         </Flex>
